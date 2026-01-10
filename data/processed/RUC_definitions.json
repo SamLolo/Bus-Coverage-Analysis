@@ -1,0 +1,8 @@
+{
+ "UN1":"Urban: Nearer to a major town or city",
+ "RSN1":"Smaller rural: Nearer to a major town or city",
+ "RLN1":"Larger rural: Nearer to a major town or city",
+ "UF1":"Urban: Further from a major town or city",
+ "RLF1":"Larger rural: Further from a major town or city",
+ "RSF1":"Smaller rural: Further from a major town or city"
+}
