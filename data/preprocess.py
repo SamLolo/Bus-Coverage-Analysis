@@ -1,5 +1,6 @@
 import os 
 import pandas as pd
+import geopandas as gpd
 
 PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -8,7 +9,7 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 print("Importing LSOA Boundaries...")
-boundaries = pd.read_csv(f'{PATH}/raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_3901388190129020682.csv')
+boundaries = gpd.read_file(f'{PATH}/raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg', use_arrow=True)
 print(f"Found {boundaries.shape[0]} Rows.\n")
 
 
@@ -36,7 +37,7 @@ boundaries = boundaries[~boundaries['LSOA21CD'].str.contains("W")]
 classes = classes[~classes['LSOA21CD'].str.contains("W")]
 
 # Concatenate RUC classifications
-lsoas = pd.merge(boundaries, classes, on='LSOA21CD', how="outer")
+lsoas: gpd.GeoDataFrame = pd.merge(boundaries, classes, on='LSOA21CD', how="outer")
 
 # Save RUC classification meanings seperately
 ruc_def = pd.Series(classes['RUC21NM'].values, index = classes['RUC21CD'])
@@ -45,12 +46,18 @@ ruc_def.to_json(f'{PATH}/processed/RUC_definitions.json', orient='index', indent
 print("Created RUC Definitions Dataset at 'processed/RUC_definitions.json'")
 
 # Drop unwanted columns
-lsoas.drop(["FID", "LSOA21NMW_x", "BNG_E", "BNG_N", "Shape__Area", "Shape__Length", "GlobalID", "LSOA21NM_y", "LSOA21NMW_y", "RUC21NM", "Urban_rural_flag", "ObjectId"], axis=1, inplace=True)
+lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "GlobalID", "LSOA21NM_y", "LSOA21NMW_y", "RUC21NM", "Urban_rural_flag", "ObjectId"], axis=1, inplace=True)
 lsoas.rename({"LSOA21CD": "LSOACode", "LSOA21NM_x": "LSOAName", "LAT": "Latitude", "LONG": "Longitude", "RUC21CD": "RUCCode"}, axis=1, inplace=True)
 
 # Save as a CSV
-lsoas.to_csv(f'{PATH}/processed/LSOA_centres.csv', index=False)
-print("Created LSOA Centre Point Dataset at 'processed/LSOA_centres.csv'")
+lsoas.to_file(f'{PATH}/processed/LSOA_Boundaries.gpkg', driver="GPKG", use_arrow=True)
+print("Updated LSOA Dataset with RUC classifcations at 'processed/LSOA_Boundaries.gpkg'")
+
+# Create a new GeoDataframe containing only point geometries at the centre of each LSOA
+centre_df = lsoas.drop(["RUCCode", "geometry"], axis=1)
+centre_gdf = gpd.GeoDataFrame(centre_df, geometry=gpd.points_from_xy(centre_df['Longitude'], centre_df['Latitude']), crs="EPSG:4326")
+centre_gdf.to_file(f'{PATH}/processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
+print("Created LSOA Centres Dataset at 'processed/LSOA_Centres.gpkg'")
 
 
 #--------Process employment centres-----------#
