@@ -66,5 +66,27 @@ employment_df = pd.concat([sheets[1], sheets[2], sheets[3]])
 employment_df.sort_values("LSOACode", inplace=True)
 
 # Save as a CSV
-employment_df.to_csv('data/processed/employment_centres.csv', index=False)
+employment_df.to_csv(f'{PATH}/processed/employment_centres.csv', index=False)
 print("Created Employment Centres Dataset at 'processed/employment_centres.csv'")
+
+
+#--------Process other destinations-----------#
+
+
+# Remame fields in GP and Hospitals to match schools
+sheets[7].rename({"GP_Code": "URN", "Postcode": "EstablishmentName"}, axis=1, inplace=True)
+sheets[8].rename({"SiteCode": "URN", "SiteName": "EstablishmentName"}, axis=1, inplace=True)
+
+# Annonate each dataframe with type of destination
+sheets[4].insert(4, "Type", "Primary School")
+sheets[5].insert(4, "Type", "Secondary School")
+sheets[6].insert(4, "Type", "Further Education")
+sheets[7].insert(4, "Type", "GP")
+sheets[8].insert(4, "Type", "Hospital")
+
+# Join sheets and sort by LSOA Code
+dest_df = pd.concat([sheets[4], sheets[5], sheets[6], sheets[7], sheets[8]])
+
+# Save as a CSV
+dest_df.to_csv(f'{PATH}/processed/destinations.csv', index=False)
+print("Created Destinations Dataset at 'processed/destinations.csv'")
