@@ -55,36 +55,25 @@ print("Updated LSOA Dataset with RUC classifcations at 'processed/LSOA_Boundarie
 
 # Create a new GeoDataframe containing only point geometries at the centre of each LSOA
 centre_df = lsoas.drop(["RUCCode", "geometry"], axis=1)
-centre_gdf = gpd.GeoDataFrame(centre_df, geometry=gpd.points_from_xy(centre_df['Longitude'], centre_df['Latitude']), crs="EPSG:4326")
+centre_gdf = gpd.GeoDataFrame(centre_df, geometry=gpd.points_from_xy(centre_df['Latitude'], centre_df['Longitude']), crs="EPSG:4326")
 centre_gdf.to_file(f'{PATH}/processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
 print("Created LSOA Centres Dataset at 'processed/LSOA_Centres.gpkg'")
 
 
-#--------Process employment centres-----------#
-
-
-# Annonate each sheet with size of employment centre
-sheets[1].insert(4, "Size", "Small")
-sheets[2].insert(4, "Size", "Medium")
-sheets[3].insert(4, "Size", "Large")
-
-# Join sheets and sort by LSOA Code
-employment_df = pd.concat([sheets[1], sheets[2], sheets[3]])
-employment_df.sort_values("LSOACode", inplace=True)
-
-# Save as a CSV
-employment_df.to_csv(f'{PATH}/processed/employment_centres.csv', index=False)
-print("Created Employment Centres Dataset at 'processed/employment_centres.csv'")
-
-
-#--------Process other destinations-----------#
+#--------Process destinations-----------#
 
 
 # Remame fields in GP and Hospitals to match schools
+sheets[1].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
+sheets[2].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
+sheets[3].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
 sheets[7].rename({"GP_Code": "URN", "Postcode": "EstablishmentName"}, axis=1, inplace=True)
 sheets[8].rename({"SiteCode": "URN", "SiteName": "EstablishmentName"}, axis=1, inplace=True)
 
 # Annonate each dataframe with type of destination
+sheets[1].insert(4, "Type", "Small Employment")
+sheets[2].insert(4, "Type", "Medium Employment")
+sheets[3].insert(4, "Type", "Large Employment")
 sheets[4].insert(4, "Type", "Primary School")
 sheets[5].insert(4, "Type", "Secondary School")
 sheets[6].insert(4, "Type", "Further Education")
@@ -92,8 +81,17 @@ sheets[7].insert(4, "Type", "GP")
 sheets[8].insert(4, "Type", "Hospital")
 
 # Join sheets and sort by LSOA Code
-dest_df = pd.concat([sheets[4], sheets[5], sheets[6], sheets[7], sheets[8]])
+dest_df = pd.concat([sheets[1], sheets[2], sheets[3], sheets[4], sheets[5], sheets[6], sheets[7], sheets[8]])
+
+# Convert column datatypes
+dest_df['URN'] = dest_df['URN'].astype(str)
+dest_df['EstablishmentName'] = dest_df['EstablishmentName'].astype(str)
+dest_df['Type'] = dest_df['Type'].astype(str)
+
+# Convert to GeoDataframe with Lat/Long Coords
+dest_gdf = gpd.GeoDataFrame(dest_df, geometry=gpd.points_from_xy(dest_df['Northing'], dest_df['Easting']), crs="EPSG:27700")
+dest_gdf.to_crs("EPSG:4326", inplace=True)
 
 # Save as a CSV
-dest_df.to_csv(f'{PATH}/processed/destinations.csv', index=False)
-print("Created Destinations Dataset at 'processed/destinations.csv'")
+dest_gdf.to_file(f'{PATH}/processed/Destinations.gpkg', driver="GPKG", use_arrow=True)
+print("Created Destinations Dataset at 'processed/Destinations.gpkg'")
