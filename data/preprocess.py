@@ -5,25 +5,25 @@ import geopandas as gpd
 PATH = os.path.dirname(os.path.realpath(__file__))
 
 
-#--------Import LSOA Boundaries--------#
+#--------Import Raw Datasets--------#
 
 
+# LSOA Boundaries
 print("Importing LSOA Boundaries...")
-boundaries = gpd.read_file(f'{PATH}/raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg', use_arrow=True)
+boundaries: gpd.GeoDataFrame = gpd.read_file(f'{PATH}/raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg', use_arrow=True)
 print(f"Found {boundaries.shape[0]} Rows.\n")
 
+# LSOA Centriods
+print("Importing LSOA Centrioids...")
+centres: gpd.GeoDataFrame = gpd.read_file(f'{PATH}/raw/LSOA_PopCentroids_EW_2021_V4_-3471144733095659889.gpkg', use_arrow=True)
+print(f"Found {centres.shape[0]} Rows.\n")
 
-#--------Import LSOA Classifications--------#
-
-
+# RUC classifications
 print("Importing LSOA Classes...")
 classes = pd.read_csv(f'{PATH}/raw/Rural_Urban_Classification_(2021)_of_LSOAs_in_EW.csv')
 print(f"Found {classes.shape[0]} Rows.\n")
 
-
-#--------Import ODS document---------#
-
-
+# Destinations
 print("Importing Destination Dataset...")
 sheets = pd.read_excel(f'{PATH}/raw/journey-time-statistics-2019-destination-datasets.ods', sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2)
 print(f"Found {len(sheets.keys())} Sheets.\n")
@@ -46,21 +46,33 @@ ruc_def.to_json(f'{PATH}/processed/RUC_definitions.json', orient='index', indent
 print("Created RUC Definitions Dataset at 'processed/RUC_definitions.json'")
 
 # Drop unwanted columns
-lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "GlobalID", "LSOA21NM_y", "LSOA21NMW_y", "RUC21NM", "Urban_rural_flag", "ObjectId"], axis=1, inplace=True)
-lsoas.rename({"LSOA21CD": "LSOACode", "LSOA21NM_x": "LSOAName", "LAT": "Latitude", "LONG": "Longitude", "RUC21CD": "RUCCode"}, axis=1, inplace=True)
+lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID", "LSOA21NM_y", "LSOA21NMW_y", "RUC21NM", "Urban_rural_flag", "ObjectId"], axis=1, inplace=True)
+lsoas.rename({"LSOA21CD": "LSOACode", "LSOA21NM_x": "LSOAName", "RUC21CD": "RUCCode"}, axis=1, inplace=True)
 
-# Save as a CSV
+# Save as a GeoPackage
 lsoas.to_file(f'{PATH}/processed/LSOA_Boundaries.gpkg', driver="GPKG", use_arrow=True)
 print("Updated LSOA Dataset with RUC classifcations at 'processed/LSOA_Boundaries.gpkg'")
 
-# Create a new GeoDataframe containing only point geometries at the centre of each LSOA
-centre_df = lsoas.drop(["RUCCode", "geometry"], axis=1)
-centre_gdf = gpd.GeoDataFrame(centre_df, geometry=gpd.points_from_xy(centre_df['Latitude'], centre_df['Longitude']), crs="EPSG:4326")
-centre_gdf.to_file(f'{PATH}/processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
-print("Created LSOA Centres Dataset at 'processed/LSOA_Centres.gpkg'")
+
+#--------Process LSOA Centriods--------#
 
 
-#--------Process destinations-----------#
+# Remove Welsh LSOAs
+centres = centres[~centres['LSOA21CD'].str.contains("W")]
+
+# Modify Columns
+centres.drop(["GlobalID", "GlobalID_2"], axis=1, inplace=True)
+centres.rename({"LSOA21CD": "LSOAName"}, axis=1, inplace=True)
+
+# Change to Long/Lat Coords
+centres.to_crs("EPSG:4326", inplace=True)
+
+# Save to GeoPackage
+centres.to_file(f'{PATH}/processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
+print("Updated LSOA Centriods Dataset at 'processed/LSOA_Centres.gpkg'")
+
+
+#--------Process other destinations-----------#
 
 
 # Remame fields in GP and Hospitals to match schools
@@ -89,9 +101,9 @@ dest_df['EstablishmentName'] = dest_df['EstablishmentName'].astype(str)
 dest_df['Type'] = dest_df['Type'].astype(str)
 
 # Convert to GeoDataframe with Lat/Long Coords
-dest_gdf = gpd.GeoDataFrame(dest_df, geometry=gpd.points_from_xy(dest_df['Northing'], dest_df['Easting']), crs="EPSG:27700")
+dest_gdf = gpd.GeoDataFrame(dest_df, geometry=gpd.points_from_xy(dest_df['Easting'], dest_df['Northing']), crs="EPSG:27700")
 dest_gdf.to_crs("EPSG:4326", inplace=True)
 
-# Save as a CSV
+# Save as a GeoPackage
 dest_gdf.to_file(f'{PATH}/processed/Destinations.gpkg', driver="GPKG", use_arrow=True)
-print("Created Destinations Dataset at 'processed/Destinations.gpkg'")
+print("Updated Destinations Dataset at 'processed/Destinations.gpkg'")
