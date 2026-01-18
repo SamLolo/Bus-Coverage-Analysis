@@ -64,7 +64,7 @@ print("  > Removed welsh LSOAs")
 
 # Modify Columns
 centres.drop(["GlobalID", "GlobalID_2"], axis=1, inplace=True)
-centres.rename({"LSOA21CD": "LSOAName"}, axis=1, inplace=True)
+centres.rename({"LSOA21CD": "id"}, axis=1, inplace=True)
 print("  > Modified columns")
 
 # Change to Long/Lat Coords
