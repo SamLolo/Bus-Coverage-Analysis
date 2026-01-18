@@ -18,7 +18,7 @@ print(f"Loaded centriods: {round(time.time() - start_time, 2)} seconds")
 start_time = time.time()
 
 transport_network = r5py.TransportNetwork(
-    osm_pbf = "data/raw/devon-260114.osm.pbf",
+    osm_pbf = "data/raw/filtered-devon.osm.pbf",
     gtfs = ["data/raw/itm_south_west_gtfs.zip"]
 )
 
