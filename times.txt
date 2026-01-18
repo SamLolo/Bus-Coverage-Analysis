@@ -1,0 +1,17 @@
+Full-UK
+----------
+Build Time: 35 mins
+1 in 15 mins
+
+Devon ODS + Full GTFS
+-----------------------
+Build Time: 17 mins
+1 in 40s
+10 in 77s
+89 in 250s
+
+Devon ODS + South West GTFS
+----------------------------
+Build Time: 2 mins
+89 in 92s
+161 in 145s
