@@ -7,11 +7,12 @@ from datetime import timedelta
 start_time = time.time()
 
 EXE_CENTRE = ["E01034630"]
+DEVON_BOUNDARY = ["E01020046"]
 EXE1 = [f"E010346{x}" for x in range(20, 30)]
 EXE2 = [f"E010346{x}" for x in range(31, 36)]
 EXE3 = [f"E010{x}" for x in range(19968, 20041)]
 DEVON1 = [f"E010202{x}" for x in range(0, 71)]
-LSOAS = EXE_CENTRE
+LSOAS = DEVON_BOUNDARY
 
 centriods = gpd.read_file("data/processed/LSOA_Centres.gpkg", use_arrow=True)
 origins = centriods.loc[centriods['id'].isin(LSOAS)]
@@ -41,7 +42,7 @@ buses = r5py.Isochrones(
 print(f"Calculated {len(LSOAS)} isochrones: {round(time.time() - start_time, 0)} seconds")
 
 buses["travel_time"] = buses["travel_time"].dt.total_seconds() / 60
-buses.to_file("out/exeter_bus.gpkg", driver="GPKG")
+buses.to_file("out/boundary_bus.gpkg", driver="GPKG")
 
 start_time = time.time()
 
@@ -59,4 +60,4 @@ cars = r5py.Isochrones(
 print(f"Calculated {len(LSOAS)} isochrones: {round(time.time() - start_time, 0)} seconds")
 
 cars["travel_time"] = cars["travel_time"].dt.total_seconds() / 60
-cars.to_file("out/exeter_car.gpkg", driver="GPKG")
+cars.to_file("out/boundary_car.gpkg", driver="GPKG")
