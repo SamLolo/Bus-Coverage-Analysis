@@ -12,7 +12,7 @@ EXE1 = [f"E010346{x}" for x in range(20, 30)]
 EXE2 = [f"E010346{x}" for x in range(31, 36)]
 EXE3 = [f"E010{x}" for x in range(19968, 20041)]
 DEVON1 = [f"E010202{x}" for x in range(0, 71)]
-LSOAS = DEVON_BOUNDARY
+LSOAS = EXE_CENTRE
 
 centriods = gpd.read_file("data/processed/LSOA_Centres.gpkg", use_arrow=True)
 origins = centriods.loc[centriods['id'].isin(LSOAS)]
@@ -35,14 +35,13 @@ buses = r5py.Isochrones(
     departure_time_window=timedelta(hours=1),
     transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
     point_grid_resolution=100,
-    isochrones=[40],
-    max_time_walking=timedelta(minutes=20)
+    isochrones=[40]
 )
 
 print(f"Calculated {len(LSOAS)} isochrones: {round(time.time() - start_time, 0)} seconds")
 
 buses["travel_time"] = buses["travel_time"].dt.total_seconds() / 60
-buses.to_file("out/boundary_bus.gpkg", driver="GPKG")
+buses.to_file("out/exeter_bus.gpkg", driver="GPKG")
 
 start_time = time.time()
 
@@ -53,11 +52,10 @@ cars = r5py.Isochrones(
     departure_time_window=timedelta(hours=1),
     transport_modes=[r5py.TransportMode.CAR],
     point_grid_resolution=100,
-    isochrones=[40],
-    max_time_walking=timedelta(minutes=20)
+    isochrones=[40]
 )
 
 print(f"Calculated {len(LSOAS)} isochrones: {round(time.time() - start_time, 0)} seconds")
 
 cars["travel_time"] = cars["travel_time"].dt.total_seconds() / 60
-cars.to_file("out/boundary_car.gpkg", driver="GPKG")
+cars.to_file("out/exeter_car.gpkg", driver="GPKG")
