@@ -19,5 +19,6 @@ Build Time: 2 mins
 Devon Filtered ODS + South West GTFS
 -------------------------------------
 Build Time: 2 mins
+1 in 59s
 89 in 100s
 161 in 136s
