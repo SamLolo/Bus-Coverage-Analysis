@@ -1,11 +1,11 @@
-import os 
 import pandas as pd
 import geopandas as gpd
-from zipfile import ZipFile, ZIP_DEFLATED
+from pathlib import Path
 from datetime import datetime
+from zipfile import ZipFile, ZIP_DEFLATED
 from dateutil.relativedelta import relativedelta
 
-PATH = os.path.dirname(os.path.realpath(__file__))
+PATH = Path(__file__).parent
 
 
 #--------Process LSOAs with Classifications--------#
@@ -14,11 +14,11 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 print("Merging LSOAs with their classifications:")
 
 # Load LSOA Boundaries
-boundaries: gpd.GeoDataFrame = gpd.read_file(f'{PATH}/raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg', use_arrow=True)
+boundaries: gpd.GeoDataFrame = gpd.read_file(PATH / 'raw/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg', use_arrow=True)
 print(f"  > Loaded {boundaries.shape[0]} LSOAs")
 
 # Load RUC classifications
-classes = pd.read_csv(f'{PATH}/raw/Rural_Urban_Classification_(2021)_of_LSOAs_in_EW.csv')
+classes = pd.read_csv(PATH / 'raw/Rural_Urban_Classification_(2021)_of_LSOAs_in_EW.csv')
 print(f"  > Loaded {classes.shape[0]} corresponding classifications")
 
 # Remove Welsh LSOAs
@@ -38,11 +38,11 @@ print("  > Updated columns")
 # Save RUC classification meanings seperately
 ruc_def = pd.Series(classes['RUC21NM'].values, index = classes['RUC21CD'])
 ruc_def.drop_duplicates(inplace=True)
-ruc_def.to_json(f'{PATH}/processed/RUC_definitions.json', orient='index', indent=1)
+ruc_def.to_json(PATH / 'processed/RUC_definitions.json', orient='index', indent=1)
 print("  > Saved RUC Definitions to 'processed/RUC_definitions.json'")
 
 # Save as a GeoPackage
-lsoas.to_file(f'{PATH}/processed/LSOA_Boundaries.gpkg', driver="GPKG", use_arrow=True)
+lsoas.to_file(PATH / 'processed/LSOA_Boundaries.gpkg', driver="GPKG", use_arrow=True)
 print("  > Saved dataset to 'processed/LSOA_Boundaries.gpkg'")
 
 # Clean up Dataframes
@@ -55,7 +55,7 @@ del boundaries, classes, ruc_def, lsoas
 print("\nProcessing LSOA Centriods:")
 
 # Open existing LSOA centriods
-centres: gpd.GeoDataFrame = gpd.read_file(f'{PATH}/raw/LSOA_PopCentroids_EW_2021_V4_-3471144733095659889.gpkg', use_arrow=True)
+centres: gpd.GeoDataFrame = gpd.read_file(PATH / 'raw/LSOA_PopCentroids_EW_2021_V4_-3471144733095659889.gpkg', use_arrow=True)
 print(f"  > Loaded {centres.shape[0]} LSOAs")
 
 # Remove Welsh LSOAs
@@ -72,7 +72,7 @@ centres.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
 # Save to GeoPackage
-centres.to_file(f'{PATH}/processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
+centres.to_file(PATH / 'processed/LSOA_Centres.gpkg', driver="GPKG", use_arrow=True)
 print("  > Saved to 'processed/LSOA_Centres.gpkg'")
 
 # Clean up dataframes
@@ -85,7 +85,7 @@ del centres
 print("\nCreating a Universal Destinations Dataset:")
 
 # Import previous dataset
-sheets = pd.read_excel(f'{PATH}/raw/journey-time-statistics-2019-destination-datasets.ods', sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2)
+sheets = pd.read_excel(PATH / 'raw/journey-time-statistics-2019-destination-datasets.ods', sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2)
 print(f"  > Imported {len(sheets.keys())} existing sheets of destinations")
 
 # Remame fields in GP and Hospitals to match schools
@@ -120,7 +120,7 @@ dest_gdf.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
 # Save as a GeoPackage
-dest_gdf.to_file(f'{PATH}/processed/Destinations.gpkg', driver="GPKG", use_arrow=True)
+dest_gdf.to_file(PATH / 'processed/Destinations.gpkg', driver="GPKG", use_arrow=True)
 print("  > Saved to 'processed/Destinations.gpkg'")
 
 # Clean up dataframes
@@ -149,7 +149,7 @@ def check_hours(time: str):
 print("\nCleaning GTFS Schedule for R5:")
 
 # Load stop times first to check for non-r5 compatible times (>72 hours)
-with ZipFile(f"{PATH}/raw/itm_england_gtfs.zip", "r") as zip:
+with ZipFile(PATH / "raw/itm_england_gtfs.zip", "r") as zip:
     stop_times = pd.read_csv(zip.open("stop_times.txt"))
     print("  > Loaded stop times")
 
@@ -165,14 +165,14 @@ stop_times = stop_times.loc[~stop_times["trip_id"].isin(trip_ids)]
 print(f"  > Removed misformatted stops")
 
 # Write to new zip file
-with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "w", compression=ZIP_DEFLATED, compresslevel=6) as out:
+with ZipFile(PATH / "processed/england_gtfs_clean.zip", "w", compression=ZIP_DEFLATED, compresslevel=6) as out:
     out.writestr("stop_times.txt", stop_times.to_csv(index=False))
 
 # Clean-up Dataframes
 del stop_times
 
 # Load trip info
-with ZipFile(f"{PATH}/raw/itm_england_gtfs.zip", "r") as zip:
+with ZipFile(PATH / "raw/itm_england_gtfs.zip", "r") as zip:
     trips = pd.read_csv(zip.open("trips.txt"))
     frequencies = pd.read_csv(zip.open("frequencies.txt"))
     print("  > Loaded trip info")
@@ -186,7 +186,7 @@ frequencies = frequencies.loc[~frequencies["trip_id"].isin(trip_ids)]
 print(f"  > Removed {len(trip_ids)} misformatted trips")
 
 # Add these to zip file
-with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
+with ZipFile(PATH / "processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
     out.writestr("trips.txt", trips.to_csv(index=False))
     out.writestr("frequencies.txt", frequencies.to_csv(index=False))
 
@@ -194,7 +194,7 @@ with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "a", compression=ZIP_DE
 del frequencies
 
 # Make sure the any traces of these trips are removed from other files
-with ZipFile(f"{PATH}/raw/itm_england_gtfs.zip", "r") as zip:
+with ZipFile(PATH / "raw/itm_england_gtfs.zip", "r") as zip:
     routes = pd.read_csv(zip.open("routes.txt"))
     calendar = pd.read_csv(zip.open("calendar.txt"))
     calendar_dates = pd.read_csv(zip.open("calendar_dates.txt"))
@@ -223,7 +223,7 @@ for trip in bad_trips.itertuples():
         print(f"  > Removed agency {agency} since they have no routes left")
 
 # Add these to zip file
-with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
+with ZipFile(PATH / "processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
     out.writestr("routes.txt", routes.to_csv(index=False))
     out.writestr("calendar.txt", calendar.to_csv(index=False))
     out.writestr("calendar_dates.txt", calendar_dates.to_csv(index=False))
@@ -233,7 +233,7 @@ with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "a", compression=ZIP_DE
 del trips, routes, calendar, calendar_dates, agencies
 
 # Load remaining files
-with ZipFile(f"{PATH}/raw/itm_england_gtfs.zip", "r") as zip:
+with ZipFile(PATH / "raw/itm_england_gtfs.zip", "r") as zip:
     feed_info = pd.read_csv(zip.open("feed_info.txt"))
     shapes = pd.read_csv(zip.open("shapes.txt"))
     stops = pd.read_csv(zip.open("stops.txt"))
@@ -248,7 +248,7 @@ if end_date >= datetime(2100, 1, 1):
     feed_info['feed_end_date'] = [end_date.strftime("%Y%m%d")]
     
 # Add the final files to the zip
-with ZipFile(f"{PATH}/processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
+with ZipFile(PATH / "processed/england_gtfs_clean.zip", "a", compression=ZIP_DEFLATED, compresslevel=6) as out:
     out.writestr("feed_info.txt", feed_info.to_csv(index=False))
     out.writestr("shapes.txt", shapes.to_csv(index=False))
     out.writestr("stops.txt", stops.to_csv(index=False))
