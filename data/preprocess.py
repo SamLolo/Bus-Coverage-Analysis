@@ -32,7 +32,7 @@ print("  > Merged the 2 datasets")
 
 # Drop unwanted columns
 lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID", "LSOA21NM_y", "LSOA21NMW_y", "RUC21NM", "Urban_rural_flag", "ObjectId"], axis=1, inplace=True)
-lsoas.rename({"LSOA21CD": "LSOACode", "LSOA21NM_x": "LSOAName", "RUC21CD": "RUCCode"}, axis=1, inplace=True)
+lsoas.rename({"LSOA21CD": "id", "LSOA21NM_x": "name", "RUC21CD": "ruc"}, axis=1, inplace=True)
 print("  > Updated columns")
 
 # Save RUC classification meanings seperately
