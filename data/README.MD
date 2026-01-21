@@ -1,21 +1,45 @@
 # Datasets
 
-This folder contains all datasets required for the analysis within this project. Raw files were obtained on **8th January 2026** [^1] from the sources below:
+This folder contains all datasets involved in the analysis within this project, as well as information and code for preprocessing these datasets before use. Information about each of the datasets and how to download them can be found below:
 
-- https://download.geofabrik.de/europe/united-kingdom.html
-  - A map of the UK in protocol buffer format (.pdf). [^2]
-- https://data.bus-data.dft.gov.uk/timetable/download/
-  - Timetable data for all bus services in <u>England</u> in GTFS format. [^2]
-- https://www.gov.uk/government/publications/journey-time-statistics-guidance
-  - A UK government dataset of destinations in England in OpenDocument format (.ods).
-- https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/about
-  - Lower super-output areas (LOSA) regions within England and Wales, downloaded as a GeoPackage (.gpkg) file.
-- https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-ew-population-weighted-centroids-3/about
-  - Population-weighted centriods for each LSOA, downloaded as a GeoPackage (.gpkg) file.
-- https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2021-of-lsoas-in-ew/about
-  - Rural/Urban classifcations for each LSOA, downloaded as a CSV file.
+#### Open Street Map (OSM)
 
-> Some datasets are processed further before use into a more suitable format. This involves cleaning the data and updating file formats using the Python file *preprocess.py*. The resulting files can be found in the processed directory.
+An extract of England from Open Street Map provides the road network used by R5 for the routing calculations. It should be downloaded in **protocol buffer format (.pbf)**. The file used for this analysis was downloaded on **20th January 2026** from **Geofabrik** and can be found here: https://download.geofabrik.de/europe/united-kingdom/england.html.
 
-[^1]: Population-weighted cemtroids were downloaded on the 12th January 2026.
-[^2]: Some files are not included in the repository due to GitHub size limits.
+> [!NOTE]
+> Due to Github size limits, this file is not included in the repository.
+
+#### UK Bus Timetables
+
+A transit schedule is also required by R5 for calculating the bus isochrone. This should be in the **General Transit Feed Specification (GTFS)** format. Information about the Bus timetables in England was obtained from the UK Bus Open Data Service (BODS) on **8th January 2026**. Files can be found here: https://data.bus-data.dft.gov.uk/timetable/download/.
+
+> [!NOTE]
+> Due to Github size limits, this file is not included in the repository.
+
+#### Lower Super Output Areas (LSOAS)
+
+LSOAs are statistical divisons of geographical area in the UK based of the 2021 census. Each comprises of between 400-1200 households and have a population of between 1000-3000 people. The boundaries of these LSOAs were downloaded as a **GeoPackage** from the UK Open Geography Portal, found here: https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/about.
+
+To increase the accuracy of isochrones, population weighted centriods for each LSOA were obtained as a **GeoPackage** from the Open Geography Portal as well, found here: https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-ew-population-weighted-centroids-3/about.
+
+Both files were downloaded on the **8th January 2026** and are included with the code.
+
+#### Rural-Urban Classifications
+
+The Office for National Statistics provides a rural-urban classification of each of the LSOAs which is used as part of the analysis. This was obtained as a **CSV** file from the Open Geography Portal on **8th January 2026**, found here: https://geoportal.statistics.gov.uk/datasets/ons::rural-urban-classification-2021-of-lsoas-in-ew/about.
+
+#### Destinations
+
+This analysis uses a dataset of destinations in England used by Department of Transport to produce their journey time statistics publications. This can be downloaded in **OpenDocument format (.ods)**, and was obtained from the UK Gov site on **8th January 2026**, found here: https://www.gov.uk/government/publications/journey-time-statistics-guidance.
+
+## Pre-Processing
+
+Before using the datasets, they are cleaned and processed into a more suitable format. Some of the processed needed is:
+
+- Merging the LSOA boundaries with their RUC classification, and updating the columns within the dataframe to only keep the information necessary for the analysis.
+- Updating the co-ordinates of the LSOA weighted centriods to Lat/Long, and updating columns.
+- Removing all welsh LSOA boundaries and centriods.
+- Creating a single destinations Geopackage file, with Lat/Long co-ordinate geometry for the locations.
+- Removing invalid data from the GTFS schedule.
+
+These can all be completed by running the *[preprocess.py](preprocess.py)* script. The outputs of this operation are found within the processed file.
