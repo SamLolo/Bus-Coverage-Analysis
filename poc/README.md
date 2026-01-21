@@ -21,7 +21,7 @@ Once I've got the isochrones, I will be using spatial joins with the destination
 
 ## visualise.py
 
-This was a small file used to generate interactive maps using Folium where I could explore and visualise the isochrones generated in [small-boundary.py](#small-boundarypy). This allowed me to tweak the parameters in the script accordingly until I was happy with the results.
+This was a small file used to generate interactive maps using Folium where I could explore and visualise the isochrones generated in *[small_boundary.py](small_boundary.py)*. This allowed me to tweak the parameters in the script accordingly until I was happy with the results.
 
 [^1]: https://download.geofabrik.de/europe/united-kingdom/england/devon.html
 [^2]: https://data.bus-data.dft.gov.uk/timetable/download/
