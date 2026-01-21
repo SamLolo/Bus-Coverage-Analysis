@@ -1,4 +1,6 @@
 data/raw/itm_england_gtfs.zip
 data/raw/england-260119.osm.pbf
 data/processed/england_gtfs_clean.zip
-poc/data/
+
+poc/data/devon-260114.osm.pbf
+poc/data/itm_south_west_gtfs.zip
