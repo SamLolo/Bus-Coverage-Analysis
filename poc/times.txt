@@ -43,3 +43,9 @@ Build Time: 102s (2.5s recall)
 1 in 31-35s
 6 in 192s
 161 in 136s
+
+Multiprocessing (x2 instances)
+--------------------
+OSM Crop: 13-15s 
+Build Time: N/A
+6 in 230-235s
