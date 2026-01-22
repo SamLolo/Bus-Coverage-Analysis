@@ -1,3 +1,9 @@
+import os
+import pyproj
+
+# Fix issue with pyproj not having correct env variables on conda
+os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
+
 import r5py
 import time
 import datetime

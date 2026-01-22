@@ -1,12 +1,8 @@
 import os
 import pyproj
-import platform
 
+# Fix issue with pyproj not having correct env variables on conda
 os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
-
-# Change AppData folder to avoid issues with file access permissions on windows
-#if platform.system() == "Windows":
-#    os.environ["LOCALAPPDATA"] = "C:/"
 
 import r5py
 import time
