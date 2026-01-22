@@ -35,3 +35,11 @@ Bounding Box OSM + South West GTFS
 OSM Crop: 9-10s 
 Build Time: 102s (2.5s recall)
 1 in 35-40s
+
+MSOA Bounding Box OSM + South West GTFS
+---------------------------------------
+OSM Crop: 9-10s 
+Build Time: 102s (2.5s recall)
+1 in 31-35s
+6 in 192s
+161 in 136s
