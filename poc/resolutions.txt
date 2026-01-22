@@ -1,0 +1,34 @@
+100m (default)
+--------------
+Bus: 47s
+Car: 50s
+
+200m
+-----
+Bus: 14s
+Car: 14s
+
+300m
+-----
+Bus: 7s
+Car: 8s
+
+400m
+-----
+Bus: 5s
+Car: 4s
+
+500m
+-----
+Bus: 4s 
+Car: 3s
+
+250m + 1km
+----------
+Bus: 8s
+Car: 1s 
+
+250m + 500m
+------------
+Bus: 8s
+Car: 1s

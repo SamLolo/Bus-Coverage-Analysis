@@ -11,12 +11,16 @@ import geopandas as gpd
 from pathlib import Path
 from datetime import timedelta
 
+# Set resolution
+RESOLUTION_BUS = 250
+RESOLUTION_CAR = 500
+
 # Define Paths
 PATH = Path(__file__).parent
-OSM = PATH / "data/devon-260114.osm.pbf"
-GTFS = PATH / "data/itm_south_west_gtfs.zip"
-SAVE_BUS = PATH / "out/exeter_bus.gpkg"
-SAVE_CAR = PATH / "out/exeter_car.gpkg"
+OSM = PATH / "data" / "devon-260114.osm.pbf"
+GTFS = PATH / "data" / "itm_south_west_gtfs.zip"
+SAVE_BUS = PATH / "out" / f"exeter_bus_{RESOLUTION_BUS}.gpkg"
+SAVE_CAR = PATH / "out"/ f"exeter_car_{RESOLUTION_CAR}.gpkg"
 
 # Define LSOAs
 EXE_CENTRE = "E01034630"
@@ -68,7 +72,8 @@ buses = r5py.Isochrones(
     departure=datetime.datetime(2026, 1, 19, 8, 30),
     departure_time_window=timedelta(hours=1),
     transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
-    point_grid_resolution=100,
+    percentiles=[25],
+    point_grid_resolution=RESOLUTION_BUS,
     isochrones=[40]
 )
 
@@ -90,7 +95,7 @@ cars = r5py.Isochrones(
     departure=datetime.datetime(2026, 1, 19, 8, 30),
     departure_time_window=timedelta(hours=1),
     transport_modes=[r5py.TransportMode.CAR],
-    point_grid_resolution=100,
+    point_grid_resolution=RESOLUTION_CAR,
     isochrones=[40]
 )
 

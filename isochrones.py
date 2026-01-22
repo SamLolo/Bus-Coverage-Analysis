@@ -45,7 +45,10 @@ transport_network = r5py.TransportNetwork(
 print(f"Generated transport network: {round(time.time() - start_time, 2)}s")
 start_time = time.time()
 
-isochrones = []
+isochrones = {
+    "bus": [],
+    "car": []
+}
 for index, lsoa in lsoas.iterrows():
 
     bus = r5py.Isochrones(
@@ -54,15 +57,33 @@ for index, lsoa in lsoas.iterrows():
         departure=datetime(2026, 1, 19, 8, 30),
         departure_time_window=timedelta(hours=1),
         transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
-        point_grid_resolution=100,
+        point_grid_resolution=250,
+        percentiles=[25],
         isochrones=[40]
     )
     
     bus['id'] = lsoa['id']
-    isochrones.append(bus.copy())
+    isochrones['bus'].append(bus.copy())
+    
+    car = r5py.Isochrones(
+        transport_network,
+        origins=lsoa['geometry'],
+        departure=datetime(2026, 1, 19, 8, 30),
+        departure_time_window=timedelta(hours=1),
+        transport_modes=[r5py.TransportMode.CAR],
+        point_grid_resolution=500,
+        isochrones=[40]
+    )
+    
+    car['id'] = lsoa['id']
+    isochrones['car'].append(car.copy())
 
-buses = pd.concat(isochrones)
+buses = pd.concat(isochrones['bus'])
 buses.drop("travel_time", axis=1, inplace=True)
 
-print(f"Created {lsoas.shape[0]} isochrones: {round(time.time() - start_time, 2)}s")
+cars = pd.concat(isochrones['car'])
+cars.drop("travel_time", axis=1, inplace=True)
+
+print(f"Created {lsoas.shape[0] * 2} isochrones: {round(time.time() - start_time, 2)}s")
 print(buses)
+print(cars)
