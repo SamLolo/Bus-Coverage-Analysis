@@ -23,3 +23,15 @@ Build Time: 2 mins
 1 in 59s
 89 in 100s
 161 in 136s
+
+Bounding Box OSM + Full GTFS
+-----------------------------
+OSM Crop: 9s 
+Build Time: 12 minutes
+1 in 6 mins
+
+Bounding Box OSM + South West GTFS
+----------------------------------
+OSM Crop: 9-10s 
+Build Time: 102s (2.5s recall)
+1 in 35-40s
