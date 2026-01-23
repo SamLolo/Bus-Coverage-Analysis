@@ -17,6 +17,9 @@ from datetime import datetime, timedelta
 PATH = Path(__file__).parent
 TEMP_DIR = Path(__file__).parent.parent / "temp"
 
+if not(os.path.exists(TEMP_DIR)):
+    os.mkdir(TEMP_DIR)
+
 MSOAID = "E02004156"
 
 def get_osm_extract(id: str, gdf: gpd.GeoDataFrame, radius: float):
