@@ -18,7 +18,7 @@ def get_devon_lsoas():
     devon = regions[regions['ITL225CD'] == "TLK4"]
 
     # Get all LSOA centriods in England
-    centriods = gpd.read_file(PATH / ".." / "data" / "processed" / "LSOA_Centres.gpkg", use_arrow=True)
+    centriods = gpd.read_file(PATH / "data" / "LSOA_Centres.gpkg", use_arrow=True)
 
     # Find centriods that lie inside the region boundary using a spatial join
     lsoas = centriods.sjoin(devon, how="inner")

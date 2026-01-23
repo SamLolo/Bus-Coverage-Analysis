@@ -40,7 +40,7 @@ LSOAS = [EXE_CENTRE]
 
 # Load processed centriods geopackage
 start_time = time.time()
-centriods = gpd.read_file(PATH / "../data/processed/LSOA_Centres.gpkg", use_arrow=True)
+centriods = gpd.read_file(PATH / "data" / "LSOA_Centres.gpkg", use_arrow=True)
 
 # Get GeoDataframe of chosen LSOAs
 origins = centriods.loc[centriods['id'].isin(LSOAS)]

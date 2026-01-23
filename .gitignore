@@ -1,9 +1,6 @@
-# Datasets too large to upload to GitHub
-data/raw/itm_england_gtfs.zip
-data/raw/england-260119.osm.pbf
-data/processed/england_gtfs_clean.zip
-poc/data/devon-260114.osm.pbf
-poc/data/itm_south_west_gtfs.zip
+# Dataset filetypes that are too large to upload to GitHub
+*.pbf
+*.zip
 
 # Any temp or runtime files
 **/__pycache__/
