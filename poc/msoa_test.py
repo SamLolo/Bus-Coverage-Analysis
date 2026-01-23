@@ -15,7 +15,7 @@ from shapely.ops import transform
 from datetime import datetime, timedelta
 
 PATH = Path(__file__).parent
-TEMP_DIR = Path(__file__).parent / ".." / "temp"
+TEMP_DIR = Path(__file__).parent.parent / "temp"
 
 MSOAID = "E02004156"
 
