@@ -1,0 +1,25 @@
+
+# Global config for all parts of the analysis
+version = "1.0"
+out_dir = "./out"
+temp_dir = "./temp"
+
+[datasets]
+destinations    = "data/processed/Destinations.gpkg"
+lsoa_boundaries = "data/processed/LSOA_Boundaries.gpkg"
+msoa_boundaries = "data/processed/MSOA_Boundaries.gpkg"
+centriods       = "data/processed/LSOA_Centres.gpkg"
+regions         = "data/raw/Regions_December_2024_Boundaries_EN_BSC_-5107433749138478884.gpkg"
+ruc_definitions = "data/processed/ruc_definitions"
+england_osm     = "data/raw/england-260119.osm.pbf"
+
+[datasets.gtfs]
+east_anglia   = "data/processed/gtfs/east_anglia.zip"
+london        = "data/processed/gtfs/london.zip"
+north_east    = "data/processed/gtfs/north_east.zip"
+north_west    = "data/processed/gtfs/north_west.zip"
+south_east    = "data/processed/gtfs/south_east.zip"
+south_west    = "data/processed/gtfs/south_west.zip"
+east_midlands = "data/processed/gtfs/east_midlands.zip"
+west_midlands = "data/processed/gtfs/west_midlands.zip"
+yorkshire     = "data/processed/gtfs/yorkshire.zip"
