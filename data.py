@@ -48,7 +48,7 @@ def get_filepath(dataset: GTFS|Datasets):
 def load_dataset(dataset: Datasets):
     if not(dataset.name in ["RUC_DEF", "OSM"]):
         file = get_filepath(dataset)
-        gdf = gpd.read_file(file)
+        gdf = gpd.read_file(file, use_arrow=True)
         return gdf
     else:
         raise ValueError("Unsupported dataset.")
@@ -56,4 +56,8 @@ def load_dataset(dataset: Datasets):
 
 print(get_filepath(GTFS.YORKSHIRE))
 print(get_filepath(Datasets.OSM))
+
+print(load_dataset(Datasets.DESTINATIONS))
+print(load_dataset(Datasets.LSOA_BOUNDARIES))
 print(load_dataset(Datasets.CENTRIODS))
+print(load_dataset(Datasets.REGIONS))
