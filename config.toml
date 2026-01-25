@@ -13,7 +13,7 @@ destinations    = "data/processed/Destinations.gpkg"
 lsoa_boundaries = "data/processed/LSOA_Boundaries.gpkg"
 msoa_boundaries = "data/processed/MSOA_Boundaries.gpkg"
 centriods       = "data/processed/LSOA_Centres.gpkg"
-regions         = "data/raw/Regions_December_2024_Boundaries_EN_BSC_-5107433749138478884.gpkg"
+regions         = "data/processed/Regions.gpkg"
 ruc_definitions = "data/processed/ruc_definitions"
 england_osm     = "data/raw/england-260119.osm.pbf"
 

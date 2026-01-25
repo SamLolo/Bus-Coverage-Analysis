@@ -36,7 +36,7 @@ class Datasets(Enum):
     OSM = "england_osm"
     
 
-def get_filepath(dataset: GTFS|Datasets):
+def get_filepath(dataset: GTFS|Datasets) -> Path:
     if type(dataset) == Datasets:
         return Path(CONFIG['datasets'][dataset.value]).absolute()
     elif type(dataset) == GTFS:
@@ -45,19 +45,10 @@ def get_filepath(dataset: GTFS|Datasets):
         raise ValueError("Unsupported input type.")
     
 
-def load_dataset(dataset: Datasets):
+def load_dataset(dataset: Datasets) -> gpd.GeoDataFrame:
     if not(dataset.name in ["RUC_DEF", "OSM"]):
         file = get_filepath(dataset)
         gdf = gpd.read_file(file, use_arrow=True)
         return gdf
     else:
         raise ValueError("Unsupported dataset.")
-
-
-print(get_filepath(GTFS.YORKSHIRE))
-print(get_filepath(Datasets.OSM))
-
-print(load_dataset(Datasets.DESTINATIONS))
-print(load_dataset(Datasets.LSOA_BOUNDARIES))
-print(load_dataset(Datasets.CENTRIODS))
-print(load_dataset(Datasets.REGIONS))

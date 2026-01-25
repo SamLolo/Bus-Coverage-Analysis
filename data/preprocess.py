@@ -36,6 +36,10 @@ lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID", "LSOA21N
 lsoas.rename({"LSOA21CD": "id", "LSOA21NM_x": "name", "RUC21CD": "ruc"}, axis=1, inplace=True)
 print("  > Updated columns")
 
+# Change to Long/Lat Coords
+lsoas.to_crs("EPSG:4326", inplace=True)
+print("  > Converted to lat/long coordinates")
+
 # Save RUC classification meanings seperately
 ruc_def = pd.Series(classes['RUC21NM'].values, index = classes['RUC21CD'])
 ruc_def.drop_duplicates(inplace=True)
@@ -80,7 +84,7 @@ print("  > Saved to 'processed/LSOA_Centres.gpkg'")
 del centres
 
 
-#--------Process MSOA Boundaries
+#--------Process MSOA Boundaries-----------#
 
 
 print("\nProcessing MSOA Boundaries:")
@@ -98,12 +102,42 @@ msoas.drop(["MSOA21NMW", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID"], axis=1, i
 msoas.rename({"MSOA21CD": "id", "MSOA21NM": "name"}, axis=1, inplace=True)
 print("  > Updated columns")
 
+# Change to Long/Lat Coords
+msoas.to_crs("EPSG:4326", inplace=True)
+print("  > Converted to lat/long coordinates")
+
 # Save as a GeoPackage
 msoas.to_file(PATH / "processed" / "MSOA_Boundaries.gpkg", driver="GPKG", use_arrow=True)
 print("  > Saved dataset to 'processed/MSOA_Boundaries.gpkg'")
 
 # Clean up Dataframes
 del msoas
+
+
+#--------Process Regions-----------#
+
+
+print("\nProcessing Region Boundaries:")
+
+# Open existing MSOA Boundaries
+regions: gpd.GeoDataFrame = gpd.read_file(PATH / "raw" / "Regions_December_2024_Boundaries_EN_BSC_-5107433749138478884.gpkg", use_arrow=True)
+print(f"  > Loaded {regions.shape[0]} regions")
+
+# Drop unwanted columns
+regions.drop(["BNG_E", "BNG_N", "LAT", "LONG", "GlobalID"], axis=1, inplace=True)
+regions.rename({"RGN24CD": "id", "RGN24NM": "name"}, axis=1, inplace=True)
+print("  > Updated columns")
+
+# Change to Long/Lat Coords
+regions.to_crs("EPSG:4326", inplace=True)
+print("  > Converted to lat/long coordinates")
+
+# Save as a GeoPackage
+regions.to_file(PATH / "processed" / "Regions.gpkg", driver="GPKG", use_arrow=True)
+print("  > Saved dataset to 'processed/Regions.gpkg'")
+
+# Clean up Dataframes
+del regions
 
 
 #--------Process other destinations-----------#
