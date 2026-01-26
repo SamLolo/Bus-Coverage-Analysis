@@ -27,3 +27,11 @@ south_west    = "data/processed/gtfs/south_west_clean.zip"
 east_midlands = "data/processed/gtfs/east_midlands_clean.zip"
 west_midlands = "data/processed/gtfs/west_midlands_clean.zip"
 yorkshire     = "data/processed/gtfs/yorkshire_clean.zip"
+
+[isochrones]
+save_index = 5
+bbox_radius = 70000
+gtfs_distance = 20000
+departure = 2026-01-26 08:30:00
+departure_window = 60
+travel_time = 40
