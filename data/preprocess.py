@@ -29,6 +29,7 @@ print("  > Removed welsh LSOAs")
 
 # Concatenate RUC classifications
 lsoas: gpd.GeoDataFrame = pd.merge(boundaries, classes, on='LSOA21CD', how="outer")
+lsoas.reset_index(inplace=True)
 print("  > Merged the 2 datasets")
 
 # Drop unwanted columns
@@ -65,6 +66,7 @@ print(f"  > Loaded {centres.shape[0]} LSOAs")
 
 # Remove Welsh LSOAs
 centres = centres[~centres['LSOA21CD'].str.contains("W")]
+centres.reset_index(inplace=True)
 print("  > Removed welsh LSOAs")
 
 # Modify Columns
@@ -95,6 +97,7 @@ print(f"  > Loaded {msoas.shape[0]} MSOAs")
 
 # Remove Welsh MSOAs
 msoas = msoas[~msoas['MSOA21CD'].str.contains("W")]
+msoas.reset_index(inplace=True)
 print("  > Removed welsh MSOAs")
 
 # Drop unwanted columns
