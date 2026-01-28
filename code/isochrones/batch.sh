@@ -10,12 +10,12 @@ cd ..
 current_index=$start_index
 
 # Keep looping through batches until you reach the max index
-while [$current_index -lt $max_index]; do
+while [ $current_index -lt $max_index ]; do
     start_index=$current_index
 
     # Increase current index by batch_size
-    current_index=$current_index+$batch_size
-    if [$current_index -gt $max_index]; then
+    current_index=$(expr $current_index + $batch_size)
+    if [ $current_index -gt $max_index ]; then
         current_index=$max_index
     fi
 
