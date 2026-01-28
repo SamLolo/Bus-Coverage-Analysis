@@ -4,12 +4,13 @@ import logging
 from enum import Enum
 import geopandas as gpd
 from pathlib import Path
-from config import CONFIG
+from .config import CONFIG
 
 logger = logging.getLogger("data")
 
-OUT_DIR = Path(__file__).parent / CONFIG['out_dir']
-TEMP_DIR = Path(__file__).parent / CONFIG['temp_dir']
+ROOT_DIR = Path(__file__).parent.parent.parent
+OUT_DIR = ROOT_DIR / CONFIG['out_dir']
+TEMP_DIR = ROOT_DIR / CONFIG['temp_dir']
 
 if not(os.path.exists(OUT_DIR)):
     os.mkdir(OUT_DIR)
@@ -43,10 +44,10 @@ class Datasets(Enum):
 def get_filepath(dataset: GTFS|Datasets) -> Path:
     if type(dataset) == Datasets:
         logger.debug(f"Requested filename: {dataset}")
-        return Path(CONFIG['datasets'][dataset.value]).absolute()
+        return ROOT_DIR / CONFIG['datasets'][dataset.value]
     elif type(dataset) == GTFS:
         logger.debug(f"Requested filename: {dataset}")
-        return Path(CONFIG['datasets']['gtfs'][str(dataset.name).lower()]).absolute()
+        return ROOT_DIR / CONFIG['datasets']['gtfs'][str(dataset.name).lower()]
     else:
         logger.error(f"No such dataset {repr(dataset)} when getting filename")
         raise ValueError("Unsupported input type")

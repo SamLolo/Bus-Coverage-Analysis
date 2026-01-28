@@ -4,16 +4,16 @@ import tomllib
 import logging
 from pathlib import Path
 
-with open('config.toml', 'rb') as fp:
+with open(Path(__file__).parent.parent.parent / 'config.toml', 'rb') as fp:
     CONFIG = tomllib.load(fp)
     
-log_dir = Path(__file__).parent / CONFIG['logging']['log_dir']
-if not(os.path.exists(log_dir)):
-    os.mkdir(log_dir)
+LOG_DIR = Path(__file__).parent.parent.parent / CONFIG['logging']['log_dir']
+if not(os.path.exists(LOG_DIR)):
+    os.mkdir(LOG_DIR)
 
-filename = Path(sys.argv[0]).name
+filename = Path(sys.argv[0]).parent.name + "." + Path(sys.argv[0]).name.split(".")[0] + ".log"
 logging.basicConfig(
-    filename=f"{log_dir}/{filename.split(".")[0]}.log",
+    filename=LOG_DIR / filename,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", 
     datefmt="%d-%m-%Y %H:%M:%S",
     level=CONFIG['logging']['level']

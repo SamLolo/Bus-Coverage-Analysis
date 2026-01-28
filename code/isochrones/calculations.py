@@ -14,9 +14,9 @@ import pandas as pd
 import geopandas as gpd
 from datetime import timedelta
 from shapely.ops import transform
-from data import TEMP_DIR, OUT_DIR, Datasets, GTFS, get_filepath, load_dataset, count_files
+from common.data import TEMP_DIR, OUT_DIR, Datasets, GTFS, get_filepath, load_dataset, count_files
 
-from config import CONFIG
+from common.config import CONFIG
 CONFIG = CONFIG['isochrones']
 
 logger = logging.getLogger("isochrones")
