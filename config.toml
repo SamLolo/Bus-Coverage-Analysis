@@ -35,3 +35,7 @@ gtfs_distance = 20000
 departure = 2026-01-26 08:30:00
 departure_window = 60
 travel_time = 40
+bus_grid_res = 250
+bus_percentile = 25
+car_grid_res = 500
+car_percentile = 50

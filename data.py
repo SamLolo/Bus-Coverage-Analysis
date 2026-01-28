@@ -1,8 +1,12 @@
 import os
+import re
+import logging
 from enum import Enum
 import geopandas as gpd
 from pathlib import Path
 from config import CONFIG
+
+logger = logging.getLogger("data")
 
 OUT_DIR = Path(__file__).parent / CONFIG['out_dir']
 TEMP_DIR = Path(__file__).parent / CONFIG['temp_dir']
@@ -38,17 +42,30 @@ class Datasets(Enum):
 
 def get_filepath(dataset: GTFS|Datasets) -> Path:
     if type(dataset) == Datasets:
+        logger.debug(f"Requested filename: {dataset}")
         return Path(CONFIG['datasets'][dataset.value]).absolute()
     elif type(dataset) == GTFS:
+        logger.debug(f"Requested filename: {dataset}")
         return Path(CONFIG['datasets']['gtfs'][str(dataset.name).lower()]).absolute()
     else:
-        raise ValueError("Unsupported input type.")
+        logger.error(f"No such dataset {repr(dataset)} when getting filename")
+        raise ValueError("Unsupported input type")
     
 
 def load_dataset(dataset: Datasets) -> gpd.GeoDataFrame:
     if not(dataset.name in ["RUC_DEF", "OSM"]):
         file = get_filepath(dataset)
         gdf = gpd.read_file(file, use_arrow=True)
+        logger.debug(f"Loaded {dataset} as GeoDataFrame")
         return gdf
     else:
-        raise ValueError("Unsupported dataset.")
+        logger.error(f"Attemped to load {dataset} as GeoDataFrame")
+        raise ValueError("Unsupported dataset")
+    
+
+def count_files(dir: Path, regx: str):
+    count = 0
+    for file in dir.iterdir():
+        if re.match(regx, file.name) is not None:
+            count +=1
+    return count

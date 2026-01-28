@@ -18,3 +18,7 @@ logging.basicConfig(
     datefmt="%d-%m-%Y %H:%M:%S",
     level=CONFIG['logging']['level']
 )
+
+logger = logging.getLogger()
+logger.info("Code started")
+logger.info("Config loaded")
