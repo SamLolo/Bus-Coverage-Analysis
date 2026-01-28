@@ -2,8 +2,8 @@
 
 # Edit Script Config Here
 start_index=0
-max_index=2
-batch_size=50
+max_index=999
+batch_size=20
 max_memory=14G
 
 cd ..
