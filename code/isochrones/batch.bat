@@ -2,8 +2,8 @@
 SETLOCAL EnableDelayedExpansion
 
 :: Edit Script Config Here
-SET start_index=0
-SET max_index=999
+SET start_index=6166
+SET max_index=6300
 SET batch_size=10
 SET max_memory=14G
 
@@ -28,7 +28,7 @@ python -m isochrones.cleanup
 ECHO Cleaned temporary files
 
 :: Increment start index for next loop
-SET start_index=!current_index!+1
+SET /a start_index=!current_index!+1
 
 :: Go onto next batch if current_index < max_index
 IF !current_index! LSS %max_index% (
