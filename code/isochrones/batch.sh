@@ -6,6 +6,11 @@ max_index=999
 batch_size=10
 max_memory=14G
 
+# Set file descriptors
+exec 0</dev/null
+exec 1>>batch.log
+exec 2>&1
+
 cd ..
 current_index=$start_index
 
@@ -24,6 +29,11 @@ while [ $current_index -lt $max_index ]; do
     python -m isochrones.calculations \
         --msoa-index="$start_index:$current_index" \
         --max-memory=$max_memory
+
+    # Reset file descriptors
+    exec 0</dev/null
+    exec 1>>batch.log
+    exec 2>&1
 
     # Call cleanup script after each batch
     sleep 10
