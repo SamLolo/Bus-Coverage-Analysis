@@ -4,6 +4,7 @@ import pyproj
 # Fix issue with pyproj not having correct env variables on conda
 os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
 
+import gc
 import sys
 import r5py
 import getopt
@@ -171,6 +172,7 @@ if __name__ == "__main__":
         
         # Clean up transport network
         del transport_network
+        gc.collect()
         logger.debug("Cleaned up transport network")
     
         # Save based on frequency defined in config

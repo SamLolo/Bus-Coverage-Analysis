@@ -3,7 +3,7 @@
 # Edit Script Config Here
 start_index=0
 max_index=999
-batch_size=20
+batch_size=10
 max_memory=14G
 
 cd ..
@@ -26,6 +26,7 @@ while [ $current_index -lt $max_index ]; do
         --max-memory=$max_memory
 
     # Call cleanup script after each batch
+    sleep 10
     python -m isochrones.cleanup
     echo Cleaned temporary files
 
