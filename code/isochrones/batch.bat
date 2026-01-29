@@ -11,10 +11,8 @@ CD ..
 SET current_index=%start_index%
 
 :start_loop
-SET start_index=!current_index!
-
 :: Increase current index by batch_size
-SET /a current_index=!current_index!+%batch_size%
+SET /a current_index=!start_index!+%batch_size%-1
 IF !current_index! GTR %max_index% (
     SET current_index=%max_index%
 )
@@ -28,6 +26,9 @@ python -m isochrones.calculations ^
 :: Call cleanup script after each batch
 python -m isochrones.cleanup
 ECHO Cleaned temporary files
+
+:: Increment start index for next loop
+SET start_index=!current_index!+1
 
 :: Go onto next batch if current_index < max_index
 IF !current_index! LSS %max_index% (

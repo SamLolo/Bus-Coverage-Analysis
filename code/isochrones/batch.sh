@@ -16,10 +16,9 @@ current_index=$start_index
 
 # Keep looping through batches until you reach the max index
 while [ $current_index -lt $max_index ]; do
-    start_index=$current_index
 
     # Increase current index by batch_size
-    current_index=$(expr $current_index + $batch_size)
+    current_index=$(expr $start_index + $batch_size - 1)
     if [ $current_index -gt $max_index ]; then
         current_index=$max_index
     fi
@@ -39,6 +38,9 @@ while [ $current_index -lt $max_index ]; do
     sleep 10
     python -m isochrones.cleanup
     echo Cleaned temporary files
+
+    # Increment start index for next loop
+    start_index=$(expr $current_index + 1)
 
 done
 echo Completed $start_index:$max_index MSOAs
