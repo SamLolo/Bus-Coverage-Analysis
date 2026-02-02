@@ -6,3 +6,10 @@
 **/__pycache__/
 temp/
 logs/
+
+# Any isochrone runtime gpkg files
+**/bus_isochrones*.gpkg
+**/car_isochrones*.gpkg
+
+# Other workplace files
+processes.txt

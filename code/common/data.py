@@ -8,9 +8,9 @@ from .config import CONFIG
 
 logger = logging.getLogger("data")
 
-ROOT_DIR = Path(__file__).parent.parent.parent
-OUT_DIR = ROOT_DIR / CONFIG['out_dir']
-TEMP_DIR = ROOT_DIR / CONFIG['temp_dir']
+ROOT_DIR: Path = Path(__file__).parent.parent.parent
+OUT_DIR: Path = ROOT_DIR / CONFIG['out_dir']
+TEMP_DIR: Path = ROOT_DIR / CONFIG['temp_dir']
 
 if not(os.path.exists(OUT_DIR)):
     os.mkdir(OUT_DIR)

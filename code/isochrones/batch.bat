@@ -2,10 +2,10 @@
 SETLOCAL EnableDelayedExpansion
 
 :: Edit Script Config Here
-SET start_index=6166
-SET max_index=6300
-SET batch_size=10
-SET max_memory=14G
+SET start_index=0
+SET max_index=100
+SET batch_size=20
+SET max_memory=20G
 
 CD ..
 SET current_index=%start_index%
@@ -38,5 +38,5 @@ IF !current_index! LSS %max_index% (
 )
 
 :finish
-ECHO Completed %start_index%:%max_index% MSOAs
+ECHO Completed all MSOAs
 EXIT /B 0

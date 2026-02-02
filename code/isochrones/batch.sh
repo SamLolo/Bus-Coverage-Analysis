@@ -2,9 +2,9 @@
 
 # Edit Script Config Here
 start_index=0
-max_index=999
-batch_size=10
-max_memory=14G
+max_index=100
+batch_size=20
+max_memory=20G
 
 # Set file descriptors
 exec 0</dev/null
@@ -31,7 +31,7 @@ while [ $current_index -lt $max_index ]; do
 
     # Reset file descriptors
     exec 0</dev/null
-    exec 1>>batch.log
+    exec 1>>./code/batch.log
     exec 2>&1
 
     # Call cleanup script after each batch
@@ -43,4 +43,4 @@ while [ $current_index -lt $max_index ]; do
     start_index=$(expr $current_index + 1)
 
 done
-echo Completed $start_index:$max_index MSOAs
+echo Completed all MSOAs
