@@ -8,8 +8,11 @@ temp/
 logs/
 
 # Any isochrone runtime gpkg files
-**/bus_isochrones*.gpkg
-**/car_isochrones*.gpkg
+**/bus_isochrones.gpkg
+**/bus_isochrones.*.gpkg
+**/car_isochrones.gpkg
+**/car_isochrones.*.gpkg
 
 # Other workplace files
+.vscode
 processes.txt

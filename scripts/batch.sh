@@ -3,16 +3,16 @@
 # Edit Script Config Here
 start_index=0
 max_index=100
-batch_size=20
+batch_size=25
 max_memory=20G
-
-# Set file descriptors
-exec 0</dev/null
-exec 1>>batch.log
-exec 2>&1
 
 cd ..
 current_index=$start_index
+
+# Set file descriptors
+exec 0</dev/null
+exec 1>>./logs/batch.log
+exec 2>&1
 
 # Keep looping through batches until you reach the max index
 while [ $current_index -lt $max_index ]; do
@@ -31,7 +31,7 @@ while [ $current_index -lt $max_index ]; do
 
     # Reset file descriptors
     exec 0</dev/null
-    exec 1>>./code/batch.log
+    exec 1>>./logs/batch.log
     exec 2>&1
 
     # Call cleanup script after each batch

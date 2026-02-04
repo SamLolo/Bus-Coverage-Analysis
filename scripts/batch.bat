@@ -4,7 +4,7 @@ SETLOCAL EnableDelayedExpansion
 :: Edit Script Config Here
 SET start_index=0
 SET max_index=100
-SET batch_size=20
+SET batch_size=25
 SET max_memory=20G
 
 CD ..

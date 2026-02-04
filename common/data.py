@@ -8,7 +8,7 @@ from .config import CONFIG
 
 logger = logging.getLogger("data")
 
-ROOT_DIR: Path = Path(__file__).parent.parent.parent
+ROOT_DIR: Path = Path(__file__).parent.parent
 OUT_DIR: Path = ROOT_DIR / CONFIG['out_dir']
 TEMP_DIR: Path = ROOT_DIR / CONFIG['temp_dir']
 

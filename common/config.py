@@ -4,10 +4,10 @@ import tomllib
 import logging
 from pathlib import Path
 
-with open(Path(__file__).parent.parent.parent / 'config.toml', 'rb') as fp:
+with open(Path(__file__).parent.parent / 'config.toml', 'rb') as fp:
     CONFIG = tomllib.load(fp)
     
-LOG_DIR: Path = Path(__file__).parent.parent.parent / CONFIG['logging']['log_dir']
+LOG_DIR: Path = Path(__file__).parent.parent / CONFIG['logging']['log_dir']
 if not(os.path.exists(LOG_DIR)):
     os.mkdir(LOG_DIR)
 
