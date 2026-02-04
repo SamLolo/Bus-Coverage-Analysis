@@ -71,8 +71,8 @@ if __name__ == "__main__":
     long_args = ["msoa-index=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
     
     # Create save-file name using previous out-files
-    bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,2})?\\.gpkg$")
-    car_files = count_files(OUT_DIR, "^car_isochrones(?:\\.[0-9]{1,2})?\\.gpkg$")
+    bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")
+    car_files = count_files(OUT_DIR, "^car_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")
     BUS_SAVE = OUT_DIR / f"bus_isochrones{'.' + str(bus_files) if bus_files != 0 else ''}.gpkg"
     CAR_SAVE = OUT_DIR / f"car_isochrones{'.' + str(car_files) if car_files != 0 else ''}.gpkg"
     
