@@ -81,12 +81,15 @@ if __name__ == "__main__":
     for arg, val in arguments:
         if arg in ("-i", "--msoa-index"):
             range = [int(n) for n in val.split(":")]
-            logger.info(f"MSOA range specified = {range[0]}:{range[1]}")
+            logger.info(f"MSOA range specified = {range}")
     
     # Select target MSOA based on cmd parameter
     msoas = load_dataset(Datasets.MSOA_BOUNDARIES)
     if "range" in locals():
-        targets = msoas.loc[range[0]:range[1]]
+        if len(range) >= 2:
+            targets = msoas.loc[range[0]:range[1]]
+        else:
+            targets = msoas.loc[[range[0]]]
     else:
         targets = msoas
     logger.debug(f"Found {targets.shape[0]} target MSOAs")
