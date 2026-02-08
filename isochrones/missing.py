@@ -34,36 +34,39 @@ missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicat
 missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
 logger.info("Isolated missing LSOAs")
 
-# Choose dataframe with more missing rows to calculate
-if missing_bus.shape[0] > missing_car.shape[0]:
-    missing_df = missing_bus
-else:
-    missing_df = missing_car
+# Join missing lsoas with msoa boundaries
+bus_msoas = msoas.sjoin(missing_bus)
+car_msoas = msoas.sjoin(missing_car)
 
-# Join mssing lsoas with 
-missing_msoas = msoas.sjoin(missing_df)
-logger.info(f"Found {missing_msoas.groupby('index_left').ngroups} missing MSOAs")
-
-# Isolate missing MSOA indicies
-keys = list(missing_msoas.groupby('index_left').groups.keys())
+# Isolate missing MSOA indicies across both dataframes
+bus_indicies = list(bus_msoas.groupby('index_left').groups.keys())
+car_indicies = list(car_msoas.groupby('index_left').groups.keys())
+missing_indicies = list(set(bus_indicies + car_indicies))
+logger.info(f"Found {len(missing_indicies)} missing MSOAs")
 
 # Create group of induvidual indicies and df slices to re-calculate
 indicies = []
-current = [keys[0], keys[0]]
-for key in keys:
-    if key > current[1] + 1:
+current = [missing_indicies[0], missing_indicies[0]]
+for index in missing_indicies:
+    if index > current[1] + 1:
         if current[0] != current[1]:
             indicies.append(f"{current[0]}:{current[1]}")
         else:
             indicies.append(str(current[0]))
-        current = [key, key]
+        current = [index, index]
     else:
-        current[1] = key
-if not(f"{current[0]}:{current[1]}" in indicies):
-    indicies.append(f"{current[0]}:{current[1]}")
+        current[1] = index
+        
+# Add last index to list if not already present
+if not(f"{current[0]}:{current[1]}" in indicies) or not(str(current[0]) in indicies):
+    if current[0] != current[1]:
+        indicies.append(f"{current[0]}:{current[1]}")
+    else:
+        indicies.append(str(current[0]))
 logger.info("Created list of indicies and dataframe slices to re-calculate")
 
 # Write output to text file
-with open(OUT_DIR / "missing.txt", "w") as file:
-    file.write("\n".join(indicies))
-    logger.info(f"Wrote output to file {OUT_DIR / 'missing.txt'}")
+if len(indicies) > 0:
+    with open(OUT_DIR / "missing.txt", "w") as file:
+        file.write("\n".join(indicies))
+        logger.info(f"Wrote output to file {OUT_DIR / 'missing.txt'}")
