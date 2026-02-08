@@ -59,6 +59,8 @@ for key in keys:
         current = [key, key]
     else:
         current[1] = key
+if not(f"{current[0]}:{current[1]}" in indicies):
+    indicies.append(f"{current[0]}:{current[1]}")
 logger.info("Created list of indicies and dataframe slices to re-calculate")
 
 # Write output to text file
