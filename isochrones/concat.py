@@ -23,7 +23,7 @@ while len(SEARCH_DIRS) > 0:
         if file.is_file():
             
             # Append to GeoDataFrame based on regex match
-            if re.match("^bus_isochrones(?:\\.[0-9]{1,2})?\\.gpkg$", file.name) is not None:
+            if re.match("^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$", file.name) is not None:
                 try:
                     to_add = gpd.read_file(file.absolute(), use_arrow=True)
                     logger.debug(f"Loaded file: {file.relative_to(OUT_DIR)}")
@@ -31,7 +31,7 @@ while len(SEARCH_DIRS) > 0:
                     logger.debug("Added to bus isochrones")
                 except:
                     logger.warning(f"Unable to load file: {file.relative_to(OUT_DIR)}")
-            elif re.match("^car_isochrones(?:\\.[0-9]{1,2})?\\.gpkg$", file.name) is not None:
+            elif re.match("^car_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$", file.name) is not None:
                 try:
                     to_add = gpd.read_file(file.absolute(), use_arrow=True)
                     logger.debug(f"Loaded file: {file.relative_to(OUT_DIR)}")
