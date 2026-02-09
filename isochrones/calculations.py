@@ -138,6 +138,10 @@ if __name__ == "__main__":
                     isochrones=[CONFIG['travel_time']]
                 )
                 
+                # Warn if isochrone is empty
+                if bus.shape[0] == 0:
+                    logger.warning(f"Blank bus isochrone for LSOA {lsoa['id_left']}")
+                
                 # Update attributes
                 bus['id'] = lsoa['id_left']
                 bus['name'] = lsoa['name']
@@ -153,6 +157,10 @@ if __name__ == "__main__":
                     point_grid_resolution=500,
                     isochrones=[CONFIG['travel_time']]
                 )
+                
+                # Warn if isochrone is empty
+                if car.shape[0] == 0:
+                    logger.warning(f"Blank car isochrone for LSOA {lsoa['id_left']}")
                 
                 # Update attributes
                 car['id'] = lsoa['id_left']
@@ -182,8 +190,9 @@ if __name__ == "__main__":
         try:
             if index % CONFIG['save_index'] == 0:
                 bus_isochrones.to_file(BUS_SAVE, driver="GPKG", use_arrow=True)
+                logger.info(f"Isochrones saved to {BUS_SAVE}")
                 car_isochrones.to_file(CAR_SAVE, driver="GPKG", use_arrow=True)
-                logger.info("Isochrones saved to disk")
+                logger.info(f"Isochrones saved to {CAR_SAVE}")
                 
         # Handle error whilst saving
         except Exception:
@@ -191,5 +200,6 @@ if __name__ == "__main__":
             
     # Complete final save before program exists
     bus_isochrones.to_file(BUS_SAVE, driver="GPKG", use_arrow=True)
+    logger.info(f"Isochrones saved to {BUS_SAVE}")
     car_isochrones.to_file(CAR_SAVE, driver="GPKG", use_arrow=True)
-    logger.info("Isochrones saved to disk")
+    logger.info(f"Isochrones saved to {CAR_SAVE}")

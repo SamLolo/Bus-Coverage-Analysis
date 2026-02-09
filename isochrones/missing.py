@@ -35,14 +35,16 @@ missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicat
 logger.info("Isolated missing LSOAs")
 
 # Join missing lsoas with msoa boundaries
-bus_msoas = msoas.sjoin(missing_bus)
-car_msoas = msoas.sjoin(missing_car)
+bus_msoas = missing_bus.sjoin(msoas, how="inner")
+car_msoas = missing_car.sjoin(msoas, how="inner")
 
 # Isolate missing MSOA indicies across both dataframes
-bus_indicies = list(bus_msoas.groupby('index_left').groups.keys())
-car_indicies = list(car_msoas.groupby('index_left').groups.keys())
+bus_indicies = list(bus_msoas.groupby('index_right').groups.keys())
+car_indicies = list(car_msoas.groupby('index_right').groups.keys())
 missing_indicies = list(set(bus_indicies + car_indicies))
+missing_indicies.sort()
 logger.info(f"Found {len(missing_indicies)} missing MSOAs")
+logger.info(f"Missing: {missing_indicies}")
 
 # Create group of induvidual indicies and df slices to re-calculate
 indicies = []
