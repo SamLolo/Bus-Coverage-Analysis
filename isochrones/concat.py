@@ -49,8 +49,8 @@ while len(SEARCH_DIRS) > 0:
     SEARCH_DIRS.pop(0)
     
 # Remove duplicates
-bus_isochrones.drop_duplicates("id", ignore_index=True, inplace=True)
-car_isochrones.drop_duplicates("id", ignore_index=True, inplace=True)
+bus_isochrones = bus_isochrones.drop_duplicates("id", keep="first")
+car_isochrones = car_isochrones.drop_duplicates("id", keep="first")
 logger.info("Dropped duplicates")
 
 # Drop extra columns
