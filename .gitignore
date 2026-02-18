@@ -7,12 +7,13 @@
 temp/
 logs/
 
-# Any isochrone runtime gpkg files
+# Any isochrone-specific runtime files
 **/bus_isochrones.gpkg
 **/bus_isochrones.*.gpkg
 **/car_isochrones.gpkg
 **/car_isochrones.*.gpkg
+out/missing.txt
 
-# Other workplace files
+# Other workplace filess
 .vscode
-processes.txt
+out/isochrones/

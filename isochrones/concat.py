@@ -2,9 +2,31 @@ import re
 import logging
 import pandas as pd
 import geopandas as gpd
-from common.data import OUT_DIR
+from shapely import MultiLineString, MultiPolygon
+from shapely.ops import unary_union, linemerge, polygonize
+from common.data import OUT_DIR, load_dataset, Datasets
 
 logger = logging.getLogger("concat")
+
+POLYGONISE = True
+
+def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
+    # Dissolve geometries together
+    merged = unary_union(geometry)
+    
+    # Clean up line ends
+    if type(merged) == MultiLineString:
+        merged = linemerge(merged)
+    
+    # Convert to polygons
+    polygons = list(polygonize(merged))
+    
+    # Create single MultiPolygon from list of polygons
+    if polygons is not None:
+        return MultiPolygon(polygons)
+    else:
+        return None
+    
 
 SEARCH_DIRS = [OUT_DIR]
 logger.info(f"Search directories: {SEARCH_DIRS}")
@@ -56,6 +78,28 @@ logger.info("Dropped duplicates")
 # Drop extra columns
 bus_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
 car_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
+
+# Load expected lsoa dataset
+lsoas = load_dataset(Datasets.CENTRIODS)
+
+# Find missing LSOAs
+missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
+missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
+missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
+missing_lsoas = missing_lsoas.drop_duplicates("id")
+logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
+
+# Cleaned missing LSOAs from both datasets
+bus_isochrones = bus_isochrones[~bus_isochrones['id'].isin(missing_lsoas['id'])]
+car_isochrones = car_isochrones[~car_isochrones['id'].isin(missing_lsoas['id'])]
+logger.info(f"Cleaned missing LSOAs")
+
+# Polygonise using the boundaries
+if POLYGONISE:
+    bus_isochrones['geometry'] = bus_isochrones['geometry'].apply(convert_to_poly)
+    logger.info(f"Converted bus ischrones to polygons")
+    car_isochrones['geometry'] = car_isochrones['geometry'].apply(convert_to_poly)
+    logger.info(f"Converted car ischrones to polygons")
 
 # Save to file
 bus_isochrones.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
