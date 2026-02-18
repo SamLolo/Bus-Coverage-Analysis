@@ -10,10 +10,11 @@ import logging
 import pandas as pd
 import geopandas as gpd
 from datetime import timedelta
-from common.config import CONFIG
+from common.config import CONFIG, setup_logging
 from .calculations import create_osm_extract, get_gtfs_regions
 from common.data import TEMP_DIR, OUT_DIR, Datasets, load_dataset, count_files
 
+setup_logging()
 logger = logging.getLogger('lsoas')
 CONFIG = CONFIG['isochrones']
 

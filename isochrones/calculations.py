@@ -16,10 +16,10 @@ import geopandas as gpd
 from datetime import timedelta
 from shapely.ops import transform
 from common.data import TEMP_DIR, OUT_DIR, Datasets, GTFS, get_filepath, load_dataset, count_files
+from common.config import CONFIG, setup_logging
 
-from common.config import CONFIG
 CONFIG = CONFIG['isochrones']
-
+setup_logging()
 logger = logging.getLogger("isochrones")
 
 

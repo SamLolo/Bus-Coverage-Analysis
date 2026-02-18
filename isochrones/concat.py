@@ -5,7 +5,9 @@ import geopandas as gpd
 from shapely import MultiLineString, MultiPolygon
 from shapely.ops import unary_union, linemerge, polygonize
 from common.data import OUT_DIR, load_dataset, Datasets
+from common.config import setup_logging
 
+setup_logging()
 logger = logging.getLogger("concat")
 
 POLYGONISE = True

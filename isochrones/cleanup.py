@@ -2,9 +2,10 @@ import logging
 from pathlib import Path
 from r5py.util import Config
 from common.data import TEMP_DIR
+from common.config import setup_logging
 
 R5PY_CACHE = Config().CACHE_DIR
-
+setup_logging()
 logger = logging.getLogger("cleaner")
 
 def clean_dir(dir: Path, extensions: list = []):

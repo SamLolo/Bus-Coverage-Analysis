@@ -1,8 +1,10 @@
 import logging
 import pandas as pd
 import geopandas as gpd
+from common.config import setup_logging
 from common.data import OUT_DIR, load_dataset, Datasets
 
+setup_logging()
 logger = logging.getLogger('check')
 
 # Set file paths
