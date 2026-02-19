@@ -153,35 +153,42 @@ sheets = pd.read_excel(PATH / "raw" / "journey-time-statistics-2019-destination-
 print(f"  > Imported {len(sheets.keys())} existing sheets of destinations")
 
 # Remame fields in GP and Hospitals to match schools
-sheets[1].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
-sheets[2].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
-sheets[3].rename({"LSOACode": "URN", "LSOAName": "EstablishmentName"}, axis=1, inplace=True)
-sheets[7].rename({"GP_Code": "URN", "Postcode": "EstablishmentName"}, axis=1, inplace=True)
-sheets[8].rename({"SiteCode": "URN", "SiteName": "EstablishmentName"}, axis=1, inplace=True)
+sheets[1].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
+sheets[2].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
+sheets[3].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
+sheets[4].rename({"URN": "urn", "EstablishmentName": "establishment_name"}, axis=1, inplace=True)
+sheets[5].rename({"URN": "urn", "EstablishmentName": "establishment_name"}, axis=1, inplace=True)
+sheets[6].rename({"URN": "urn", "EstablishmentName": "establishment_name"}, axis=1, inplace=True)
+sheets[7].rename({"GP_Code": "urn", "Postcode": "establishment_name"}, axis=1, inplace=True)
+sheets[8].rename({"SiteCode": "urn", "SiteName": "establishment_name"}, axis=1, inplace=True)
 
 # Annonate each dataframe with type of destination
-sheets[1].insert(4, "Type", "Small Employment")
-sheets[2].insert(4, "Type", "Medium Employment")
-sheets[3].insert(4, "Type", "Large Employment")
-sheets[4].insert(4, "Type", "Primary School")
-sheets[5].insert(4, "Type", "Secondary School")
-sheets[6].insert(4, "Type", "Further Education")
-sheets[7].insert(4, "Type", "GP")
-sheets[8].insert(4, "Type", "Hospital")
+sheets[1].insert(4, "type", "small_employment")
+sheets[2].insert(4, "type", "medium_employment")
+sheets[3].insert(4, "type", "large_employment")
+sheets[4].insert(4, "type", "primary_school")
+sheets[5].insert(4, "type", "secondary_school")
+sheets[6].insert(4, "type", "further_education")
+sheets[7].insert(4, "type", "gp")
+sheets[8].insert(4, "type", "hospital")
 
 # Join sheets and sort by LSOA Code
 dest_df = pd.concat([sheets[1], sheets[2], sheets[3], sheets[4], sheets[5], sheets[6], sheets[7], sheets[8]])
 print("  > Created one single dataframe")
 
 # Convert column datatypes
-dest_df['URN'] = dest_df['URN'].astype(str)
-dest_df['EstablishmentName'] = dest_df['EstablishmentName'].astype(str)
-dest_df['Type'] = dest_df['Type'].astype(str)
+dest_df['urn'] = dest_df['urn'].astype(str)
+dest_df['establishment_name'] = dest_df['establishment_name'].astype(str)
+dest_df['type'] = dest_df['type'].astype(str)
 
 # Convert to GeoDataframe with Lat/Long Coords
 dest_gdf = gpd.GeoDataFrame(dest_df, geometry=gpd.points_from_xy(dest_df['Easting'], dest_df['Northing']), crs="EPSG:27700")
 dest_gdf.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
+
+# Clean up Dataframe
+dest_gdf.drop(["Easting", "Northing"], axis=1, inplace=True)
+print("  > Cleaned un-needed columns")
 
 # Save as a GeoPackage
 dest_gdf.to_file(PATH / "processed" / "Destinations.gpkg", driver="GPKG", use_arrow=True)
