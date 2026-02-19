@@ -21,8 +21,8 @@ area_df['car_area'] = area_df['geometry_y'].area / 10**6
 area_df['ratio'] = (area_df['bus_area'] / area_df['car_area'])
 
 # Clean up dataframe
-area_df.rename({"name_x": "name"}, inplace=True)
+area_df.rename({"name_x": "name"}, axis=1, inplace=True)
 area_df.drop(["name_y", "geometry_x", "geometry_y"], axis=1, inplace=True)
 
 # Save to file
-area_df.to_file(OUT_DIR / "areas.gpkg", driver="GPKG", use_arrow=True)
+area_df.to_csv(OUT_DIR / "areas.csv")
