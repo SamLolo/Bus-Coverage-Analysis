@@ -9,25 +9,49 @@ car = gpd.read_file(OUT_DIR / "car_isochrones_combined.gpkg", use_arrow=True)
 # Load destinations
 destinations = load_dataset(Datasets.DESTINATIONS)
 
-# Treat each isochrones file seperately
-for df_name, isochrone_df in [("bus", bus), ("car", car)]:
+bus_intersects = destinations.sjoin(bus, how="inner", predicate="intersects")
+car_intersects = destinations.sjoin(car, how="inner", predicate="intersects")
     
-    # Complete spatial join
-    intersects = destinations.sjoin(isochrone_df, how="inner", predicate="intersects")
-    
-    # Count groups per id
-    count = intersects.groupby(['id', 'type']).size()
-    results = count.unstack().reset_index()
-    
-    # Merge with isochrone df to keep all lsoa ids and names
-    results = pd.merge(isochrone_df, results, on='id', how='left').fillna(0)
-    results.drop("geometry", axis=1, inplace=True)
-    
-    # Sum totals for each category
-    results['employment_total'] = results[['small_employment', 'medium_employment', 'large_employment']].sum(axis=1)
-    results['education_total'] = results[['primary_school', 'secondary_school', 'further_education']].sum(axis=1)
-    results['healthcare_total'] = results[['gp', 'hospital']].sum(axis=1)
-    results['total_all'] = results[['employment_total', 'education_total', 'healthcare_total']].sum(axis=1)
-    
-    # Save to csv file
-    results.to_csv(OUT_DIR / f"{df_name}_destinations.csv")
+# Count groups per id
+bus_results = bus_intersects.groupby(['id', 'type'], sort=True).size().unstack().reset_index()
+car_results = car_intersects.groupby(['id', 'type'], sort=True).size().unstack().reset_index()
+
+# Merge with isochrone df to keep all lsoa ids and names
+bus_results = pd.merge(bus, bus_results, on='id', how='left').fillna(0)
+car_results = pd.merge(car, car_results, on='id', how='left').fillna(0)
+
+# Drop gometry column from both dfs
+bus_results.drop("geometry", axis=1, inplace=True)
+car_results.drop("geometry", axis=1, inplace=True)
+
+# Save individual calculations to csv
+bus_results.to_csv(OUT_DIR / f"bus_destinations.csv")
+car_results.to_csv(OUT_DIR / f"car_destinations.csv")
+
+# Sum totals for each category
+totals = {
+    "id": bus_results['id'],
+    "name": bus_results['name']
+}
+totals['employment_bus'] = bus_results[['small_employment', 'medium_employment', 'large_employment']].sum(axis=1)
+totals['employment_car'] = car_results[['small_employment', 'medium_employment', 'large_employment']].sum(axis=1)
+totals['education_bus'] = bus_results[['primary_school', 'secondary_school', 'further_education']].sum(axis=1)
+totals['education_car'] = car_results[['primary_school', 'secondary_school', 'further_education']].sum(axis=1)
+totals['healthcare_bus'] = bus_results[['gp', 'hospital']].sum(axis=1)
+totals['healthcare_car'] = car_results[['gp', 'hospital']].sum(axis=1)
+
+# Create dataframe
+totals_df = pd.DataFrame(totals)
+
+# Calculate ratios for each category
+totals_df['employment_ratio'] = totals_df['employment_bus'] / totals_df['employment_car']
+totals_df['education_ratio'] = totals_df['education_bus'] / totals_df['education_car']
+totals_df['healthcare_ratio'] = totals_df['healthcare_bus'] / totals_df['healthcare_car']
+
+# Calculate overall totals and ratios
+totals_df['total_bus'] = totals_df[['employment_bus', 'education_bus', 'healthcare_bus']].sum(axis=1)
+totals_df['total_car'] = totals_df[['employment_car', 'education_car', 'healthcare_car']].sum(axis=1)
+totals_df['ratio'] = totals_df['total_bus'] / totals_df['total_car']
+
+# Save to csv file
+totals_df.to_csv(OUT_DIR / f"destination_totals.csv")
