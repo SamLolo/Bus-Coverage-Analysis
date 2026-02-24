@@ -46,18 +46,16 @@ boundaries = load_dataset(Datasets.LSOA_BOUNDARIES)
 lsoas = pd.merge(lsoas, boundaries, on="id", how="left")
 lsoas.drop(["index_x", "index_y", "ruc", "geometry_y"], axis=1, inplace=True)
 lsoas.rename({"geometry_x": "geometry"}, axis=1, inplace=True)
-print(lsoas)
 
 # Find missing LSOAs
-#missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
-#missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
-#missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
-#missing_lsoas = missing_lsoas.drop_duplicates("id")
-#print(missing_lsoas)
-#logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
+missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
+missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
+missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
+missing_lsoas = missing_lsoas.drop_duplicates("id")
+logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
 
 # Manually define LSOAs to re-calculate
-missing_lsoas = lsoas[lsoas['id'].isin(["E01027452", "E01028883", "E01035670"])]
+#missing_lsoas = lsoas[lsoas['id'].isin(["E01027452", "E01028883", "E01035670"])]
 
 # Create save-file name using previous out-files
 bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")

@@ -24,10 +24,10 @@ def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
     polygons = list(polygonize(merged))
     
     # Create single MultiPolygon from list of polygons
-    if polygons is not None or len(polygons) == 0:
+    if polygons is not None and len(polygons) > 0:
         return MultiPolygon(polygons)
     else:
-        logger.warning("Unable to create polygons geometry!")
+        logger.warning("Found invalid polygon geometry")
         return None
     
 
@@ -59,9 +59,6 @@ while len(SEARCH_DIRS) > 0:
             elif re.match("^car_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$", file.name) is not None:
                 try:
                     to_add = gpd.read_file(file.absolute(), use_arrow=True)
-                    if any(to_add['id'].isin(["E01027452", "E01028883", "E01035670"])):
-                        print(file)
-                        print(to_add)
                     logger.debug(f"Loaded file: {file.relative_to(OUT_DIR)}")
                     car_isochrones = pd.concat([car_isochrones, to_add])
                     logger.debug("Added to car isochrones")
@@ -91,6 +88,12 @@ lsoas = load_dataset(Datasets.CENTRIODS)
 # Find missing LSOAs
 missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
 missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
+
+# Add reason that LSOAs were removed
+missing_bus['reason'] = "Missing bus isochrone"
+missing_car['reason'] = "Missing car isochrone"
+
+# Concat missing lsoas into single df
 missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
 missing_lsoas = missing_lsoas.drop_duplicates("id")
 logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
@@ -106,8 +109,25 @@ if POLYGONISE:
     logger.info(f"Converted bus ischrones to polygons")
     car_isochrones['geometry'] = car_isochrones['geometry'].apply(convert_to_poly)
     logger.info(f"Converted car ischrones to polygons")
+    
+# Find isochrones with null area
+invalid_bus = bus_isochrones[bus_isochrones['geometry'].isna()].copy()
+invalid_car = car_isochrones[car_isochrones['geometry'].isna()].copy()
+
+# Add reason that LSOAs were removed
+invalid_bus['reason'] = "Bus isochrone has null area"
+invalid_car['reason'] = "Car isochrone has null area"
+
+# Concat invalid isochrones into single df
+invalid_lsoas: gpd.GeoDataFrame = pd.concat([invalid_bus, invalid_car])
+invalid_lsoas = invalid_lsoas.drop_duplicates("id")
+logger.info(f"Removed {invalid_lsoas.shape[0]} isochrones will null area")
 
 # Save to file
 bus_isochrones.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 car_isochrones.to_file(OUT_DIR / "car_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 logger.info("Saved isochrones to files")
+
+# Save removed isochrones to file
+removed: gpd.GeoDataFrame = pd.concat([missing_lsoas, invalid_lsoas])
+removed.to_file(OUT_DIR / "invalid_lsoas.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
