@@ -1,0 +1,4 @@
+       index         id               name_x   ruc  ...              name_y   bus_area car_area  ratio
+26062  26064  E01027452  Northumberland 016A   UN1  ...  Northumberland 016  29.720302      0.0    inf
+27410  27412  E01028883      Shropshire 013C  RSN1  ...      Shropshire 013   0.170406      0.0    inf
+33659  33663  E01035670   Tower Hamlets 010G   UN1  ...   Tower Hamlets 010  14.900218      0.0    inf

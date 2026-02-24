@@ -40,13 +40,24 @@ else:
 
 # Load expected lsoa dataset
 lsoas = load_dataset(Datasets.CENTRIODS)
+boundaries = load_dataset(Datasets.LSOA_BOUNDARIES)
+
+# Merge names into lsoas centriods
+lsoas = pd.merge(lsoas, boundaries, on="id", how="left")
+lsoas.drop(["index_x", "index_y", "ruc", "geometry_y"], axis=1, inplace=True)
+lsoas.rename({"geometry_x": "geometry"}, axis=1, inplace=True)
+print(lsoas)
 
 # Find missing LSOAs
-missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
-missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
-missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
-missing_lsoas = missing_lsoas.drop_duplicates("id")
-logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
+#missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
+#missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
+#missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
+#missing_lsoas = missing_lsoas.drop_duplicates("id")
+#print(missing_lsoas)
+#logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
+
+# Manually define LSOAs to re-calculate
+missing_lsoas = lsoas[lsoas['id'].isin(["E01027452", "E01028883", "E01035670"])]
 
 # Create save-file name using previous out-files
 bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")
@@ -105,7 +116,7 @@ for index in missing_lsoas.index:
             origins=lsoa.at[index, 'geometry'],
             departure=CONFIG['departure'],
             departure_time_window=timedelta(minutes=CONFIG['departure_window']),
-            transport_modes=[r5py.TransportMode.CAR],
+            transport_modes=[r5py.TransportMode.CAR, r5py.TransportMode.WALK],
             point_grid_resolution=500,
             isochrones=[CONFIG['travel_time']]
         )
@@ -134,7 +145,7 @@ for index in missing_lsoas.index:
     logger.debug("Cleaned up transport network")
         
 # Save isochrones before program exists
-bus_isochrones.to_file(BUS_SAVE, driver="GPKG", use_arrow=True)
+bus_isochrones.to_file(BUS_SAVE, driver="GPKG", use_arrow=True, overwrite=True)
 logger.info(f"Isochrones saved to {BUS_SAVE}")
-car_isochrones.to_file(CAR_SAVE, driver="GPKG", use_arrow=True)
+car_isochrones.to_file(CAR_SAVE, driver="GPKG", use_arrow=True, overwrite=True)
 logger.info(f"Isochrones saved to {CAR_SAVE}")

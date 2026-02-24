@@ -24,9 +24,10 @@ def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
     polygons = list(polygonize(merged))
     
     # Create single MultiPolygon from list of polygons
-    if polygons is not None:
+    if polygons is not None or len(polygons) == 0:
         return MultiPolygon(polygons)
     else:
+        logger.warning("Unable to create polygons geometry!")
         return None
     
 
@@ -58,6 +59,9 @@ while len(SEARCH_DIRS) > 0:
             elif re.match("^car_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$", file.name) is not None:
                 try:
                     to_add = gpd.read_file(file.absolute(), use_arrow=True)
+                    if any(to_add['id'].isin(["E01027452", "E01028883", "E01035670"])):
+                        print(file)
+                        print(to_add)
                     logger.debug(f"Loaded file: {file.relative_to(OUT_DIR)}")
                     car_isochrones = pd.concat([car_isochrones, to_add])
                     logger.debug("Added to car isochrones")
