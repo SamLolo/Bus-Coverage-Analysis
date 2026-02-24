@@ -123,6 +123,11 @@ invalid_lsoas: gpd.GeoDataFrame = pd.concat([invalid_bus, invalid_car])
 invalid_lsoas = invalid_lsoas.drop_duplicates("id")
 logger.info(f"Removed {invalid_lsoas.shape[0]} isochrones will null area")
 
+# Cleaned invalid LSOAs from both datasets
+bus_isochrones = bus_isochrones[~bus_isochrones['geometry'].isna()]
+car_isochrones = car_isochrones[~car_isochrones['geometry'].isna()]
+logger.info(f"Cleaned missing LSOAs")
+
 # Save to file
 bus_isochrones.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 car_isochrones.to_file(OUT_DIR / "car_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
