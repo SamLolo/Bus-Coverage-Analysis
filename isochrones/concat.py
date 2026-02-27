@@ -124,8 +124,8 @@ invalid_lsoas = invalid_lsoas.drop_duplicates("id")
 logger.info(f"Removed {invalid_lsoas.shape[0]} isochrones will null area")
 
 # Cleaned invalid LSOAs from both datasets
-bus_isochrones = bus_isochrones[~bus_isochrones['geometry'].isna()]
-car_isochrones = car_isochrones[~car_isochrones['geometry'].isna()]
+bus_isochrones = bus_isochrones[~bus_isochrones['id'].isin(invalid_lsoas['id'])]
+car_isochrones = car_isochrones[~car_isochrones['id'].isin(invalid_lsoas['id'])]
 logger.info(f"Cleaned missing LSOAs")
 
 # Save to file
