@@ -82,6 +82,21 @@ logger.info("Dropped duplicates")
 bus_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
 car_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
 
+# Add names to some lsoas that are missing them
+to_fill = {
+    "E01033728": "Greenwich 035",
+    "E01032638": "Southwark 035",
+    "E01034188": "Greenwich 040",
+    "E01035490": "Wandsworth 010",
+    "E01001919": "Hammersmith and Fulham 018",
+    "E01033582": "Newham 041",
+    "E01032775": "Tower Hamlets 031",
+    "E01018849": "Cornwall 048"
+}
+for id, name in to_fill.items():
+    bus_isochrones.loc[bus_isochrones['id'] == id, "name"] = name
+    car_isochrones.loc[car_isochrones['id'] == id, "name"] = name
+
 # Load expected lsoa dataset
 lsoas = load_dataset(Datasets.CENTRIODS)
 
