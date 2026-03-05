@@ -37,15 +37,15 @@ print("Created weights matrix")
 
 # Which indicators to use for calculations
 indicators = {
-    "bus_area": lsoas['bus_area'],
-    "car_area": lsoas['car_area'],
-    "areas_ratio": lsoas['areas_ratio'],
-    "employment": lsoas['employment_ratio'],
-    "education": lsoas['education_ratio'],
-    "healthcare": lsoas['healthcare_ratio'],
-    "bus_destinations": lsoas['total_bus'],
-    "car_destinations": lsoas['total_car'],
-    "destinations_ratio": lsoas['destinations_ratio']
+    "bus_area": lsoas['bus_area'].values,
+    "car_area": lsoas['car_area'].values,
+    "areas_ratio": lsoas['areas_ratio'].values,
+    "employment": lsoas['employment_ratio'].values,
+    "education": lsoas['education_ratio'].values,
+    "healthcare": lsoas['healthcare_ratio'].values,
+    "bus_destinations": lsoas['total_bus'].values,
+    "car_destinations": lsoas['total_car'].values,
+    "destinations_ratio": lsoas['destinations_ratio'].values
 }
 
 # Calculate global Moran's I
@@ -82,8 +82,9 @@ for name, values in indicators.items():
                     clustering.append("low-low")
                 case 4:
                     clustering.append("high-low")
-    
-    # Save results dataframe to csv file  
+    results["quadrant"] = lisa.q
     results["clustering"] = clustering
+    
+    # Save results dataframe to csv file
     results.to_csv(OUT_DIR / "correlations" / f"{name}_correlations.csv")
     print("Calculated LISA values for indicator:", name)
