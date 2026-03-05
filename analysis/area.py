@@ -45,12 +45,12 @@ print("Removed lsoas with ratio > 1")
 # Update invalid lsoas dataframe
 invalid = gpd.read_file(OUT_DIR / "invalid_lsoas.gpkg")
 invalid_ratios['reason'] = "Area ratio is greater than 1"
-invalid = pd.concat([invalid, invalid_ratios])
+invalid: gpd.GeoDataFrame = pd.concat([invalid, invalid_ratios])
 print("Add removed lsoas to 'invalid_lsoas.gpkg'")
 
 # Save to file
 area_df.to_csv(OUT_DIR / "areas.csv")
-bus.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True)
-car.to_file(OUT_DIR / "car_isochrones_combined.gpkg", driver="GPKG", use_arrow=True)
-invalid.to_file(OUT_DIR / "invalid_lsoas.gpkg", driver="GPKG", use_arrow=True)
+bus.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
+car.to_file(OUT_DIR / "car_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
+invalid.to_file(OUT_DIR / "invalid_lsoas.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 print("Saved to files")

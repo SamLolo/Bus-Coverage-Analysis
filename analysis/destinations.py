@@ -63,6 +63,9 @@ totals_df['healthcare_ratio'] = totals_df['healthcare_bus'] / totals_df['healthc
 totals_df['ratio'] = totals_df['total_bus'] / totals_df['total_car']
 print("Calculated category ratios")
 
+# Fill any ratios using 0 for those that returned None due to 0/0 error
+totals_df = totals_df.fillna(0.0)
+
 # Save to csv file
 totals_df.to_csv(OUT_DIR / f"destination_totals.csv")
 print("Saved to file")
