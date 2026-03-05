@@ -31,13 +31,18 @@ area_df.drop(["name_y", "geometry_x", "geometry_y"], axis=1, inplace=True)
 print("Cleaned dataframe")
 
 # Remove lsoas with area ratios > 1 as these are considered invalid
-invalid_ratios = bus[bus['id'].isin(area_df[area_df['ratio'] > 1]['id'])].copy()
+outliers = area_df[area_df['ratio'] > 1].copy()
 area_df = area_df[area_df['ratio'] <= 1]
+outliers.to_csv(OUT_DIR / "area_outliers.csv")
+print("Removed outliers and saved them to seperate file")
+
+# Remove invalid lsoas from original combined isochrone files
+invalid_ratios = bus[bus['id'].isin(outliers['id'])].copy()
 bus = bus[~bus['id'].isin(invalid_ratios['id'])]
 car = car[~car['id'].isin(invalid_ratios['id'])]
 print("Removed lsoas with ratio > 1")
 
-# Add to previous invalid_lsoas list
+# Update invalid lsoas dataframe
 invalid = gpd.read_file(OUT_DIR / "invalid_lsoas.gpkg")
 invalid_ratios['reason'] = "Area ratio is greater than 1"
 invalid = pd.concat([invalid, invalid_ratios])
