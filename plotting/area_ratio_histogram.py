@@ -1,15 +1,36 @@
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 import matplotlib.pyplot as plt
-from common.data import OUT_DIR, load_dataset, Datasets
-
-# Load boundaries
-lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
+from common.data import OUT_DIR
 
 # Load area indicator values
 areas = pd.read_csv(OUT_DIR / "areas.csv")
-areas: gpd.GeoDataFrame = lsoas.merge(areas, on="id")
+
+
+# ---------------------
+#
+#     NORMAL AXIS
+#
+# ---------------------
+
+# Plot ratio on a normal scale
+plt.hist(areas[areas['ratio'] < np.percentile(areas['ratio'], 99)]['ratio'], bins=100)
+
+# Add labels to graph
+plt.xlabel('Bus / Car Area Ratio')
+plt.ylabel('Number of LSOAs')
+plt.title('Distribution of Access Areas')
+
+# Save to png
+plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram.png', dpi=300)
+plt.close()
+
+
+# ---------------------
+#
+#     LOG AXIS
+#
+# ---------------------
 
 # Create logarithmic bin distribution
 _, bins = np.histogram(areas['ratio'], bins=200)
@@ -25,4 +46,4 @@ plt.ylabel('Number of LSOAs')
 plt.title('Distribution of Access Areas')
 
 # Save to png
-plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram.png', dpi=300)
+plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram_log.png', dpi=300)
