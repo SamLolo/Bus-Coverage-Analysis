@@ -201,16 +201,16 @@ del sheets, dest_df, dest_gdf
 #--------Clean GTFS Schedule-----------#
 
 
-"""
-Helper function for checking if a stop-time for a trip is over the maximum allowed time by R5 (72 hours).
-
-Args:
-    time (str): The time to check in the format `hour:minute:day` as padded integers
-    
-Returns:
-    bool: The result of the check
-"""
 def check_hours(time: str):
+    """
+    Helper function for checking if a stop-time for a trip is over the maximum allowed time by R5 (72 hours).
+
+    Args:
+        time (str): The time to check in the format `hh:mm:dd` as zero-padded integers.
+        
+    Returns:
+        bool: The result of the check.
+    """
     hours = int(time.split(":")[0])
     if hours >= 72:
         return True

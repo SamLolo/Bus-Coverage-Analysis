@@ -2,7 +2,7 @@ import pandas as pd
 import geopandas as gpd
 from common.data import OUT_DIR
 
-# Define LSOA ID to plot
+# Define LSOA id to plot
 TARGET_LSOA = "E01027452"
 
 # Load isochrones

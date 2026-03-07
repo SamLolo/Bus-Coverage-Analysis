@@ -8,18 +8,25 @@ from .config import CONFIG
 
 logger = logging.getLogger("data")
 
+# Create PathLin objects representing important file paths
 ROOT_DIR: Path = Path(__file__).parent.parent
 OUT_DIR: Path = ROOT_DIR / CONFIG['out_dir']
 TEMP_DIR: Path = ROOT_DIR / CONFIG['temp_dir']
 
+# Create out directory if it doesn't exist
 if not(os.path.exists(OUT_DIR)):
     os.mkdir(OUT_DIR)
 
+# Create temp directory if it doesn't exist
 if not(os.path.exists(TEMP_DIR)):
     os.mkdir(TEMP_DIR)
 
 
 class GTFS(Enum):
+    """
+    Enum used to represent each of the GTFS files for regions in England.
+    Use `get_filepath()` to get the true filepath.
+    """
     EAST_ANGLIA   = "East of England"
     LONDON        = "London"
     NORTH_EAST    = "North East"
@@ -32,6 +39,12 @@ class GTFS(Enum):
 
 
 class Datasets(Enum):
+    """
+    Enum used to repesent all possible datsets.
+    Can be used with `get_filepath()` or `load_dataset()` to query the dataset.
+    
+    For GTFS files, use the `GTFS` class.
+    """
     DESTINATIONS = "destinations"
     LSOA_BOUNDARIES = "lsoa_boundaries"
     MSOA_BOUNDARIES = "msoa_boundaries"
@@ -42,6 +55,19 @@ class Datasets(Enum):
     
 
 def get_filepath(dataset: GTFS|Datasets) -> Path:
+    """
+    Helper function to get the absolute filepath of a dataset or GTFS file.
+    Filepaths can be configured in the `config.toml` file.
+
+    Args:
+        dataset (GTFS | Datasets): The requested dataset as an Enum.
+
+    Raises:
+        ValueError: Un-supported input type. Must be one of `GTFS` or `Datasets`.
+
+    Returns:
+        pathlib.Path: A `Path` object containing the absolute path.
+    """
     if type(dataset) == Datasets:
         logger.debug(f"Requested filename: {dataset}")
         return ROOT_DIR / CONFIG['datasets'][dataset.value]
@@ -54,6 +80,18 @@ def get_filepath(dataset: GTFS|Datasets) -> Path:
     
 
 def load_dataset(dataset: Datasets) -> gpd.GeoDataFrame:
+    """
+    Helper function to load any of the GeoPackage datasets into a GeoDataFrame ready to work with.
+
+    Args:
+        dataset (Datasets): The requested dataset as an Enum.
+
+    Raises:
+        ValueError: `Datasets.RUC_DEF` and `Datasets.OSM` are not geopackages and cannot be loaded using this function.
+
+    Returns:
+        gpd.GeoDataFrame: A `GeoDataFrame` containing the dataset within the specified geopackage file.
+    """
     if not(dataset.name in ["RUC_DEF", "OSM"]):
         file = get_filepath(dataset)
         gdf = gpd.read_file(file, use_arrow=True)
@@ -64,7 +102,17 @@ def load_dataset(dataset: Datasets) -> gpd.GeoDataFrame:
         raise ValueError("Unsupported dataset")
     
 
-def count_files(dir: Path, regx: str):
+def count_files(dir: Path, regx: str) -> int:
+    """
+    Helper function to count the files within a directory, based on a regular expression.
+
+    Args:
+        dir (pathlib.Path): The directory to search within.
+        regx (str): The regex to match against when counting.
+
+    Returns:
+        int: The number of matching files.
+    """
     count = 0
     for file in dir.iterdir():
         if re.match(regx, file.name) is not None:

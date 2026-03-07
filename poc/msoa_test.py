@@ -14,26 +14,44 @@ from pyproj import Transformer
 from shapely.ops import transform
 from datetime import datetime, timedelta
 
+# Define important paths
 PATH = Path(__file__).parent
 TEMP_DIR = Path(__file__).parent.parent / "temp"
 
+# Create temp directory if it doesn't exist
 if not(os.path.exists(TEMP_DIR)):
     os.mkdir(TEMP_DIR)
 
+# Target MSOA ID to test with
 MSOAID = "E02004156"
 
 def get_osm_extract(id: str, gdf: gpd.GeoDataFrame, radius: float):
+    """
+    Creates an extract of the UK-wide Open-Street-Map (OSM) .pbf file.
+    This is in the form of a square radius around the points defined within the `GeoDataFrame`.
+    Saves the file to the temporary directory, defined within the config.
+
+    Args:
+        name (str): The save-name of the extract, excluding the `.osm.pbf` file extension.
+        gdf (gpd.GeoDataFrame): The set of `shapely.Points` to create a bounding box around.
+        radius (int): The minimum distance from the boundary of the bounding box to any of the points within `gdf`.
+    """
+    # Create single geometry containing all points
     dissolved_geometry = gdf.dissolve().at[0, 'geometry']
     
+    # Define transformation functions to and from EPSG:3857, which is the 2D CRS used by OpenStreetMap
     to_meters = Transformer.from_crs("EPSG:4326", "EPSG:3857", always_xy=True).transform
     to_degrees = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True).transform
 
+    # Create the buffered geometry
     dissolved_geometry = transform(to_meters, dissolved_geometry)
     buffered = dissolved_geometry.buffer(radius)
     dissolved_geometry = transform(to_degrees, buffered)
     
+    # Get bounds of buffered geometry
     min_long, min_lat, max_long, max_lat = dissolved_geometry.bounds
 
+    # Create extract using osmium.exe cmd tool
     cmd = [
         "osmium", "extract",
         "--bbox", f"{min_long},{min_lat},{max_long},{max_lat}",
@@ -41,7 +59,6 @@ def get_osm_extract(id: str, gdf: gpd.GeoDataFrame, radius: float):
         "-o", TEMP_DIR / f"{id}.osm.pbf",
         "--overwrite",
     ]
-
     subprocess.run(cmd, check=True)
 
 # Load MSOAs
@@ -59,28 +76,28 @@ lsoas = centriods.sjoin(EXETER, how="inner")
 lsoas.reset_index(inplace=True)
 print(lsoas)
 
+# Time creating OSM extract
 start_time = time.time()
-
 get_osm_extract(MSOAID, lsoas, 70000)
-
 print(f"Cropped OSM: {round(time.time() - start_time, 2)}s")
-start_time = time.time()
 
-# Create transport network for England
+# Time creating transport network using OSM extract
+start_time = time.time()
 transport_network = r5py.TransportNetwork(
     osm_pbf = TEMP_DIR / f'{MSOAID}.osm.pbf',
     gtfs = [PATH / "data" / "itm_south_west_gtfs.zip"]
 )
-
 print(f"Generated transport network: {round(time.time() - start_time, 2)}s")
-start_time = time.time()
 
+# Time generating isochrones for all LSOAs in the MSOA boundary
+start_time = time.time()
 isochrones = {
     "bus": [],
     "car": []
 }
 for index, lsoa in lsoas.iterrows():
 
+    # Calculate bus isochrones
     bus = r5py.Isochrones(
         transport_network,
         origins=lsoa['geometry'],
@@ -92,9 +109,11 @@ for index, lsoa in lsoas.iterrows():
         isochrones=[40]
     )
     
+    # Add isochrone to array
     bus['id'] = lsoa['id']
     isochrones['bus'].append(bus.copy())
     
+    # Calculate car isochrones
     car = r5py.Isochrones(
         transport_network,
         origins=lsoa['geometry'],
@@ -105,15 +124,19 @@ for index, lsoa in lsoas.iterrows():
         isochrones=[40]
     )
     
+    # Add isochrone to array
     car['id'] = lsoa['id']
     isochrones['car'].append(car.copy())
 
+# Create single dataframe containing all bus isochrones
 buses = pd.concat(isochrones['bus'])
 buses.drop("travel_time", axis=1, inplace=True)
 
+# Create single dataframe containing all car isochrones
 cars = pd.concat(isochrones['car'])
 cars.drop("travel_time", axis=1, inplace=True)
 
+# Output results of isochrone calculations
 print(f"Created {lsoas.shape[0] * 2} isochrones: {round(time.time() - start_time, 2)}s")
 print(buses)
 print(cars)

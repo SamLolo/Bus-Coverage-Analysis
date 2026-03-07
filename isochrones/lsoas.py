@@ -14,15 +14,16 @@ from common.config import CONFIG, setup_logging
 from .calculations import create_osm_extract, get_gtfs_regions
 from common.data import TEMP_DIR, OUT_DIR, Datasets, load_dataset, count_files
 
+# Setup environment
 setup_logging()
 logger = logging.getLogger('lsoas')
 CONFIG = CONFIG['isochrones']
 
-# Set file paths
+# Set file paths of combined isochrone files
 BUS_FILE = OUT_DIR / "bus_isochrones_combined.gpkg"
 CAR_FILE = OUT_DIR / "car_isochrones_combined.gpkg"
 
-# Loaded combined file
+# Load combined isochrone files or exit if they don't get exist
 if BUS_FILE.exists():
     bus_isochrones = gpd.read_file(BUS_FILE, use_arrow=True)
     logger.info("Loaded bus isochrones file")
@@ -38,11 +39,11 @@ else:
     print(f"Missing expected file: {CAR_FILE}. \nPlease run 'isochrones.concat' first.")
     exit()
 
-# Load expected lsoa dataset
+# Load expected LSOA dataset
 lsoas = load_dataset(Datasets.CENTRIODS)
 boundaries = load_dataset(Datasets.LSOA_BOUNDARIES)
 
-# Merge names into lsoas centriods
+# Merge names into LSOAs centriods
 lsoas = pd.merge(lsoas, boundaries, on="id", how="left")
 lsoas.drop(["index_x", "index_y", "ruc", "geometry_y"], axis=1, inplace=True)
 lsoas.rename({"geometry_x": "geometry"}, axis=1, inplace=True)
@@ -55,6 +56,7 @@ missing_lsoas = missing_lsoas.drop_duplicates("id")
 logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
 
 # Manually define LSOAs to re-calculate
+# (UNCOMMENT TO MANUALLY SELECT LSOAs)
 #missing_lsoas = lsoas[lsoas['id'].isin(["E01027452", "E01028883", "E01035670"])]
 
 # Create save-file name using previous out-files
@@ -86,7 +88,7 @@ for index in missing_lsoas.index:
         logger.warning(f"Skipped MSOA '{lsoa.at[index, 'id']}'")
         continue
 
-    # Create Bus Isochrones
+    # Calculate bus isochrone
     try:
         bus = r5py.Isochrones(
             transport_network,
@@ -109,6 +111,7 @@ for index in missing_lsoas.index:
         bus.drop("travel_time", axis=1, inplace=True)
         bus_isochrones: gpd.GeoDataFrame = pd.concat([bus_isochrones, bus])
     
+        # Calculate car isochrone
         car = r5py.Isochrones(
             transport_network,
             origins=lsoa.at[index, 'geometry'],

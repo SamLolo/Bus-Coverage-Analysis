@@ -7,7 +7,7 @@ from common.data import OUT_DIR, load_dataset, Datasets
 # Load LSOA boundaries
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 
-# Load areas and merge with lsoa boundaries
+# Load areas and merge with LSOA boundaries
 areas = pd.read_csv(OUT_DIR / "areas.csv")
 areas: gpd.GeoDataFrame = lsoas.merge(areas, on="id")
 

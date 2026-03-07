@@ -3,13 +3,13 @@ from pathlib import Path
 
 PATH = Path(__file__).parent
 
-"""
-A simple function that returns the LSOAs that fall within the regional boundary of Devon.
+def get_devon_lsoas() -> gpd.GeoDataFrame:
+    """
+    A simple function that returns the LSOAs that fall within the regional boundary of Devon.
 
-Returns:
-    geopandas.GeoDataFrame: The LSOA population-weighted centriods within Devon.
-"""
-def get_devon_lsoas():
+    Returns:
+        geopandas.GeoDataFrame: The LSOA population-weighted centriods within Devon.
+    """
     # Load regions
     regions = gpd.read_file(PATH / "data" / "ITL2_JAN_2025_UK_BUC_-4202672173330737482.gpkg", use_arrow=True)
     

@@ -4,14 +4,15 @@ import geopandas as gpd
 from common.config import setup_logging
 from common.data import OUT_DIR, load_dataset, Datasets
 
+# Start logging
 setup_logging()
 logger = logging.getLogger('check')
 
-# Set file paths
+# Set file paths of combined isochrone files
 BUS_FILE = OUT_DIR / "bus_isochrones_combined.gpkg"
 CAR_FILE = OUT_DIR / "car_isochrones_combined.gpkg"
 
-# Loaded combined file
+# Load combined isochrone files or exit if they don't get exist
 if BUS_FILE.exists():
     bus_isochrones = gpd.read_file(BUS_FILE, use_arrow=True)
     logger.info("Loaded bus isochrones file")
@@ -36,7 +37,7 @@ missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicat
 missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
 logger.info("Isolated missing LSOAs")
 
-# Join missing lsoas with msoa boundaries
+# Join missing LSOAs with MSOA boundaries
 bus_msoas = missing_bus.sjoin(msoas, how="inner")
 car_msoas = missing_car.sjoin(msoas, how="inner")
 
@@ -48,7 +49,7 @@ missing_indicies.sort()
 logger.info(f"Found {len(missing_indicies)} missing MSOAs")
 logger.info(f"Missing: {missing_indicies}")
 
-# Create group of induvidual indicies and df slices to re-calculate
+# Create group of individual indicies and df slices to re-calculate
 indicies = []
 current = [missing_indicies[0], missing_indicies[0]]
 for index in missing_indicies:

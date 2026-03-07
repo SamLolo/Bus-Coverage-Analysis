@@ -6,7 +6,6 @@ from common.data import OUT_DIR
 # Load area indicator values
 areas = pd.read_csv(OUT_DIR / "areas.csv")
 
-
 # ---------------------
 #
 #     NORMAL AXIS
@@ -24,7 +23,6 @@ plt.title('Distribution of Access Areas')
 # Save to png
 plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram.png', dpi=300)
 plt.close()
-
 
 # ---------------------
 #

@@ -3,7 +3,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 from common.data import OUT_DIR, load_dataset, Datasets
 
-# Load lsoa boundaries
+# Load LSOA boundaries
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 
 # Load isochrone destination totals

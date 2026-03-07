@@ -7,12 +7,17 @@ from shapely.ops import unary_union, linemerge, polygonize
 from common.data import OUT_DIR, load_dataset, Datasets
 from common.config import setup_logging
 
-setup_logging()
-logger = logging.getLogger("concat")
-
-POLYGONISE = True
-
 def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
+    """
+    Converts a `MultiLineString` into multiple polygons by joining the lines together at their ends if they meet,
+    and creating a single geometry. This allows for things like area of the shape to be calculated properly.
+
+    Args:
+        geometry (shapely.MultiLineString): The `MultiLineString` produced by r5py's isochrone calculation.
+
+    Returns:
+        shapely.MultiPolygon: A `MultiPolygon` representing the set of polygons needed to create the shape of the `MultiLineString`.
+    """
     # Dissolve geometries together
     merged = unary_union(geometry)
     
@@ -29,8 +34,17 @@ def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
     else:
         logger.warning("Found invalid polygon geometry")
         return None
-    
 
+
+# Start logging
+setup_logging()
+logger = logging.getLogger("concat")
+
+# Whether to convert the isochrones from MultiLineStrings to Polygons
+POLYGONISE = True
+
+# Define the initial directories to search
+# Any sub-directories will also be searched and don't need to be included here.
 SEARCH_DIRS = [OUT_DIR]
 logger.info(f"Search directories: {SEARCH_DIRS}")
 
@@ -82,7 +96,7 @@ logger.info("Dropped duplicates")
 bus_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
 car_isochrones.drop("geom", axis=1, inplace=True, errors='ignore')
 
-# Add names to some lsoas that are missing them
+# Add names to some LSOAs that are missing them
 to_fill = {
     "E01033728": "Greenwich 035",
     "E01032638": "Southwark 035",
@@ -97,7 +111,7 @@ for id, name in to_fill.items():
     bus_isochrones.loc[bus_isochrones['id'] == id, "name"] = name
     car_isochrones.loc[car_isochrones['id'] == id, "name"] = name
 
-# Load expected lsoa dataset
+# Load expected LSOA dataset
 lsoas = load_dataset(Datasets.CENTRIODS)
 
 # Find missing LSOAs
@@ -108,7 +122,7 @@ missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicat
 missing_bus['reason'] = "Missing bus isochrone"
 missing_car['reason'] = "Missing car isochrone"
 
-# Concat missing lsoas into single df
+# Concat missing LSOAs into single df
 missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
 missing_lsoas = missing_lsoas.drop_duplicates("id")
 logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
