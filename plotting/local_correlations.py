@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -6,14 +7,18 @@ from common.data import OUT_DIR, load_dataset, Datasets
 # Load LSOA boundaries
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 
-def plot_correlations(file: str, save_as: str):
+# Create subfolder to contain all correlation maps
+SAVE_DIR = OUT_DIR / "plots" / "correlations"
+if not(SAVE_DIR.exists()):
+    SAVE_DIR.mkdir()
+
+def plot_correlations(file: str):
     """
     Wrapper function for creating a cloropleth map of local clustering in the UK using LISA values
     defined within a CSV file.
 
     Args:
         file (str): The filepath within 'OUT_DIR/correlations' containing the data to plot.
-        save_as (str): The name of the png file to save to 'OUT_DIR/plots'.
     """
     # Load areas and merge with LSOA boundaries
     correlations = pd.read_csv(OUT_DIR / "correlations" / file)
@@ -47,7 +52,15 @@ def plot_correlations(file: str, save_as: str):
     plt.tight_layout()
 
     # Save to png
-    plt.savefig(OUT_DIR / "plots" / save_as, dpi=600)
+    plt.savefig(SAVE_DIR / file.replace(".csv", ".png"), dpi=600)
     
-# Create plot for area ratio
-plot_correlations("areas_ratio_correlations.csv", save_as="area_ratio_correlations.png")
+# Create plot for each of the local correlations
+plot_correlations("areas_ratio_correlations.csv")
+plot_correlations("destinations_ratio_correlations.csv")
+plot_correlations("bus_area_correlations.csv")
+plot_correlations("car_area_correlations.csv")
+plot_correlations("bus_destinations_correlations.csv")
+plot_correlations("car_destinations_correlations.csv")
+plot_correlations("education_correlations.csv")
+plot_correlations("employment_correlations.csv")
+plot_correlations("healthcare_correlations.csv")
