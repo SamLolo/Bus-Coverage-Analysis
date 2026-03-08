@@ -11,7 +11,7 @@ lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 areas = pd.read_csv(OUT_DIR / "areas.csv")
 areas: gpd.GeoDataFrame = lsoas.merge(areas, on="id")
 
-# Create map plot
+# Create map plot between 10th and 90th percentiles
 areas.plot(column="ratio", 
            cmap="viridis", 
            vmin=np.percentile(areas['ratio'], 10), 
