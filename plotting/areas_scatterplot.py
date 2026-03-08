@@ -28,4 +28,4 @@ plt.legend(loc="lower center", bbox_to_anchor=(0.5, -0.25), ncol=3)
 plt.tight_layout()
 
 # Save to png
-plt.savefig(OUT_DIR / "plots" / "areas_scatterplot.png", dpi=300)
+plt.savefig(OUT_DIR / "plots" / "areas_scatterplot.png", dpi=600)

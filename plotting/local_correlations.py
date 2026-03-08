@@ -47,7 +47,7 @@ def plot_correlations(file: str, save_as: str):
     plt.tight_layout()
 
     # Save to png
-    plt.savefig(OUT_DIR / "plots" / save_as, dpi=300)
+    plt.savefig(OUT_DIR / "plots" / save_as, dpi=600)
     
 # Create plot for area ratio
 plot_correlations("areas_ratio_correlations.csv", save_as="area_ratio_correlations.png")

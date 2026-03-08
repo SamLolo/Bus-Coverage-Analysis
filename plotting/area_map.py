@@ -24,4 +24,4 @@ plt.axis("off")
 plt.tight_layout()
 
 # Save to png
-plt.savefig(OUT_DIR / "plots" / "area_map.png", dpi=300)
+plt.savefig(OUT_DIR / "plots" / "area_map.png", dpi=600)

@@ -21,7 +21,7 @@ plt.ylabel('Number of LSOAs')
 plt.title('Distribution of Access Areas')
 
 # Save to png
-plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram.png', dpi=300)
+plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram.png', dpi=600)
 plt.close()
 
 # ---------------------
@@ -44,4 +44,4 @@ plt.ylabel('Number of LSOAs')
 plt.title('Distribution of Access Areas')
 
 # Save to png
-plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram_log.png', dpi=300)
+plt.savefig(OUT_DIR / 'plots' / 'area_ratio_histogram_log.png', dpi=600)
