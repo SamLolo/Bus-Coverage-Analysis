@@ -11,13 +11,19 @@ lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 destinations = pd.read_csv(OUT_DIR / "destination_totals.csv")
 destinations: gpd.GeoDataFrame = lsoas.merge(destinations, on="id")
 
+# Create ticks
+ticks = [round(n, 3) for n in np.linspace(np.percentile(destinations['ratio'], 5), np.percentile(destinations['ratio'], 95), 4)]
+
 # Create map plot between 5th and 95th percentiles
 destinations.plot(column="ratio", 
                   cmap="plasma", 
                   vmin=np.percentile(destinations['ratio'], 5), 
                   vmax=np.percentile(destinations['ratio'], 95), 
                   legend=True,
-                  legend_kwds={"label": "Bus/Car Destination Ratio"})
+                  legend_kwds={
+                    "label": "Bus/Car Destination Ratio",
+                    "ticks": ticks
+                  })
 
 # Turn axis off
 plt.axis("off")
