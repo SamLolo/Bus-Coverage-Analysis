@@ -2,6 +2,11 @@ import pandas as pd
 import geopandas as gpd
 from common.data import OUT_DIR, load_dataset, Datasets
 
+# Create subfolder
+SAVE_DIR = OUT_DIR / "destinations"
+if not(SAVE_DIR.exists()):
+    SAVE_DIR.mkdir()
+
 # Load completed isochrones
 bus = gpd.read_file(OUT_DIR / "bus_isochrones_combined.gpkg", use_arrow=True)
 car = gpd.read_file(OUT_DIR / "car_isochrones_combined.gpkg", use_arrow=True)
@@ -32,8 +37,8 @@ bus_results.drop("geometry", axis=1, inplace=True)
 car_results.drop("geometry", axis=1, inplace=True)
 
 # Save individual calculations to csv
-bus_results.to_csv(OUT_DIR / f"bus_destinations.csv")
-car_results.to_csv(OUT_DIR / f"car_destinations.csv")
+bus_results.to_csv(SAVE_DIR / "bus_counts.csv")
+car_results.to_csv(SAVE_DIR / "car_counts.csv")
 print("Saved to individual files")
 
 # Sum totals for each category
@@ -67,5 +72,5 @@ print("Calculated category ratios")
 totals_df = totals_df.fillna(0.0)
 
 # Save to csv file
-totals_df.to_csv(OUT_DIR / f"destination_totals.csv")
+totals_df.to_csv(SAVE_DIR / "totals.csv")
 print("Saved to file")

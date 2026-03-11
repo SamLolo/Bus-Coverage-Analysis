@@ -4,7 +4,7 @@ from common.data import OUT_DIR
 
 # Load areas and destination results
 areas = pd.read_csv(OUT_DIR / "areas" / "lsoas.csv")
-destinations = pd.read_csv(OUT_DIR / "destination_totals.csv")
+destinations = pd.read_csv(OUT_DIR / "destinations" / "totals.csv")
 
 # Create single dataframe
 results = pd.merge(areas, destinations, on="id")

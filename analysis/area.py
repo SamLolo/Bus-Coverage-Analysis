@@ -2,7 +2,7 @@ import pandas as pd
 import geopandas as gpd
 from common.data import OUT_DIR
 
-# Create subfolder to contain all correlation maps
+# Create subfolder
 SAVE_DIR = OUT_DIR / "areas"
 if not(SAVE_DIR.exists()):
     SAVE_DIR.mkdir()

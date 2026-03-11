@@ -6,7 +6,7 @@ from common.data import OUT_DIR, load_dataset, Datasets
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 
 # Load isochrone destination totals
-destinations = pd.read_csv(OUT_DIR / "destination_totals.csv")
+destinations = pd.read_csv(OUT_DIR / "destinations" / "totals.csv")
 destinations = lsoas.merge(destinations, on="id")
 
 # Create seperate dataframes for rural and urban LSOAs
