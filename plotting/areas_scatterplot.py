@@ -7,7 +7,7 @@ from common.data import OUT_DIR, load_dataset, Datasets
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 
 # Load isochrone area values
-areas = pd.read_csv(OUT_DIR / "areas.csv")
+areas = pd.read_csv(OUT_DIR / "areas" / "lsoas.csv")
 areas: gpd.GeoDataFrame = lsoas.merge(areas, on="id")
 
 # Create seperate dataframes for rural and urban LSOAs

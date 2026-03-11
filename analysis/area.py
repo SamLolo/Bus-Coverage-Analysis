@@ -2,6 +2,11 @@ import pandas as pd
 import geopandas as gpd
 from common.data import OUT_DIR
 
+# Create subfolder to contain all correlation maps
+SAVE_DIR = OUT_DIR / "areas"
+if not(SAVE_DIR.exists()):
+    SAVE_DIR.mkdir()
+
 # Load completed isochrones
 bus = gpd.read_file(OUT_DIR / "bus_isochrones_combined.gpkg", use_arrow=True)
 car = gpd.read_file(OUT_DIR / "car_isochrones_combined.gpkg", use_arrow=True)
@@ -33,7 +38,7 @@ print("Cleaned dataframe")
 # Remove lsoas with area ratios > 1 as these are considered invalid
 outliers = area_df[area_df['ratio'] > 1].copy()
 area_df = area_df[area_df['ratio'] <= 1]
-outliers.to_csv(OUT_DIR / "area_outliers.csv")
+outliers.to_csv(SAVE_DIR / "outliers.csv")
 print("Removed outliers and saved them to seperate file")
 
 # Remove invalid lsoas from original combined isochrone files
@@ -49,7 +54,7 @@ invalid: gpd.GeoDataFrame = pd.concat([invalid, invalid_ratios])
 print("Add removed lsoas to 'invalid_lsoas.gpkg'")
 
 # Save to file
-area_df.to_csv(OUT_DIR / "areas.csv")
+area_df.to_csv(SAVE_DIR / "lsoas.csv")
 bus.to_file(OUT_DIR / "bus_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 car.to_file(OUT_DIR / "car_isochrones_combined.gpkg", driver="GPKG", use_arrow=True, overwrite=True)
 invalid.to_file(OUT_DIR / "invalid_lsoas.gpkg", driver="GPKG", use_arrow=True, overwrite=True)

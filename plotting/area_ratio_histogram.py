@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from common.data import OUT_DIR
 
 # Load area indicator values
-areas = pd.read_csv(OUT_DIR / "areas.csv")
+areas = pd.read_csv(OUT_DIR / "areas" / "lsoas.csv")
 
 # Plot ratio on a histogram
 plt.hist(areas[areas['ratio'] < np.percentile(areas['ratio'], 99)]['ratio'], bins=100)

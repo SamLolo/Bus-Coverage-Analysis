@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from common.data import OUT_DIR
 
 # Load areas and destination results
-areas = pd.read_csv(OUT_DIR / "areas.csv")
+areas = pd.read_csv(OUT_DIR / "areas" / "lsoas.csv")
 destinations = pd.read_csv(OUT_DIR / "destination_totals.csv")
 
 # Create single dataframe
