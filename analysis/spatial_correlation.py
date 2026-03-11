@@ -4,6 +4,11 @@ from libpysal.weights import Queen
 from esda.moran import Moran, Moran_Local
 from common.data import OUT_DIR, load_dataset, Datasets
 
+# Create subfolder
+SAVE_DIR = OUT_DIR / "correlations"
+if not(SAVE_DIR.exists()):
+    SAVE_DIR.mkdir()
+
 # Load LSOA boundaries
 lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
 removed = gpd.read_file(OUT_DIR / "invalid_lsoas.gpkg", use_arrow=True)
