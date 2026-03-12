@@ -14,7 +14,7 @@ PATH = Path(__file__).parent
 
 print("Merging LSOAs with their classifications:")
 
-# Load LSOA Boundaries
+# Load LSOA boundaries
 boundaries: gpd.GeoDataFrame = gpd.read_file(PATH / "raw" / "Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V4_6453788336260919790.gpkg", use_arrow=True)
 print(f"  > Loaded {boundaries.shape[0]} LSOAs")
 
@@ -37,7 +37,7 @@ lsoas.drop(["LSOA21NMW_x", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID", "LSOA21N
 lsoas.rename({"LSOA21CD": "id", "LSOA21NM_x": "name", "RUC21CD": "ruc"}, axis=1, inplace=True)
 print("  > Updated columns")
 
-# Change to Long/Lat Coords
+# Change to long/lat coords
 lsoas.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
@@ -51,7 +51,7 @@ print("  > Saved RUC Definitions to 'processed/RUC_definitions.json'")
 lsoas.to_file(PATH / "processed" / "LSOA_Boundaries.gpkg", driver="GPKG", use_arrow=True)
 print("  > Saved dataset to 'processed/LSOA_Boundaries.gpkg'")
 
-# Clean up Dataframes
+# Clean up dataframes
 del boundaries, classes, ruc_def, lsoas
 
 
@@ -69,12 +69,12 @@ centres = centres[~centres['LSOA21CD'].str.contains("W")]
 centres.reset_index(inplace=True)
 print("  > Removed welsh LSOAs")
 
-# Modify Columns
+# Modify columns
 centres.drop(["GlobalID", "GlobalID_2"], axis=1, inplace=True)
 centres.rename({"LSOA21CD": "id"}, axis=1, inplace=True)
 print("  > Modified columns")
 
-# Change to Long/Lat Coords
+# Change to long/lat coords
 centres.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
@@ -91,7 +91,7 @@ del centres
 
 print("\nProcessing MSOA Boundaries:")
 
-# Open existing MSOA Boundaries
+# Open existing MSOA boundaries
 msoas: gpd.GeoDataFrame = gpd.read_file(PATH / "raw" / "Middle_layer_Super_Output_Areas_December_2021_Boundaries_EW_BSC_V3_-6267947188164534400.gpkg", use_arrow=True)
 print(f"  > Loaded {msoas.shape[0]} MSOAs")
 
@@ -105,7 +105,7 @@ msoas.drop(["MSOA21NMW", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID"], axis=1, i
 msoas.rename({"MSOA21CD": "id", "MSOA21NM": "name"}, axis=1, inplace=True)
 print("  > Updated columns")
 
-# Change to Long/Lat Coords
+# Change to long/lat coords
 msoas.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
@@ -113,7 +113,7 @@ print("  > Converted to lat/long coordinates")
 msoas.to_file(PATH / "processed" / "MSOA_Boundaries.gpkg", driver="GPKG", use_arrow=True)
 print("  > Saved dataset to 'processed/MSOA_Boundaries.gpkg'")
 
-# Clean up Dataframes
+# Clean up dataframes
 del msoas
 
 
@@ -122,7 +122,7 @@ del msoas
 
 print("\nProcessing Region Boundaries:")
 
-# Open existing MSOA Boundaries
+# Open existing region boundaries
 regions: gpd.GeoDataFrame = gpd.read_file(PATH / "raw" / "Regions_December_2024_Boundaries_EN_BSC_-5107433749138478884.gpkg", use_arrow=True)
 print(f"  > Loaded {regions.shape[0]} regions")
 
@@ -131,7 +131,7 @@ regions.drop(["BNG_E", "BNG_N", "LAT", "LONG", "GlobalID"], axis=1, inplace=True
 regions.rename({"RGN24CD": "id", "RGN24NM": "name"}, axis=1, inplace=True)
 print("  > Updated columns")
 
-# Change to Long/Lat Coords
+# Change to long/lat coords
 regions.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
@@ -139,11 +139,41 @@ print("  > Converted to lat/long coordinates")
 regions.to_file(PATH / "processed" / "Regions.gpkg", driver="GPKG", use_arrow=True)
 print("  > Saved dataset to 'processed/Regions.gpkg'")
 
-# Clean up Dataframes
+# Clean up dataframes
 del regions
 
 
-#--------Process other destinations-----------#
+#--------Process Counties-----------#
+
+
+print("\nProcessing County Boundaries:")
+
+# Open existing county boundaries
+counties: gpd.GeoDataFrame = gpd.read_file(PATH / "raw" / "Counties_and_Unitary_Authorities_December_2024_Boundaries_UK_BSC_-4240234148701391482.gpkg", use_arrow=True)
+print(f"  > Loaded {counties.shape[0]} counties")
+
+# Drop unwanted columns
+counties.drop(["CTYUA24NMW", "BNG_E", "BNG_N", "LAT", "LONG", "GlobalID"], axis=1, inplace=True)
+counties.rename({"CTYUA24CD": "id", "CTYUA24NM": "name"}, axis=1, inplace=True)
+print("  > Updated columns")
+
+# Keep only English counties
+counties = counties[counties['id'].str.startswith("E")]
+print(f"  > Keeping {counties.shape[0]} English counties")
+
+# Change to long/lat coords
+counties.to_crs("EPSG:4326", inplace=True)
+print("  > Converted to lat/long coordinates")
+
+# Save as a GeoPackage
+counties.to_file(PATH / "processed" / "Counties.gpkg", driver="GPKG", use_arrow=True)
+print("  > Saved dataset to 'processed/Counties.gpkg'")
+
+# Clean up Dataframes
+del counties
+
+
+#--------Process Other Destinations-----------#
 
 
 print("\nCreating a Universal Destinations Dataset:")
@@ -152,7 +182,7 @@ print("\nCreating a Universal Destinations Dataset:")
 sheets = pd.read_excel(PATH / "raw" / "journey-time-statistics-2019-destination-datasets.ods", sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2)
 print(f"  > Imported {len(sheets.keys())} existing sheets of destinations")
 
-# Remame fields in GP and Hospitals to match schools
+# Unify column naming across all sheets
 sheets[1].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
 sheets[2].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
 sheets[3].rename({"LSOACode": "urn", "LSOAName": "establishment_name"}, axis=1, inplace=True)
@@ -172,7 +202,7 @@ sheets[6].insert(4, "type", "further_education")
 sheets[7].insert(4, "type", "gp")
 sheets[8].insert(4, "type", "hospital")
 
-# Join sheets and sort by LSOA Code
+# Join sheets and sort by LSOA id
 dest_df = pd.concat([sheets[1], sheets[2], sheets[3], sheets[4], sheets[5], sheets[6], sheets[7], sheets[8]])
 print("  > Created one single dataframe")
 
@@ -181,12 +211,12 @@ dest_df['urn'] = dest_df['urn'].astype(str)
 dest_df['establishment_name'] = dest_df['establishment_name'].astype(str)
 dest_df['type'] = dest_df['type'].astype(str)
 
-# Convert to GeoDataframe with Lat/Long Coords
+# Convert to GeoDataframe with lat/long coords
 dest_gdf = gpd.GeoDataFrame(dest_df, geometry=gpd.points_from_xy(dest_df['Easting'], dest_df['Northing']), crs="EPSG:27700")
 dest_gdf.to_crs("EPSG:4326", inplace=True)
 print("  > Converted to lat/long coordinates")
 
-# Clean up Dataframe
+# Clean up dataframe
 dest_gdf.drop(["Easting", "Northing"], axis=1, inplace=True)
 print("  > Cleaned un-needed columns")
 
@@ -194,7 +224,7 @@ print("  > Cleaned un-needed columns")
 dest_gdf.to_file(PATH / "processed" / "Destinations.gpkg", driver="GPKG", use_arrow=True)
 print("  > Saved to 'processed/Destinations.gpkg'")
 
-# Clean up dataframes
+# Release dataframes
 del sheets, dest_df, dest_gdf
 
 
@@ -227,7 +257,7 @@ for file in os.listdir(PATH / "raw" / "gtfs"):
     save_file = f"{file.replace("itm_", "").replace("_gtfs.zip", "")}_clean.zip"
     print(f"  > Cleaning {file}")
 
-    # Load stop times first to check for non-r5 compatible times (>72 hours)
+    # Load stop times first to check for non-R5 compatible times (>72 hours)
     with ZipFile(PATH / "raw" / "gtfs" / file, "r") as zip:
         stop_times = pd.read_csv(zip.open("stop_times.txt"))
         print("     > Loaded stop times")
@@ -247,7 +277,7 @@ for file in os.listdir(PATH / "raw" / "gtfs"):
     with ZipFile(PATH / "processed" / "gtfs" / save_file, "w", compression=ZIP_DEFLATED, compresslevel=3) as out:
         out.writestr("stop_times.txt", stop_times.to_csv(index=False))
 
-    # Clean-up Dataframes
+    # Cleanup dataframes
     del stop_times
 
     # Load trip info
@@ -278,7 +308,7 @@ for file in os.listdir(PATH / "raw" / "gtfs"):
         if frequencies is not None:
             out.writestr("frequencies.txt", frequencies.to_csv(index=False))
 
-    # Clean-up Dataframes
+    # Cleanup dataframes
     del frequencies
 
     # Make sure the any traces of these trips are removed from other files
@@ -317,7 +347,7 @@ for file in os.listdir(PATH / "raw" / "gtfs"):
         out.writestr("calendar_dates.txt", calendar_dates.to_csv(index=False))
         out.writestr("agency.txt", agencies.to_csv(index=False))
 
-    # Clean-up Dataframes
+    # Cleanup dataframes
     del trips, routes, calendar, calendar_dates, agencies
 
     # Load remaining files

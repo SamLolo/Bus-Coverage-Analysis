@@ -45,13 +45,14 @@ class Datasets(Enum):
     
     For GTFS files, use the `GTFS` class.
     """
-    DESTINATIONS = "destinations"
+    DESTINATIONS    = "destinations"
     LSOA_BOUNDARIES = "lsoa_boundaries"
     MSOA_BOUNDARIES = "msoa_boundaries"
-    CENTRIODS = "centriods"
-    REGIONS = "regions"
-    RUC_DEF = "ruc_defintions"
-    OSM = "england_osm"
+    CENTRIODS       = "centriods"
+    REGIONS         = "regions"
+    RUC_DEF         = "ruc_defintions"
+    OSM             = "england_osm"
+    COUNTIES        = "counties"
     
 
 def get_filepath(dataset: GTFS|Datasets) -> Path:
