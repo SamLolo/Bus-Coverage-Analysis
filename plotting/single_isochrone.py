@@ -36,7 +36,8 @@ ax = combined.plot(figsize=(10, 10),
                    cmap="RdBu",
                    legend=True,
                    legend_kwds={
-                       "loc": "upper left"
+                       "loc": "upper left",
+                       "fontsize": 18
                    })
 
 # Plot centriod

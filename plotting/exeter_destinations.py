@@ -63,7 +63,7 @@ ax = centriods[centriods["id"] == TARGET_LSOA].plot(ax=ax,
 # Add start point to legend
 legend = ax.get_legend()
 start_handle = Line2D([0], [0], color="white", marker='*', markerfacecolor='black', markersize=15)
-ax.legend([start_handle] + legend.legend_handles, ["Isochrone Centre"] + [t.get_text() for t in legend.texts])
+ax.legend([start_handle] + legend.legend_handles, ["Isochrone Centre"] + [t.get_text() for t in legend.texts], fontsize=15)
 
 # Add OSM basemap
 cx.add_basemap(ax, source=cx.providers.CartoDB.Positron)
