@@ -15,16 +15,18 @@ urban = areas[areas['ruc'].isin(["UN1", "UF1"])]
 rural = areas[areas['ruc'].isin(["RSN1", "RLN1", "RLF1", "RSF1"])]
 
 # Plot each onto a scattergraph with different colours
-plt.scatter(urban['car_area'], urban['bus_area'], color="blue", alpha=0.5, s=10, label="Urban LSOAs")
-plt.scatter(rural['car_area'], rural['bus_area'], color="orange", alpha=0.5, s=10, label="Rural LSOAs")
+plt.scatter(urban['car_area'], urban['bus_area'], color="#298c8c", alpha=0.75, s=0.5, label="Urban LSOAs")
+plt.scatter(rural['car_area'], rural['bus_area'], color="#800074", alpha=0.75, s=0.5, label="Rural LSOAs")
 
 # Add title and labels
-plt.title('Isochrone areas by RUC classification')
+plt.title('Isochrone Size By Rural-Urban Classification')
 plt.xlabel('Size of Car Isochrone (km²)')
 plt.ylabel('Size of Bus Isochrone (km²)')
+plt.xlim(left=0)
+plt.ylim(bottom=0)
 
 # Add legend
-plt.legend(loc="lower center", bbox_to_anchor=(0.5, -0.25), ncol=3)
+plt.legend(loc="upper right", fontsize=12, markerscale=8)
 plt.tight_layout()
 
 # Save to png

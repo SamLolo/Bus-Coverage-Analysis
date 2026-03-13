@@ -16,7 +16,7 @@ rural = destinations[destinations['ruc'].isin(["RSN1", "RLN1", "RLF1", "RSF1"])]
 
 # Create plot
 _, ax = plt.subplots()
-ax.set_title("Destination Accessibility Distribution by Category")
+ax.set_title("Destination Accessibility Distribution By Category")
 
 # Create a stacked vertical plot of each type of ratio
 ax.boxplot([rural['education_ratio'], urban['education_ratio'], rural['healthcare_ratio'], urban['healthcare_ratio'], 
