@@ -1,5 +1,7 @@
+import numpy as np
 import pandas as pd
 import geopandas as gpd
+from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
 from common.data import OUT_DIR, load_dataset, Datasets
 
@@ -31,3 +33,27 @@ plt.tight_layout()
 
 # Save to png
 plt.savefig(OUT_DIR / "plots" / "areas_scatterplot.png", dpi=600)
+plt.close()
+
+# ---------------------------------------------------
+#
+#              BUS TO RATIO SCATTERPLOT
+#
+# ---------------------------------------------------
+
+# Plot bus to area ratio
+coef = pearsonr(areas['ratio'], areas['bus_area'])
+print(f"Bus-Ratio Correlation Coefficient: {coef.statistic:.2f} ({coef.pvalue})")
+plt.scatter(areas['ratio'], areas['bus_area'], color="#1a80bb", alpha=0.75, s=1)
+
+# Add title and labels
+plt.title('Relationship Between Bus Coverage and Ratio')
+plt.xlabel('Bus/Car Area Ratio')
+plt.ylabel('Size of Isochrone (km²)')
+plt.xlim(left=0)
+plt.ylim(bottom=0)
+
+# Save to png
+plt.tight_layout()
+plt.savefig(OUT_DIR / "plots" / "bus_area_to_ratio_scatterplot.png", dpi=600)
+plt.close()
