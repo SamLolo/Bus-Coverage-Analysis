@@ -43,7 +43,9 @@ def plot_correlations(file: str):
                   legend=True,
                   legend_kwds={
                       "labels": ["high-high", "low-high", "low-low", "high-low"],
-                      "title": "Clustering"
+                      "loc": "upper right",
+                      "fontsize": 16,
+                      "markerscale": 1.5
                   })
 
     # Turn axis off
