@@ -35,4 +35,4 @@ ax2.set_title("Car Isochrones")
 
 # Save to png
 plt.tight_layout()
-plt.savefig(OUT_DIR / "plots" / "area_density.png", dpi=600)
+plt.savefig(OUT_DIR / "plots" / "ruc_area_density.png", dpi=600)
