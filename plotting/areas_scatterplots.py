@@ -44,7 +44,13 @@ plt.close()
 # Plot bus to area ratio
 coef = pearsonr(areas['ratio'], areas['bus_area'])
 print(f"Bus-Ratio Correlation Coefficient: {coef.statistic:.2f} ({coef.pvalue})")
-plt.scatter(areas['ratio'], areas['bus_area'], color="#1a80bb", alpha=0.75, s=1)
+plt.scatter(areas['ratio'], areas['bus_area'], color="#1a80bb", alpha=0.75, s=1, label="LSOAs")
+
+# Add line of best fit
+subset = areas[areas['ratio'] < 0.3]
+slope, intercept = np.polyfit(areas['ratio'], areas['bus_area'], 1)
+plt.plot(subset['ratio'], slope*subset['ratio'] + intercept, color='dimgrey', linestyle='solid', linewidth=1.5, label='Best Fit Line')
+plt.legend(loc="upper right", fontsize=12, markerscale=8)
 
 # Add title and labels
 plt.title('Relationship Between Bus Coverage and Ratio')
