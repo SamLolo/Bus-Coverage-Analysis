@@ -37,7 +37,11 @@ destinations.plot(
     ax=ax,
     markersize=0.2,
     alpha=0.5,
-    legend=True
+    legend=True,
+    legend_kwds={
+        "loc": "upper right",
+        "fontsize": 9
+    }
 )
 
 # Turn axis off
@@ -45,4 +49,4 @@ plt.axis("off")
 plt.tight_layout()
 
 # Save to png
-plt.savefig(OUT_DIR / "plots" / "destination_density.png", dpi=600)
+plt.savefig(OUT_DIR / "plots" / "destination_density.png", dpi=600, bbox_inches='tight', pad_inches=0)
