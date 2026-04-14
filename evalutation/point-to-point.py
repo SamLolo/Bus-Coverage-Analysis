@@ -6,9 +6,12 @@ os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
 
 import r5py
 import pandas as pd
+import contextily as cx
 import geopandas as gpd
 from datetime import timedelta
+import matplotlib.pyplot as plt
 from common.config import CONFIG
+from matplotlib.lines import Line2D
 from common.data import TEMP_DIR, OUT_DIR, Datasets, load_dataset
 from isochrones.calculations import create_osm_extract, get_gtfs_regions
 
@@ -52,6 +55,10 @@ routes = r5py.DetailedItineraries(
     departure_time_window=timedelta(minutes=CONFIG['departure_window']),
     transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
 )
+routes['mode'] = routes.transport_mode.astype(str).map({
+    "TransportMode.BUS": "Bus",
+    "TransportMode.WALK": "Walking"
+})
 
 # Filter by valid routes (under 40 minutes)
 valid = {}
@@ -60,7 +67,38 @@ for option, route in routes.groupby("option", sort=False):
     if time.total_seconds() <= 2400:
         valid[option] = time
         
+# Sort by fastest time
+valid = dict(sorted(valid.items(), key=lambda x: x[1]))
+        
 # Output results
 print("\nRoute: E01034212 -> Newham Hospital")
 print("Number of valid routes:", len(valid))
-print("Quickest Route:", sorted(valid.values())[0])
+print(f"Quickest Route: {list(valid.values())[0]}\n")
+
+# Create a map of the quickest route
+quickest = routes[routes['option'] == list(valid.keys())[0]]
+quickest = quickest.to_crs("EPSG:3857")
+ax = quickest.plot(column="mode", legend=True)
+
+# Add markers for origin and destination
+lsoa = lsoa.to_crs("EPSG:3857")
+ax = lsoa.plot(ax=ax, marker="s", markersize=20, color="black")
+destination = destination.to_crs("EPSG:3857")
+ax = destination.plot(ax=ax, marker="X", markersize=20, color="black")
+
+# Update legend
+legend = ax.get_legend()
+start_handle = Line2D([0], [0], color="white", marker='s', markerfacecolor='black', markersize=10)
+end_handle = Line2D([0], [0], color="white", marker='X', markerfacecolor='black', markersize=10)
+ax.legend([start_handle, end_handle] + legend.legend_handles, ["Start", "End"] + [t.get_text() for t in legend.texts], fontsize=10, loc="upper left")
+
+# Add OSM basemap
+cx.add_basemap(ax, source=cx.providers.CartoDB.Positron, attribution_size=4)
+plt.axis('off')
+plt.tight_layout()
+
+# Save to png
+plt.savefig(OUT_DIR / "plots" / "evaluation" / f"{TARGET}_point_to_point.png", 
+            dpi=600, 
+            bbox_inches='tight', 
+            pad_inches=0)
