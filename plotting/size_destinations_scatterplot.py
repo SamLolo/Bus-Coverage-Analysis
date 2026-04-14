@@ -58,3 +58,23 @@ plt.ylim(bottom=0)
 
 # Save to png
 plt.savefig(OUT_DIR / "plots" / "bus_size_destinations_scatterplot.png", dpi=600)
+plt.close()
+
+# ---------------------------------
+#
+#        RATIOS COMPARISON
+#
+# ---------------------------------
+
+# Plot area to destinations as scatterplot
+plt.scatter(results['ratio_x'], results['ratio_y'], color="blue", alpha=0.5, s=10)
+
+# Add title and labels
+plt.title('Comparison of Indicator Values')
+plt.xlabel('Area Ratio')
+plt.ylabel('Destinations Ratio')
+plt.xlim(left=0)
+plt.ylim(bottom=0)
+
+# Save to png
+plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", dpi=600)
