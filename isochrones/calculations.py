@@ -107,8 +107,16 @@ def get_gtfs_regions(gdf: gpd.GeoDataFrame, distance: int) -> list:
     return gtfs
     
 
-# Define possible command line args
 if __name__ == "__main__":
+    
+    # Get Isochrone specific config
+    CONFIG = CONFIG['isochrones']
+
+    # Setup logging
+    setup_logging()
+    logger = logging.getLogger("isochrones")
+    
+    # Define possible command line args
     short_args = "i:m:r:t:v"
     long_args = ["msoa-index=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
     
