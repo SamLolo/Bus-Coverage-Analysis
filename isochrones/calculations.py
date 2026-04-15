@@ -18,13 +18,6 @@ from shapely.ops import transform
 from common.data import TEMP_DIR, OUT_DIR, Datasets, GTFS, get_filepath, load_dataset, count_files
 from common.config import CONFIG, setup_logging
 
-# Get Isochrone specific config
-CONFIG = CONFIG['isochrones']
-
-# Setup logging
-setup_logging()
-logger = logging.getLogger("isochrones")
-
 
 def get_buffered_geometry(gdf: gpd.GeoDataFrame, radius: float) -> shapely.Polygon:
     """

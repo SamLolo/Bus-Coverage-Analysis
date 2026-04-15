@@ -7,6 +7,7 @@ from shapely.ops import unary_union, linemerge, polygonize
 from common.data import OUT_DIR, load_dataset, Datasets
 from common.config import setup_logging
 
+
 def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
     """
     Converts a `MultiLineString` into multiple polygons by joining the lines together at their ends if they meet,
