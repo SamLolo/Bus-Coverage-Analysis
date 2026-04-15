@@ -26,5 +26,13 @@
     "Smaller Departure Window": {
         "param": "departure_window",
         "value": 10
+    },
+    "Best Journey (Bus)": {
+        "param": "bus_percentile",
+        "value": 1
+    },
+    "Best Journey (Car)": {
+        "param": "car_percentile",
+        "value": 1
     }
 }
