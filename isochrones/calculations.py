@@ -18,6 +18,13 @@ from shapely.ops import transform
 from common.data import TEMP_DIR, OUT_DIR, Datasets, GTFS, get_filepath, load_dataset, count_files
 from common.config import CONFIG, setup_logging
 
+# Get Isochrone specific config
+CONFIG = CONFIG['isochrones']
+
+# Setup logging
+setup_logging()
+logger = logging.getLogger("isochrones")
+
 
 def get_buffered_geometry(gdf: gpd.GeoDataFrame, radius: float) -> shapely.Polygon:
     """
@@ -98,18 +105,10 @@ def get_gtfs_regions(gdf: gpd.GeoDataFrame, distance: int) -> list:
         gtfs.append(get_filepath(GTFS(row['name'])))
         logger.debug(f"Including {GTFS(row['name'])}")
     return gtfs
-    
 
+
+# Define possible command line args
 if __name__ == "__main__":
-    
-    # Get Isochrone specific config
-    CONFIG = CONFIG['isochrones']
-
-    # Setup logging
-    setup_logging()
-    logger = logging.getLogger("isochrones")
-    
-    # Define possible command line args
     short_args = "i:m:r:t:v"
     long_args = ["msoa-index=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
     

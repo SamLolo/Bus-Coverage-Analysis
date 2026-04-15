@@ -28,7 +28,8 @@ if not(OUT_DIR.exists()):
     OUT_DIR.mkdir()
     
 # Remove previous results
-os.remove(OUT_DIR / "point_to_point_results.txt")
+if "point_to_point_results.txt" in os.listdir(OUT_DIR):
+    os.remove(OUT_DIR / "point_to_point_results.txt")
 
 # Load other neccessary dataset
 lsoas = load_dataset(Datasets.CENTRIODS)

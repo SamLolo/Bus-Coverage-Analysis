@@ -1,0 +1,8 @@
+Target LSOA: E01034212
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: True (17.938991181001267)
+
