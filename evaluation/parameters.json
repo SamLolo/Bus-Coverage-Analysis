@@ -1,0 +1,30 @@
+{
+    "Large Bounding Box (140km²)": {
+        "param": "bbox_radius",
+        "value": 140000
+    },
+    "Large GTFS Distance (40km²)": {
+        "param": "gtfs_distance",
+        "value": 40000
+    },
+    "Smaller Isochrone": {
+        "param": "travel_time",
+        "value": 10
+    },
+    "Afternoon Departure": {
+        "param": "departure",
+        "value": "2026-01-26 15:00:00"
+    },
+    "Weekend Departure": {
+        "param": "departure",
+        "value": "2026-01-31 08:30:00"
+    },
+    "Bus Percentile (Default)": {
+        "param": "bus_percentile",
+        "value": 50
+    },
+    "Smaller Departure Window": {
+        "param": "departure_window",
+        "value": 10
+    }
+}
