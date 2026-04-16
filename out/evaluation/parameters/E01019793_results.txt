@@ -1,0 +1,45 @@
+Large Bounding Box (140km²)
+----------------
+Bus No Result: True
+Car No Result: False
+
+Large GTFS Distance (40km²)
+----------------
+Bus No Result: True
+Car No Result: False
+
+Smaller Isochrone
+----------------
+Bus No Result: True
+Car No Result: False
+
+Afternoon Departure
+----------------
+Bus No Result: True
+Car No Result: False
+
+Weekend Departure
+----------------
+Bus No Result: True
+Car No Result: False
+
+Bus Percentile (Default)
+----------------
+Bus No Result: True
+Car No Result: False
+
+Smaller Departure Window
+----------------
+Bus No Result: True
+Car No Result: False
+
+Best Journey (Bus)
+----------------
+Bus No Result: True
+Car No Result: False
+
+Best Journey (Car)
+----------------
+Bus No Result: True
+Car No Result: False
+

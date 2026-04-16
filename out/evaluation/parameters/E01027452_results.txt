@@ -1,0 +1,63 @@
+Large Bounding Box (140km²)
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Large GTFS Distance (40km²)
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Smaller Isochrone
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Afternoon Departure
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Weekend Departure
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Bus Percentile (Default)
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Smaller Departure Window
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Best Journey (Bus)
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+
+Best Journey (Car)
+----------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: True
+Car Isochrone Empty: True
+

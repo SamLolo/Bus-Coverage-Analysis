@@ -7,6 +7,13 @@ from shapely.ops import unary_union, linemerge, polygonize
 from common.data import OUT_DIR, load_dataset, Datasets
 from common.config import setup_logging
 
+# Start logging
+setup_logging()
+logger = logging.getLogger("concat")
+
+# Whether to convert the isochrones from MultiLineStrings to Polygons
+POLYGONISE = True
+
 
 def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
     """
@@ -38,13 +45,6 @@ def convert_to_poly(geometry: MultiLineString) -> MultiPolygon:
 
 
 if __name__ == "__main__":
-
-    # Start logging
-    setup_logging()
-    logger = logging.getLogger("concat")
-
-    # Whether to convert the isochrones from MultiLineStrings to Polygons
-    POLYGONISE = True
 
     # Define the initial directories to search
     # Any sub-directories will also be searched and don't need to be included here.

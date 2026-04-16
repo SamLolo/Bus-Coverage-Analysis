@@ -6,7 +6,6 @@ os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
 
 import r5py
 import json
-import shapely
 import pandas as pd
 import geopandas as gpd
 from common.config import CONFIG
