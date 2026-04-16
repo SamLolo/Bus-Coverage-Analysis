@@ -61,62 +61,71 @@ for target, params in targets.items():
     )
 
     # Complete point-to-point travel calculation
-    routes = r5py.DetailedItineraries(
-        transport_network,
-        origins=lsoa,
-        destinations=destination,
-        departure=CONFIG['departure'],
-        departure_time_window=timedelta(minutes=CONFIG['departure_window']),
-        transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
-    )
-    routes['mode'] = routes.transport_mode.astype(str).map({
-        "TransportMode.BUS": "Bus",
-        "TransportMode.WALK": "Walking"
-    })
+    try:
+        routes = r5py.DetailedItineraries(
+            transport_network,
+            origins=lsoa.iloc[[0]],
+            destinations=destination.iloc[[0]],
+            departure=CONFIG['departure'],
+            departure_time_window=timedelta(minutes=CONFIG['departure_window']),
+            transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
+        )
+        routes['mode'] = routes.transport_mode.astype(str).map({
+            "TransportMode.BUS": "Bus",
+            "TransportMode.WALK": "Walking"
+        })
 
-    # Filter by valid routes (under 40 minutes)
-    valid = {}
-    for option, route in routes.groupby("option", sort=False):
-        time = route['travel_time'].sum() + route['wait_time'].sum()
-        if time.total_seconds() <= 2400:
-            valid[option] = time
-            
-    # Sort by fastest time
-    valid = dict(sorted(valid.items(), key=lambda x: x[1]))
-            
-    # Output results
-    with open(OUT_DIR / "point_to_point_results.txt", "a") as out_file:
-        out_file.write(f"Route: {target} -> {destination.iat[0, 1]}\n")
-        out_file.write(f"Number of valid routes: {len(valid)}\n")
-        out_file.write(f"Quickest Route: {list(valid.values())[0]}\n\n")
+        # Filter by valid routes (under 40 minutes)
+        valid = {}
+        for option, route in routes.groupby("option", sort=False):
+            time = route['travel_time'].sum() + route['wait_time'].sum()
+            if time.total_seconds() <= 2400:
+                valid[option] = time
+                
+        # Output results
+        with open(OUT_DIR / "point_to_point_results.txt", "a") as out_file:
+            out_file.write(f"\nRoute: {target} -> {destination.iat[0, 1]}\n")
+            out_file.write(f"Number of valid routes: {len(valid)}\n")
+                
+        # Sort by fastest time
+        if len(valid) > 0:
+            valid = dict(sorted(valid.items(), key=lambda x: x[1]))
+            with open(OUT_DIR / "point_to_point_results.txt", "a") as out_file:
+                out_file.write(f"Quickest Route: {list(valid.values())[0]}\n")
 
-    # Create a map of the quickest route
-    quickest = routes[routes['option'] == list(valid.keys())[0]]
-    quickest = quickest.to_crs("EPSG:3857")
-    ax = quickest.plot(column="mode", legend=True)
+            # Create a map of the quickest route
+            quickest = routes[routes['option'] == list(valid.keys())[0]]
+            quickest = quickest.to_crs("EPSG:3857")
+            ax = quickest.plot(column="mode", legend=True)
 
-    # Add markers for origin and destination
-    lsoa = lsoa.to_crs("EPSG:3857")
-    ax = lsoa.plot(ax=ax, marker="o", markersize=15, color="black")
-    destination = destination.to_crs("EPSG:3857")
-    ax = destination.plot(ax=ax, marker="X", markersize=15, color="black")
+            # Add markers for origin and destination
+            lsoa = lsoa.to_crs("EPSG:3857")
+            ax = lsoa.plot(ax=ax, marker="o", markersize=15, color="black")
+            destination = destination.to_crs("EPSG:3857")
+            ax = destination.plot(ax=ax, marker="X", markersize=15, color="black")
 
-    # Update legend
-    legend = ax.get_legend()
-    start_handle = Line2D([0], [0], color="white", marker='o', markerfacecolor='black', markersize=10)
-    end_handle = Line2D([0], [0], color="white", marker='X', markerfacecolor='black', markersize=10)
-    ax.legend([start_handle, end_handle] + legend.legend_handles, ["Start", "End"] + [t.get_text() for t in legend.texts], fontsize=10, loc="upper left")
+            # Update legend
+            legend = ax.get_legend()
+            start_handle = Line2D([0], [0], color="white", marker='o', markerfacecolor='black', markersize=10)
+            end_handle = Line2D([0], [0], color="white", marker='X', markerfacecolor='black', markersize=10)
+            ax.legend([start_handle, end_handle] + legend.legend_handles, ["Start", "End"] + [t.get_text() for t in legend.texts], fontsize=10, loc="upper left")
 
-    # Add OSM basemap
-    cx.add_basemap(ax, source=cx.providers.CartoDB.Positron, attribution_size=4)
-    plt.axis('off')
-    plt.tight_layout()
+            # Add OSM basemap
+            cx.add_basemap(ax, source=cx.providers.CartoDB.Positron, attribution_size=4)
+            plt.axis('off')
+            plt.tight_layout()
 
-    # Save to png
-    PLOT_DIR = OUT_DIR / "plots"
-    if not(PLOT_DIR.exists()):
-        PLOT_DIR.mkdir()
-    plt.savefig(PLOT_DIR / f"{target}_point_to_point.png", 
-                dpi=600, 
-                bbox_inches='tight', 
-                pad_inches=0)
+            # Save to png
+            PLOT_DIR = OUT_DIR / "plots"
+            if not(PLOT_DIR.exists()):
+                PLOT_DIR.mkdir()
+            plt.savefig(PLOT_DIR / f"{target}_point_to_point.png", 
+                        dpi=600, 
+                        bbox_inches='tight', 
+                        pad_inches=0)
+    
+    # Handle failed computations
+    except Exception as ex:
+        with open(OUT_DIR / "point_to_point_results.txt", "a") as out_file:
+            out_file.write(f"\nRoute: {target} -> {destination.iat[0, 1]}\n")
+            out_file.write(f"Computation failed ({type(ex)})\n")

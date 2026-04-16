@@ -1,3 +1,51 @@
+
 Route: E01034212 -> NEWHAM GENERAL HOSPITAL
 Number of valid routes: 17
-Quickest Route: 0 days 00:24:00
+Quickest Route: 0 days 00:24:08
+
+Route: E01035341 -> RH14 9QZ
+Number of valid routes: 0
+
+Route: E01009797 -> Halesowen College
+Number of valid routes: 0
+
+Route: E01011572 -> Ashfield Primary School
+Number of valid routes: 14
+Quickest Route: 0 days 00:28:05
+
+Route: E01019717 -> Buxton Community School
+Number of valid routes: 16
+Quickest Route: 0 days 00:16:39
+
+Route: E01032453 -> KIDDERMINSTER HOSPITAL
+Number of valid routes: 23
+Quickest Route: 0 days 00:14:12
+
+Route: E01019793 -> Dronfield Henry Fanshawe School
+Number of valid routes: 0
+
+Route: E01030508 -> EPSOM GENERAL HOSPITAL
+Number of valid routes: 0
+
+Route: E01035670 -> Phoenix Primary School
+Computation failed (<java class 'java.lang.IllegalStateException'>)
+
+Route: E01027452 -> Morpeth All Saints Church of England Aided First School
+Number of valid routes: 20
+Quickest Route: 0 days 00:27:29
+
+Route: E01024756 -> Hugh Christie School
+Number of valid routes: 1
+Quickest Route: 0 days 00:39:52
+
+Route: E01003809 -> Oasis Academy Putney
+Number of valid routes: 12
+Quickest Route: 0 days 00:31:25
+
+Route: E01032786 -> THE ROYAL LONDON
+Number of valid routes: 26
+Quickest Route: 0 days 00:27:06
+
+Route: E01003793 -> Little Ilford School
+Number of valid routes: 32
+Quickest Route: 0 days 00:31:19
