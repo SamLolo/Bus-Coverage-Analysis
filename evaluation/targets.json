@@ -3,5 +3,70 @@
         "reason": "Missing car isochrone",
         "destination": "R1HNH",
         "snapped_coords": [0.021486, 51.508074]
+    },
+    "E01035341": {
+        "reason": "Missing car isochrone",
+        "destination": "H82055",
+        "snapped_coords": [-0.456532, 51.010624]
+    },
+    "E01009797": {
+        "reason": "Missing car isochrone",
+        "destination": "130476",
+        "snapped_coords": [-2.023290, 52.464146]
+    },
+    "E01011572": {
+        "reason":"Missing car isochrone",
+        "destination": "107877",
+        "snapped_coords": [-1.685400, 53.903029]
+    },
+    "E01019717": {
+        "reason": "Bus isochrone has null area",
+        "destination": "112970",
+        "snapped_coords": [-1.912917, 53.257482]
+    },
+    "E01032453": {
+        "reason": "Bus isochrone has null area",
+        "destination": "RWP31",
+        "snapped_coords": [-2.280217, 52.388941]
+    },
+    "E01019793": {
+        "reason": "Bus isochrone has null area",
+        "destination": "112969",
+        "snapped_coords": [-1.481423, 53.298290]
+    },
+    "E01030508": {
+        "reason": "Bus isochrone has null area",
+        "destination": "RVR50",
+        "snapped_coords": [-0.290816, 51.308570]
+    },
+    "E01035670": {
+        "reason": "Car isochrone has null area",
+        "destination": "133702",
+        "snapped_coords": [-0.042698, 51.523802]
+    },
+    "E01027452": {
+        "reason": "Car isochrone has null area",
+        "destination": "122297",
+        "snapped_coords": [-1.681154, 55.165599]
+    },
+    "E01024756": {
+        "reason": "Area ratio is greater than 1",
+        "destination": "118903",
+        "snapped_coords": [0.263014, 51.193386]
+    },
+    "E01003809": {
+        "reason": "Area ratio is greater than 1",
+        "destination": "140222",
+        "snapped_coords": [-0.260700, 51.463538]
+    },
+    "E01032786": {
+        "reason": "Area ratio is greater than 1",
+        "destination": "R1H12",
+        "snapped_coords": [-0.045678, 51.530323]
+    },
+    "E01003793": {
+        "reason": "Area ratio is greater than 1",
+        "destination": "102776",
+        "snapped_coords": [0.028898, 51.564002]
     }
 }
