@@ -6,3 +6,107 @@ Bus Isochrone Empty: False
 Car Isochrone Empty: False
 Invalid Area Ratio: True (17.938991181001267)
 
+Target LSOA: E01035341
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: True (1.4932078263322592)
+
+Target LSOA: E01009797
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.016903267827521166)
+
+Target LSOA: E01011572
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: True (5.656266504563826)
+
+Target LSOA: E01019717
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.013870551934066052)
+
+Target LSOA: E01032453
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.004555202904590273)
+
+Target LSOA: E01019793
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.009107386372355347)
+
+Target LSOA: E01030508
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.004993949209107842)
+
+Target LSOA: E01035670
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.05637862350911374)
+
+Target LSOA: E01027452
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: True (6.765165551432224)
+
+Target LSOA: E01024756
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: True (4.925135812237021)
+
+Target LSOA: E01003809
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.014547792207144392)
+
+Target LSOA: E01032786
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.05312075833055026)
+
+Target LSOA: E01003793
+----------------------
+Bus No Result: False
+Car No Result: False
+Bus Isochrone Empty: False
+Car Isochrone Empty: False
+Invalid Area Ratio: False (0.015528407627137992)
+
