@@ -1,15 +1,24 @@
 import numpy as np
 import pandas as pd
+import geopandas as gpd
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
-from common.data import OUT_DIR
+from common.data import OUT_DIR, load_dataset, Datasets
 
-# Load areas and destination results
+# Load LSOA boundaries
+lsoas = load_dataset(Datasets.LSOA_BOUNDARIES)
+
+# Load isochrone area values
 areas = pd.read_csv(OUT_DIR / "areas" / "lsoas.csv")
-destinations = pd.read_csv(OUT_DIR / "destinations" / "totals.csv")
+areas: gpd.GeoDataFrame = lsoas.merge(areas, on="id")
 
-# Create single dataframe
+# Create single dataframe with destination results
+destinations = pd.read_csv(OUT_DIR / "destinations" / "totals.csv")
 results = pd.merge(areas, destinations, on="id")
+
+# Create seperate dataframes for rural and urban LSOAs
+urban = results[results['ruc'].isin(["UN1", "UF1"])]
+rural = results[results['ruc'].isin(["RSN1", "RLN1", "RLF1", "RSF1"])]
 
 # Calculate correlation coefficients
 car_coef = pearsonr(results['car_area'], results['total_car'])
@@ -41,13 +50,14 @@ plt.close()
 #
 # ---------------------------------
 
-# Plot area to destinations as scatterplot
-plt.scatter(results['bus_area'], results['total_bus'], color="blue", alpha=0.5, s=10, label="LSOAs")
+# Plot area to destinations as scatterplot by ruc classification
+plt.scatter(urban['bus_area'], urban['total_bus'], color="#1a80bb", alpha=0.75, s=0.5, label="Urban LSOAs")
+plt.scatter(rural['bus_area'], rural['total_bus'], color="#ea801c", alpha=0.75, s=0.5, label="Rural LSOAs")
 
 # Add line of best fit
 slope, intercept = np.polyfit(results['bus_area'], results['total_bus'], 1)
 plt.plot(results['bus_area'], slope*results['bus_area'] + intercept, color='dimgrey', linestyle='solid', linewidth=1.5, label='Best Fit Line')
-plt.legend(loc="upper left", fontsize=10, markerscale=2.5)
+plt.legend(loc="upper left", fontsize=10, markerscale=8)
 
 # Add title and labels
 plt.title('How Bus Coverage Affects Destinations')
@@ -66,15 +76,27 @@ plt.close()
 #
 # ---------------------------------
 
-# Plot area to destinations as scatterplot
-plt.scatter(results['ratio_x'], results['ratio_y'], color="blue", alpha=0.5, s=10)
+# Calculate correlation coefficients
+urban_coef = pearsonr(urban['ratio_x'], urban['ratio_y'])
+print(f"[URBAN] Area-Destinations Correlation Coefficient: {urban_coef.statistic:.2f} ({urban_coef.pvalue})")
+rural_coef = pearsonr(rural['ratio_x'], rural['ratio_y'])
+print(f"[RURAL] Area-Destinations Correlation Coefficient: {rural_coef.statistic:.2f} ({rural_coef.pvalue})")
+
+# Filter out outliers
+urban = urban[(urban['ratio_x'] < 0.3) & (urban['ratio_y'] < 1)]
+
+# Plot area to destinations as scatterplot with different colours for urban-rural
+plt.scatter(urban['ratio_x'], urban['ratio_y'], color="#1a80bb", alpha=0.75, s=0.5, label="Urban LSOAs")
+plt.scatter(rural['ratio_x'], rural['ratio_y'], color="#ea801c", alpha=0.75, s=0.5, label="Rural LSOAs")
 
 # Add title and labels
-plt.title('Comparison of Indicator Values')
+plt.title('Comparison of Indicator Values by Settlement Type')
 plt.xlabel('Area Ratio')
 plt.ylabel('Destinations Ratio')
 plt.xlim(left=0)
 plt.ylim(bottom=0)
 
 # Save to png
+plt.legend(loc="upper right", markerscale=8)
+plt.tight_layout()
 plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", dpi=600)
