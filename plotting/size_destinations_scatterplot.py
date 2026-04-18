@@ -18,7 +18,9 @@ results = pd.merge(areas, destinations, on="id")
 
 # Create seperate dataframes for rural and urban LSOAs
 urban = results[results['ruc'].isin(["UN1", "UF1"])]
+print(f"Percentage Urban: {(urban.shape[0] / results.shape[0]) * 100:.1f}%")
 rural = results[results['ruc'].isin(["RSN1", "RLN1", "RLF1", "RSF1"])]
+print(f"Percentage Rural: {(rural.shape[0] / results.shape[0]) * 100:.1f}%")
 
 # Calculate correlation coefficients
 car_coef = pearsonr(results['car_area'], results['total_car'])
@@ -44,6 +46,41 @@ plt.legend(loc="upper left", fontsize=9, markerscale=2)
 plt.savefig(OUT_DIR / "plots" / "size_destinations_scatterplot.png", dpi=600)
 plt.close()
 
+
+# ---------------------------------
+#
+#        RATIOS COMPARISON
+#
+# ---------------------------------
+
+# Calculate correlation coefficients
+urban_coef = pearsonr(urban['ratio_x'], urban['ratio_y'])
+print(f"[URBAN] Area-Destinations Correlation Coefficient: {urban_coef.statistic:.2f} ({urban_coef.pvalue})")
+rural_coef = pearsonr(rural['ratio_x'], rural['ratio_y'])
+print(f"[RURAL] Area-Destinations Correlation Coefficient: {rural_coef.statistic:.2f} ({rural_coef.pvalue})")
+
+# Filter out outliers
+urban = urban[(urban['ratio_x'] < 0.3) & (urban['ratio_y'] < 1)]
+rural = rural[(rural['ratio_x'] < 0.3) & (rural['ratio_y'] < 1)]
+
+# Plot area to destinations as scatterplot with different colours for urban-rural
+plt.scatter(urban['ratio_x'], urban['ratio_y'], color="#1a80bb", alpha=0.75, s=0.5, label="Urban LSOAs")
+plt.scatter(rural['ratio_x'], rural['ratio_y'], color="#ea801c", alpha=0.75, s=0.5, label="Rural LSOAs")
+
+# Add title and labels
+plt.title('Comparison of Indicator Values by Settlement Type')
+plt.xlabel('Area Ratio')
+plt.ylabel('Destinations Ratio')
+plt.xlim(left=0)
+plt.ylim(bottom=0)
+
+# Save to png
+plt.legend(loc="upper right", markerscale=8)
+plt.tight_layout()
+plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", dpi=600)
+plt.close()
+
+
 # ---------------------------------
 #
 #           BUS ONLY
@@ -68,35 +105,3 @@ plt.ylim(bottom=0)
 
 # Save to png
 plt.savefig(OUT_DIR / "plots" / "bus_size_destinations_scatterplot.png", dpi=600)
-plt.close()
-
-# ---------------------------------
-#
-#        RATIOS COMPARISON
-#
-# ---------------------------------
-
-# Calculate correlation coefficients
-urban_coef = pearsonr(urban['ratio_x'], urban['ratio_y'])
-print(f"[URBAN] Area-Destinations Correlation Coefficient: {urban_coef.statistic:.2f} ({urban_coef.pvalue})")
-rural_coef = pearsonr(rural['ratio_x'], rural['ratio_y'])
-print(f"[RURAL] Area-Destinations Correlation Coefficient: {rural_coef.statistic:.2f} ({rural_coef.pvalue})")
-
-# Filter out outliers
-urban = urban[(urban['ratio_x'] < 0.3) & (urban['ratio_y'] < 1)]
-
-# Plot area to destinations as scatterplot with different colours for urban-rural
-plt.scatter(urban['ratio_x'], urban['ratio_y'], color="#1a80bb", alpha=0.75, s=0.5, label="Urban LSOAs")
-plt.scatter(rural['ratio_x'], rural['ratio_y'], color="#ea801c", alpha=0.75, s=0.5, label="Rural LSOAs")
-
-# Add title and labels
-plt.title('Comparison of Indicator Values by Settlement Type')
-plt.xlabel('Area Ratio')
-plt.ylabel('Destinations Ratio')
-plt.xlim(left=0)
-plt.ylim(bottom=0)
-
-# Save to png
-plt.legend(loc="upper right", markerscale=8)
-plt.tight_layout()
-plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", dpi=600)
