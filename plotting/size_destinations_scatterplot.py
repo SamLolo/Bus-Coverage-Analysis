@@ -75,9 +75,12 @@ plt.xlim(left=0)
 plt.ylim(bottom=0)
 
 # Save to png
-plt.legend(loc="upper right", markerscale=8)
+plt.legend(loc="upper right", fontsize=12, markerscale=8)
 plt.tight_layout()
-plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", dpi=600)
+plt.savefig(OUT_DIR / "plots" / "area_destinations_scatterplot.png", 
+            dpi=600,
+            bbox_inches='tight', 
+            pad_inches=0.1)
 plt.close()
 
 
@@ -94,7 +97,7 @@ plt.scatter(rural['bus_area'], rural['total_bus'], color="#ea801c", alpha=0.75, 
 # Add line of best fit
 slope, intercept = np.polyfit(results['bus_area'], results['total_bus'], 1)
 plt.plot(results['bus_area'], slope*results['bus_area'] + intercept, color='dimgrey', linestyle='solid', linewidth=1.5, label='Best Fit Line')
-plt.legend(loc="upper left", fontsize=10, markerscale=8)
+plt.legend(loc="upper left", fontsize=12, markerscale=8)
 
 # Add title and labels
 plt.title('How Bus Coverage Affects Destinations')
@@ -104,4 +107,7 @@ plt.xlim(left=0)
 plt.ylim(bottom=0)
 
 # Save to png
-plt.savefig(OUT_DIR / "plots" / "bus_size_destinations_scatterplot.png", dpi=600)
+plt.savefig(OUT_DIR / "plots" / "bus_size_destinations_scatterplot.png", 
+            dpi=600,
+            bbox_inches='tight', 
+            pad_inches=0.1)
