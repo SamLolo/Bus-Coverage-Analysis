@@ -35,6 +35,29 @@ dest_agg.to_csv(OUT_DIR / "destinations" / "counties_avg.csv")
 
 # ------------------------
 #
+#         MEDIAN
+#
+# ------------------------
+
+# Create blank storage structures
+area_agg = pd.DataFrame(columns=areas.columns)
+dest_agg = pd.DataFrame(columns=destinations.columns)
+
+# Group lsoas by region
+overlay = counties.sjoin(lsoas, predicate="contains")
+for index, ((id, name), group) in enumerate(overlay.groupby(["id_left", "name"])):
+    contains = group['id_right']
+    
+    # Calculate mean
+    area_agg.loc[index] = [id, name] + list(areas.loc[areas['id'].isin(contains), ~areas.columns.isin(["id", "name"])].median().values)
+    dest_agg.loc[index] = [id, name] + list(destinations.loc[destinations['id'].isin(contains), ~destinations.columns.isin(["id", "name"])].median().values)
+    
+# Save mean to file
+area_agg.to_csv(OUT_DIR / "areas" / "counties_mediang.csv")
+dest_agg.to_csv(OUT_DIR / "destinations" / "counties_median.csv")
+
+# ------------------------
+#
 #   STANDARD DEVIATION
 #
 # ------------------------
