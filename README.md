@@ -16,7 +16,7 @@ conda activate dissertation
 
 ### Datasets
 
-Due to size contraints on ELE, datasets are __not included__ with the code. More information on all of the datasets used, including when they were obtained and where from, can be found [here](data/README.md).
+Due to size contraints on ELE, datasets are __not included__ with the code. More information on all of the datasets used, including when they were obtained and where from, can be found [here](data/README.MD).
 
 Before running the code, the main datasets need to be processed. To do this, simply run the Python file:
 
