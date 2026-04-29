@@ -1,6 +1,11 @@
 # Datasets
 
-This folder contains all datasets involved in the analysis within this project, as well as the code required for preprocessing these datasets before use. Information about each of the datasets and where they were obtained from can be found below:
+This folder contains all datasets involved in the analysis within this project, as well as the code required for preprocessing these datasets before use.
+
+> [!IMPORTANT]
+> Some datasets are not included with the code due to Github size limits. See `/data/raw` to check which files are missing!
+
+Information about each of the datasets and where they were obtained from can be found below:
 
 
 ### Open Street Map (OSM)

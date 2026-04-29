@@ -2,6 +2,9 @@
 
 This directory contains code used to evaluate how the generation of isochrones works, and how expensive it is computationally. The goal of this to develop a concrete implementation plan for the rest of the research that balances precision with execution time, in order to get the research done within the allocated timeframe.
 
+> [!IMPORTANT]
+> Some datasets are not included with the code due to Github size limits. Please download copies of the files within the references of this README, and place them into `/poc/data` before running the code, or you will get an error!
+
 ## Test Scripts
 
 Below is some information about each of the Python files within this directory, why they were created, and what you would need to get them running.
