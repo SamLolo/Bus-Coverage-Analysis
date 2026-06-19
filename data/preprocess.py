@@ -179,7 +179,7 @@ del counties
 print("\nCreating a Universal Destinations Dataset:")
 
 # Import previous dataset
-sheets = pd.read_excel(PATH / "raw" / "journey-time-statistics-2019-destination-datasets.ods", sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2)
+sheets = pd.read_excel(PATH / "raw" / "journey-time-statistics-2019-destination-datasets.ods", sheet_name=[1, 2, 3, 4, 5, 6, 7, 8], header=2, engine='calamine')
 print(f"  > Imported {len(sheets.keys())} existing sheets of destinations")
 
 # Unify column naming across all sheets
