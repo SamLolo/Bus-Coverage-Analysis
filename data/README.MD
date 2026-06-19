@@ -3,7 +3,7 @@
 This folder contains all datasets involved in the analysis within this project, as well as the code required for preprocessing these datasets before use.
 
 > [!IMPORTANT]
-> Some datasets are not included with the code due to Github size limits. See `/data/raw` to check which files are missing!
+> The Open Street Map extract and UK bus timetables are not included with the code due to Github size limits. These should be obtained seperately and placed into the  `/data/raw` directory before running the code.
 
 Information about each of the datasets and where they were obtained from can be found below:
 
