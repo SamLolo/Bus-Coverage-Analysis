@@ -17,6 +17,7 @@ regions         = "data/processed/Regions.gpkg"
 ruc_definitions = "data/processed/ruc_definitions"
 england_osm     = "data/raw/england-260119.osm.pbf"
 counties        = "data/processed/Counties.gpkg"
+imd             = "data/raw/File_5_IoD2025_Scores_for_the_Indices_of_Deprivation.xlsx"
 
 [datasets.gtfs]
 east_anglia   = "data/processed/gtfs/east_anglia_clean.zip"

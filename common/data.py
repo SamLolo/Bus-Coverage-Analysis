@@ -53,6 +53,7 @@ class Datasets(Enum):
     RUC_DEF         = "ruc_defintions"
     OSM             = "england_osm"
     COUNTIES        = "counties"
+    IMD             = "imd"
     
 
 def get_filepath(dataset: GTFS|Datasets) -> Path:
