@@ -4,17 +4,18 @@ SETLOCAL EnableDelayedExpansion
 :: Edit Script Config Here
 SET max_batch=30
 SET max_memory=20G
+SET input_file="out/missing.txt"
 
 :: Check if file exists
 CD ..
-IF EXIST "out/missing.txt" (
+IF EXIST %input_file% (
     ECHO Found text file containing missing indicies
 ) ELSE (
-    ECHO Can't find file 'out/missing.txt'
+    ECHO Can't find file '%input_file%'
 )
 
 :: Loop through file
-FOR /F "usebackq tokens=* delims=" %%F IN ("out\missing.txt") DO (
+FOR /F "usebackq tokens=* delims=" %%F IN (%input_file%) DO (
     SET index=%%F
     ECHO Processing indicies: !index!
 

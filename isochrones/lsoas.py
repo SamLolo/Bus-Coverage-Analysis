@@ -5,7 +5,9 @@ import pyproj
 os.environ["PROJ_LIB"] = pyproj.datadir.get_data_dir()
 
 import gc
+import sys
 import r5py
+import getopt
 import logging
 import pandas as pd
 import geopandas as gpd
@@ -20,24 +22,8 @@ logger = logging.getLogger('lsoas')
 CONFIG = CONFIG['isochrones']
 
 # Set file paths of combined isochrone files
-BUS_FILE = OUT_DIR / "bus_isochrones_combined.gpkg"
-CAR_FILE = OUT_DIR / "car_isochrones_combined.gpkg"
-
-# Load combined isochrone files or exit if they don't get exist
-if BUS_FILE.exists():
-    bus_isochrones = gpd.read_file(BUS_FILE, use_arrow=True)
-    logger.info("Loaded bus isochrones file")
-else:
-    logger.error(f"Missing expected file: {BUS_FILE}")
-    print(f"Missing expected file: {BUS_FILE}. \nPlease run 'isochrones.concat' first.")
-    exit()
-if CAR_FILE.exists():
-    car_isochrones = gpd.read_file(CAR_FILE, use_arrow=True)
-    logger.info("Loaded car isochrones file")
-else:
-    logger.error(f"Missing expected file: {CAR_FILE}")
-    print(f"Missing expected file: {CAR_FILE}. \nPlease run 'isochrones.concat' first.")
-    exit()
+BUS_FILE = OUT_DIR / "bus_isochrones_combined_test.gpkg"
+CAR_FILE = OUT_DIR / "car_isochrones_combined_test.gpkg"
 
 # Load expected LSOA dataset
 lsoas = load_dataset(Datasets.CENTRIODS)
@@ -48,16 +34,44 @@ lsoas = pd.merge(lsoas, boundaries, on="id", how="left")
 lsoas.drop(["index_x", "index_y", "ruc", "geometry_y"], axis=1, inplace=True)
 lsoas.rename({"geometry_x": "geometry"}, axis=1, inplace=True)
 
-# Find missing LSOAs
-missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
-missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
-missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
-missing_lsoas = missing_lsoas.drop_duplicates("id")
-logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
+# Define possible command line arguments
+short_args = "i:m:r:t:v"
+long_args = ["lsoa-ids=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
 
-# Manually define LSOAs to re-calculate
-# (UNCOMMENT TO MANUALLY SELECT LSOAs)
-#missing_lsoas = lsoas[lsoas['id'].isin(["E01027452", "E01028883", "E01035670"])]
+# Read command line arguments for LSOA list
+arguments, values = getopt.getopt(sys.argv[1:], short_args, long_args)
+for arg, val in arguments:
+    if arg in ("-i", "--lsoa-ids"):
+        lsoa_list = val.split(",")
+        logger.info(f"LSOA list specified = {lsoa_list}")
+
+# If list supplied, isolate target rows from full dataframe
+if "lsoa_list" in locals():
+    missing_lsoas = lsoas[lsoas['id'].isin(lsoa_list)]
+else:
+    
+    # Load combined isochrone files or exit if they don't get exist
+    if BUS_FILE.exists():
+        bus_isochrones = gpd.read_file(BUS_FILE, use_arrow=True)
+        logger.info("Loaded bus isochrones file")
+    else:
+        logger.error(f"Missing expected file: {BUS_FILE}")
+        print(f"Missing expected file: {BUS_FILE}. \nPlease run 'isochrones.concat' first.")
+        exit()
+    if CAR_FILE.exists():
+        car_isochrones = gpd.read_file(CAR_FILE, use_arrow=True)
+        logger.info("Loaded car isochrones file")
+    else:
+        logger.error(f"Missing expected file: {CAR_FILE}")
+        print(f"Missing expected file: {CAR_FILE}. \nPlease run 'isochrones.concat' first.")
+        exit()
+        
+    # If no input list, find missing lsoas from output file and use those
+    missing_bus: gpd.GeoDataFrame = pd.concat([bus_isochrones, lsoas]).drop_duplicates("id", keep=False)
+    missing_car: gpd.GeoDataFrame = pd.concat([car_isochrones, lsoas]).drop_duplicates("id", keep=False)
+    missing_lsoas: gpd.GeoDataFrame = pd.concat([missing_bus, missing_car])
+    missing_lsoas = missing_lsoas.drop_duplicates("id")
+    logger.info(f"Isolated {missing_lsoas.shape[0]} missing LSOAs")
 
 # Create save-file name using previous out-files
 bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")
@@ -70,6 +84,7 @@ bus_isochrones = gpd.GeoDataFrame()
 car_isochrones = gpd.GeoDataFrame()
 
 # Find centriods that lie inside the each MSOA
+logger.debug(f"Selected {missing_lsoas.shape[0]} target MSOAs")
 for index in missing_lsoas.index:
     lsoa = missing_lsoas.loc[[index]]
     logger.info(f"Current lsoa = {lsoa.at[index, 'id']}")

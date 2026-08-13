@@ -1,0 +1,501 @@
+id,name,region,ruc,settlement_type
+E01019478,Bolsover 001A,East Midlands,RLN1,rural
+E01019498,Bolsover 003C,East Midlands,RLN1,rural
+E01019868,South Derbyshire 005B,East Midlands,RLN1,rural
+E01019882,South Derbyshire 003E,East Midlands,RLN1,rural
+E01025645,Blaby 003E,East Midlands,RSN1,rural
+E01025671,Charnwood 022B,East Midlands,RLN1,rural
+E01025947,North West Leicestershire 012B,East Midlands,RLN1,rural
+E01026106,East Lindsey 001F,East Midlands,RLN1,rural
+E01026221,North Kesteven 009B,East Midlands,RSF1,rural
+E01026248,South Holland 002B,East Midlands,RSF1,rural
+E01026342,South Kesteven 008C,East Midlands,RSF1,rural
+E01026998,West Northamptonshire 005A,East Midlands,RSN1,rural
+E01027006,West Northamptonshire 004C,East Midlands,RLN1,rural
+E01027041,North Northamptonshire 027D,East Midlands,RLN1,rural
+E01027045,North Northamptonshire 011B,East Midlands,RLF1,rural
+E01028027,Bassetlaw 001E,East Midlands,RLN1,rural
+E01028224,Mansfield 001A,East Midlands,RLF1,rural
+E01028402,Rushcliffe 010A,East Midlands,RSN1,rural
+E01032985,West Northamptonshire 046H,East Midlands,RLN1,rural
+E01034651,South Derbyshire 003G,East Midlands,RLN1,rural
+E01013539,Derby 021A,East Midlands,UN1,urban
+E01013556,Derby 015A,East Midlands,UN1,urban
+E01013692,Leicester 035D,East Midlands,UN1,urban
+E01013713,Leicester 010A,East Midlands,UN1,urban
+E01019403,Amber Valley 003A,East Midlands,UN1,urban
+E01019408,Amber Valley 009A,East Midlands,UN1,urban
+E01019471,Amber Valley 003E,East Midlands,UN1,urban
+E01019529,Chesterfield 003B,East Midlands,UN1,urban
+E01019693,Erewash 008D,East Midlands,UN1,urban
+E01019740,High Peak 003C,East Midlands,UN1,urban
+E01019796,North East Derbyshire 009A,East Midlands,UN1,urban
+E01019800,North East Derbyshire 009D,East Midlands,UN1,urban
+E01019811,North East Derbyshire 011C,East Midlands,UN1,urban
+E01025655,Blaby 005F,East Midlands,UN1,urban
+E01025719,Charnwood 009F,East Midlands,UN1,urban
+E01025822,Hinckley and Bosworth 007B,East Midlands,UN1,urban
+E01025901,Melton 002A,East Midlands,UF1,urban
+E01025950,North West Leicestershire 008A,East Midlands,UN1,urban
+E01026097,East Lindsey 015D,East Midlands,UF1,urban
+E01026142,Lincoln 011F,East Midlands,UN1,urban
+E01026151,Lincoln 003E,East Midlands,UN1,urban
+E01026264,South Holland 009C,East Midlands,UN1,urban
+E01026307,South Kesteven 014E,East Midlands,UN1,urban
+E01027064,North Northamptonshire 034D,East Midlands,UN1,urban
+E01027095,North Northamptonshire 013B,East Midlands,UF1,urban
+E01027112,North Northamptonshire 017D,East Midlands,UF1,urban
+E01027137,West Northamptonshire 024A,East Midlands,UN1,urban
+E01028012,Bassetlaw 008E,East Midlands,UN1,urban
+E01028205,Gedling 004B,East Midlands,UN1,urban
+E01034019,Leicester 040E,East Midlands,UN1,urban
+E01015636,Peterborough 001C,East of England,RSN1,rural
+E01017413,Central Bedfordshire 010D,East of England,RLN1,rural
+E01017621,Central Bedfordshire 019D,East of England,RLN1,rural
+E01018097,Fenland 001D,East of England,RSF1,rural
+E01018239,South Cambridgeshire 017B,East of England,RLN1,rural
+E01018240,South Cambridgeshire 014A,East of England,RSN1,rural
+E01018278,South Cambridgeshire 021C,East of England,RLN1,rural
+E01021470,Brentwood 001F,East of England,RSN1,rural
+E01022098,Uttlesford 003E,East of England,RSN1,rural
+E01023525,Hertsmere 005C,East of England,RLN1,rural
+E01023598,North Hertfordshire 016D,East of England,RSN1,rural
+E01023705,St Albans 018B,East of England,RLN1,rural
+E01026514,Broadland 003A,East of England,RSN1,rural
+E01026548,Broadland 002F,East of England,RLN1,rural
+E01026717,King's Lynn and West Norfolk 016F,East of England,RSF1,rural
+E01026750,North Norfolk 007B,East of England,RLF1,rural
+E01026908,South Norfolk 003D,East of England,RLN1,rural
+E01030047,Mid Suffolk 012E,East of England,RLN1,rural
+E01030100,West Suffolk 010B,East of England,RSF1,rural
+E01030210,East Suffolk 018D,East of England,RLF1,rural
+E01033042,Breckland 001F,East of England,RSF1,rural
+E01035588,East Hertfordshire 001F,East of England,RLN1,rural
+E01015840,Southend-on-Sea 014B,East of England,UN1,urban
+E01015956,Thurrock 016B,East of England,UN1,urban
+E01017438,Central Bedfordshire 011B,East of England,UN1,urban
+E01017497,Bedford 010A,East of England,UN1,urban
+E01017580,Central Bedfordshire 026C,East of England,UN1,urban
+E01017619,Central Bedfordshire 025E,East of England,UN1,urban
+E01018007,Cambridge 004B,East of England,UN1,urban
+E01021314,Basildon 018B,East of England,UN1,urban
+E01021383,Braintree 010C,East of England,UN1,urban
+E01021521,Castle Point 007B,East of England,UN1,urban
+E01021547,Chelmsford 008D,East of England,UN1,urban
+E01021779,Epping Forest 011F,East of England,UN1,urban
+E01021815,Epping Forest 007D,East of England,UN1,urban
+E01021851,Harlow 003C,East of England,UN1,urban
+E01021855,Harlow 001B,East of England,UN1,urban
+E01022000,Tendring 002A,East of England,UN1,urban
+E01023499,East Hertfordshire 011A,East of England,UN1,urban
+E01023519,East Hertfordshire 012E,East of England,UN1,urban
+E01023552,Hertsmere 008A,East of England,UN1,urban
+E01023608,North Hertfordshire 013C,East of England,UN1,urban
+E01023684,St Albans 016D,East of England,UN1,urban
+E01023743,St Albans 014B,East of England,UN1,urban
+E01023761,Stevenage 007C,East of England,UN1,urban
+E01023785,Stevenage 011C,East of England,UN1,urban
+E01023891,Watford 002B,East of England,UN1,urban
+E01023914,Welwyn Hatfield 004C,East of England,UN1,urban
+E01026476,Breckland 017C,East of England,UF1,urban
+E01026640,Great Yarmouth 004C,East of England,UF1,urban
+E01026805,Norwich 004C,East of England,UN1,urban
+E01029958,Ipswich 007A,East of England,UN1,urban
+E01030024,Ipswich 006C,East of England,UN1,urban
+E01033837,Central Bedfordshire 029G,East of England,UN1,urban
+E01034365,Harlow 001H,East of England,UN1,urban
+E01034565,West Suffolk 003F,East of England,UF1,urban
+E01035559,South Cambridgeshire 020F,East of England,UN1,urban
+E01000094,Barking and Dagenham 022C,London,UN1,urban
+E01000181,Barnet 029D,London,UN1,urban
+E01000230,Barnet 013C,London,UN1,urban
+E01000249,Barnet 001B,London,UN1,urban
+E01000275,Barnet 012A,London,UN1,urban
+E01000291,Barnet 004E,London,UN1,urban
+E01000294,Barnet 004F,London,UN1,urban
+E01000319,Barnet 027F,London,UN1,urban
+E01000513,Brent 002A,London,UN1,urban
+E01000623,Brent 005C,London,UN1,urban
+E01000666,Bromley 033B,London,UN1,urban
+E01000845,Camden 014B,London,UN1,urban
+E01000907,Camden 001A,London,UN1,urban
+E01000959,Camden 019E,London,UN1,urban
+E01001026,Croydon 043D,London,UN1,urban
+E01001128,Croydon 025B,London,UN1,urban
+E01001226,Ealing 019C,London,UN1,urban
+E01001239,Ealing 015C,London,UN1,urban
+E01001302,Ealing 039C,London,UN1,urban
+E01001497,Enfield 031E,London,UN1,urban
+E01001611,Greenwich 023D,London,UN1,urban
+E01001665,Greenwich 037C,London,UN1,urban
+E01001994,Haringey 030A,London,UN1,urban
+E01002072,Haringey 025D,London,UN1,urban
+E01002092,Haringey 006B,London,UN1,urban
+E01002153,Harrow 019A,London,UN1,urban
+E01002197,Harrow 012B,London,UN1,urban
+E01002246,Havering 017A,London,UN1,urban
+E01002279,Havering 002B,London,UN1,urban
+E01002355,Havering 014E,London,UN1,urban
+E01002552,Hillingdon 025D,London,UN1,urban
+E01002795,Islington 013D,London,UN1,urban
+E01002797,Islington 018B,London,UN1,urban
+E01002875,Kensington and Chelsea 007E,London,UN1,urban
+E01003225,Lewisham 015A,London,UN1,urban
+E01003405,Merton 018E,London,UN1,urban
+E01003434,Merton 017E,London,UN1,urban
+E01003518,Newham 032D,London,UN1,urban
+E01003553,Newham 009B,London,UN1,urban
+E01003673,Redbridge 007F,London,UN1,urban
+E01003690,Redbridge 035A,London,UN1,urban
+E01003953,Southwark 028A,London,UN1,urban
+E01004037,Southwark 010B,London,UN1,urban
+E01004256,Tower Hamlets 024C,London,UN1,urban
+E01004316,Tower Hamlets 009C,London,UN1,urban
+E01004581,Wandsworth 004D,London,UN1,urban
+E01004621,Wandsworth 019D,London,UN1,urban
+E01033135,Wandsworth 010G,London,UN1,urban
+E01034484,Redbridge 032H,London,UN1,urban
+E01035490,Wandsworth 010H,London,UN1,urban
+E01035658,Tower Hamlets 001F,London,UN1,urban
+E01035709,Camden 022G,London,UN1,urban
+E01012095,Redcar and Cleveland 010A,North East,RLN1,rural
+E01012140,Redcar and Cleveland 006C,North East,RLN1,rural
+E01012141,Redcar and Cleveland 006D,North East,RLN1,rural
+E01012335,Darlington 001C,North East,RLN1,rural
+E01020633,County Durham 020A,North East,RLN1,rural
+E01020656,County Durham 003E,North East,RSN1,rural
+E01020716,County Durham 026E,North East,RLN1,rural
+E01020751,County Durham 025A,North East,RLN1,rural
+E01020811,County Durham 048C,North East,RLN1,rural
+E01020846,County Durham 063E,North East,RSN1,rural
+E01020853,County Durham 067D,North East,RLN1,rural
+E01020858,County Durham 064B,North East,RLN1,rural
+E01020900,County Durham 051C,North East,RLN1,rural
+E01027357,Northumberland 004B,North East,RLF1,rural
+E01027359,Northumberland 005B,North East,RLF1,rural
+E01027419,Northumberland 030C,North East,RLN1,rural
+E01033198,County Durham 021E,North East,RLN1,rural
+E01008190,Gateshead 023B,North East,UN1,urban
+E01008229,Gateshead 018A,North East,UN1,urban
+E01008234,Gateshead 020C,North East,UN1,urban
+E01008243,Gateshead 003C,North East,UN1,urban
+E01008261,Gateshead 019C,North East,UN1,urban
+E01008274,Gateshead 019G,North East,UN1,urban
+E01008461,North Tyneside 021A,North East,UN1,urban
+E01008478,North Tyneside 002A,North East,UN1,urban
+E01008610,South Tyneside 021A,North East,UN1,urban
+E01008644,South Tyneside 015B,North East,UN1,urban
+E01008673,South Tyneside 003A,North East,UN1,urban
+E01008695,Sunderland 008C,North East,UN1,urban
+E01008780,Sunderland 024D,North East,UN1,urban
+E01008841,Sunderland 003F,North East,UN1,urban
+E01008847,Sunderland 017C,North East,UN1,urban
+E01012066,Middlesbrough 017B,North East,UN1,urban
+E01012106,Redcar and Cleveland 003C,North East,UN1,urban
+E01012300,Stockton-on-Tees 024D,North East,UN1,urban
+E01020611,County Durham 007D,North East,UN1,urban
+E01020662,County Durham 004B,North East,UN1,urban
+E01020685,County Durham 038A,North East,UN1,urban
+E01020831,County Durham 062B,North East,UN1,urban
+E01027460,Northumberland 018D,North East,UN1,urban
+E01033467,Hartlepool 001G,North East,UN1,urban
+E01034515,Sunderland 017F,North East,UN1,urban
+E01018418,Cheshire East 033C,North West,RSN1,rural
+E01018668,Cheshire East 011C,North West,RSN1,rural
+E01018676,Cheshire West and Chester 024A,North West,RSN1,rural
+E01018678,Cheshire West and Chester 024C,North West,RLN1,rural
+E01019145,Barrow-in-Furness 001B,North West,RLF1,rural
+E01019293,Copeland 008E,North West,RSF1,rural
+E01019319,Eden 006D,North West,RSF1,rural
+E01019345,South Lakeland 008B,North West,RSF1,rural
+E01019387,South Lakeland 002A,North West,RLF1,rural
+E01024924,Chorley 011B,North West,RLN1,rural
+E01024979,Chorley 002C,North West,RSN1,rural
+E01025096,Lancaster 001B,North West,RLF1,rural
+E01025315,Ribble Valley 001A,North West,RSN1,rural
+E01025322,Ribble Valley 004A,North West,RSN1,rural
+E01025456,South Ribble 002C,North West,RSN1,rural
+E01025486,West Lancashire 004D,North West,RLN1,rural
+E01025512,West Lancashire 005C,North West,RLN1,rural
+E01025513,West Lancashire 002D,North West,RLN1,rural
+E01004816,Bolton 029A,North West,UN1,urban
+E01004886,Bolton 014C,North West,UN1,urban
+E01005016,Bury 001C,North West,UN1,urban
+E01005034,Bury 022D,North West,UN1,urban
+E01005225,Manchester 007C,North West,UN1,urban
+E01005259,Manchester 011D,North West,UN1,urban
+E01005318,Manchester 053E,North West,UN1,urban
+E01005335,Oldham 010A,North West,UN1,urban
+E01005378,Oldham 031E,North West,UN1,urban
+E01005535,Rochdale 023B,North West,UN1,urban
+E01005543,Rochdale 021F,North West,UN1,urban
+E01005620,Salford 030E,North West,UN1,urban
+E01005766,Stockport 014C,North West,UN1,urban
+E01005808,Stockport 037A,North West,UN1,urban
+E01005912,Stockport 029D,North West,UN1,urban
+E01005934,Tameside 006B,North West,UN1,urban
+E01006031,Tameside 020A,North West,UN1,urban
+E01006056,Tameside 003A,North West,UN1,urban
+E01006261,Wigan 036C,North West,UN1,urban
+E01006542,Liverpool 018A,North West,UN1,urban
+E01006640,Liverpool 021F,North West,UN1,urban
+E01006929,Sefton 010A,North West,UN1,urban
+E01006935,Sefton 009B,North West,UN1,urban
+E01006998,Sefton 007E,North West,UN1,urban
+E01007082,Sefton 016D,North West,UN1,urban
+E01007090,Sefton 029E,North West,UN1,urban
+E01007160,Wirral 020B,North West,UN1,urban
+E01007222,Wirral 013C,North West,UN1,urban
+E01007280,Wirral 033A,North West,UN1,urban
+E01012449,Warrington 025C,North West,UN1,urban
+E01012566,Warrington 010D,North West,UN1,urban
+E01012575,Blackburn with Darwen 007D,North West,UN1,urban
+E01012664,Blackpool 001B,North West,UN1,urban
+E01012689,Blackpool 014D,North West,UN1,urban
+E01018474,Cheshire East 034C,North West,UN1,urban
+E01018618,Cheshire East 015B,North West,UN1,urban
+E01019122,Allerdale 008C,North West,UF1,urban
+E01019157,Barrow-in-Furness 008D,North West,UF1,urban
+E01019222,Carlisle 011E,North West,UN1,urban
+E01025093,Lancaster 014A,North West,UF1,urban
+E01025116,Lancaster 009B,North West,UF1,urban
+E01025224,Pendle 011A,North West,UN1,urban
+E01025603,Wyre 010E,North West,UN1,urban
+E01033947,Stockport 014E,North West,UN1,urban
+E01034109,Manchester 008G,North West,UN1,urban
+E01016300,West Berkshire 018A,South East,RLF1,rural
+E01016301,West Berkshire 018B,South East,RSF1,rural
+E01016568,Windsor and Maidenhead 010C,South East,RLN1,rural
+E01016801,Milton Keynes 002D,South East,RSN1,rural
+E01021103,Rother 002A,South East,RSN1,rural
+E01022586,East Hampshire 009D,South East,RSN1,rural
+E01023024,New Forest 001F,South East,RLN1,rural
+E01023285,Winchester 013E,South East,RLN1,rural
+E01023998,Ashford 014B,South East,RSN1,rural
+E01024234,Dover 014D,South East,RSN1,rural
+E01024426,Sevenoaks 014B,South East,RLF1,rural
+E01024435,Sevenoaks 007A,South East,RLN1,rural
+E01024545,Folkestone and Hythe 001C,South East,RSN1,rural
+E01024798,Tunbridge Wells 001A,South East,RSN1,rural
+E01024808,Tunbridge Wells 014C,South East,RLN1,rural
+E01024825,Tunbridge Wells 004B,South East,RSN1,rural
+E01028674,South Oxfordshire 012C,South East,RLN1,rural
+E01028745,Vale of White Horse 016A,South East,RLN1,rural
+E01028785,West Oxfordshire 011A,South East,RLN1,rural
+E01031498,Chichester 005C,South East,RSF1,rural
+E01031540,Chichester 013E,South East,RSF1,rural
+E01031622,Horsham 015A,South East,RLN1,rural
+E01031770,Mid Sussex 016D,South East,RSN1,rural
+E01016079,Medway 031C,South East,UN1,urban
+E01016410,Reading 001C,South East,UN1,urban
+E01016493,Slough 003A,South East,UN1,urban
+E01016537,Windsor and Maidenhead 007B,South East,UN1,urban
+E01016646,Wokingham 011C,South East,UN1,urban
+E01016714,Milton Keynes 030B,South East,UN1,urban
+E01016771,Milton Keynes 005E,South East,UN1,urban
+E01016791,Milton Keynes 004A,South East,UN1,urban
+E01016823,Milton Keynes 035C,South East,UN1,urban
+E01016913,Brighton and Hove 018D,South East,UN1,urban
+E01016985,Brighton and Hove 007E,South East,UN1,urban
+E01016997,Brighton and Hove 021E,South East,UN1,urban
+E01017032,Portsmouth 027C,South East,UN1,urban
+E01017037,Portsmouth 013B,South East,UN1,urban
+E01017069,Portsmouth 023C,South East,UN1,urban
+E01017304,Isle of Wight 002C,South East,UF1,urban
+E01017821,Buckinghamshire 058D,South East,UN1,urban
+E01017934,Buckinghamshire 056A,South East,UN1,urban
+E01021227,Wealden 012C,South East,UF1,urban
+E01022486,Basingstoke and Deane 013C,South East,UN1,urban
+E01022665,Eastleigh 003E,South East,UN1,urban
+E01022955,Havant 014C,South East,UN1,urban
+E01023079,New Forest 004D,South East,UN1,urban
+E01023101,Rushmoor 003B,South East,UN1,urban
+E01023207,Test Valley 010D,South East,UN1,urban
+E01024308,Gravesham 007A,South East,UN1,urban
+E01024327,Maidstone 007B,South East,UN1,urban
+E01024559,Swale 010A,South East,UN1,urban
+E01024593,Swale 011C,South East,UN1,urban
+E01024641,Thanet 007A,South East,UF1,urban
+E01028738,Vale of White Horse 003A,South East,UN1,urban
+E01030498,Guildford 009D,South East,UN1,urban
+E01030594,Reigate and Banstead 013A,South East,UN1,urban
+E01030761,Surrey Heath 006A,South East,UN1,urban
+E01031459,Arun 005E,South East,UN1,urban
+E01031472,Arun 006C,South East,UN1,urban
+E01031502,Chichester 001A,South East,UN1,urban
+E01031696,Mid Sussex 003B,South East,UN1,urban
+E01031701,Mid Sussex 012C,South East,UN1,urban
+E01031810,Worthing 010D,South East,UN1,urban
+E01031811,Worthing 010E,South East,UN1,urban
+E01032626,Waverley 018F,South East,UN1,urban
+E01033088,Maidstone 008F,South East,UN1,urban
+E01034290,Epsom and Ewell 008F,South East,UN1,urban
+E01034452,Milton Keynes 024F,South East,UN1,urban
+E01034819,Arun 004I,South East,UN1,urban
+E01035240,Bracknell Forest 002J,South East,UN1,urban
+E01035305,Swale 009G,South East,UN1,urban
+E01014441,Bath and North East Somerset 023E,South West,RLN1,rural
+E01014863,South Gloucestershire 004A,South West,RLN1,rural
+E01018847,Cornwall 032D,South West,RSF1,rural
+E01018966,Cornwall 006D,South West,RSF1,rural
+E01018974,Cornwall 002C,South West,RSF1,rural
+E01018982,Cornwall 057C,South West,RLF1,rural
+E01019058,Cornwall 031C,South West,RLF1,rural
+E01019946,East Devon 010A,South West,RLF1,rural
+E01020056,Mid Devon 008C,South West,RSN1,rural
+E01020168,South Hams 010A,South West,RLF1,rural
+E01020174,South Hams 011A,South West,RSF1,rural
+E01020303,Torridge 007B,South West,RSF1,rural
+E01020321,West Devon 001B,South West,RLF1,rural
+E01020483,Dorset 042F,South West,RLF1,rural
+E01022204,Cotswold 009C,South West,RLN1,rural
+E01022397,Stroud 003C,South West,RSN1,rural
+E01029024,Mendip 002A,South West,RSN1,rural
+E01029151,Sedgemoor 012F,South West,RSN1,rural
+E01031886,Wiltshire 004A,South West,RSN1,rural
+E01031944,Wiltshire 007B,South West,RSN1,rural
+E01034851,Cornwall 016G,South West,RLN1,rural
+E01035107,Mendip 002F,South West,RSN1,rural
+E01014449,Bath and North East Somerset 024B,South West,UN1,urban
+E01014573,Bristol 019B,South West,UN1,urban
+E01014581,Bristol 045C,South West,UN1,urban
+E01014609,Bristol 047C,South West,UN1,urban
+E01014789,North Somerset 002A,South West,UN1,urban
+E01014959,South Gloucestershire 023A,South West,UN1,urban
+E01015019,South Gloucestershire 007A,South West,UN1,urban
+E01015028,Plymouth 003C,South West,UN1,urban
+E01015032,Plymouth 023B,South West,UN1,urban
+E01015100,Plymouth 017C,South West,UN1,urban
+E01015103,Plymouth 017D,South West,UN1,urban
+E01015141,Plymouth 031F,South West,UN1,urban
+E01015156,Plymouth 027E,South West,UN1,urban
+E01015279,"Bournemouth, Christchurch and Poole 037A",South West,UN1,urban
+E01018807,Cornwall 044A,South West,UF1,urban
+E01018856,Cornwall 043D,South West,UF1,urban
+E01019022,Cornwall 021E,South West,UF1,urban
+E01020336,West Devon 005E,South West,UN1,urban
+E01020414,Dorset 012D,South West,UN1,urban
+E01022124,Cheltenham 009D,South West,UN1,urban
+E01022140,Cheltenham 008D,South West,UN1,urban
+E01022330,Gloucester 009C,South West,UN1,urban
+E01022350,Stroud 010A,South West,UN1,urban
+E01029106,Sedgemoor 008C,South West,UN1,urban
+E01031924,Wiltshire 014E,South West,UN1,urban
+E01031927,Wiltshire 010G,South West,UN1,urban
+E01031941,Wiltshire 018D,South West,UN1,urban
+E01032121,Wiltshire 039E,South West,UF1,urban
+E01032662,"Bournemouth, Christchurch and Poole 044F",South West,UN1,urban
+E01032714,Swindon 019E,South West,UN1,urban
+E01034530,Wiltshire 021I,South West,UF1,urban
+E01035122,South Somerset 011F,South West,UF1,urban
+E01035229,South Gloucestershire 035C,South West,UN1,urban
+E01014004,Herefordshire 005E,West Midlands,RSF1,rural
+E01014096,Herefordshire 001D,West Midlands,RSF1,rural
+E01028890,Shropshire 008D,West Midlands,RLN1,rural
+E01028914,Shropshire 012A,West Midlands,RSN1,rural
+E01029412,East Staffordshire 006B,West Midlands,RLN1,rural
+E01029575,Newcastle-under-Lyme 013D,West Midlands,RLN1,rural
+E01029707,Stafford 015C,West Midlands,RLN1,rural
+E01029712,Stafford 008D,West Midlands,RLF1,rural
+E01029767,Staffordshire Moorlands 002A,West Midlands,RLN1,rural
+E01029791,Staffordshire Moorlands 013E,West Midlands,RLN1,rural
+E01031031,North Warwickshire 002D,West Midlands,RLN1,rural
+E01031033,North Warwickshire 004C,West Midlands,RLN1,rural
+E01031166,Rugby 012E,West Midlands,RSN1,rural
+E01031181,Rugby 004E,West Midlands,RLN1,rural
+E01031280,Warwick 005D,West Midlands,RSN1,rural
+E01032136,Bromsgrove 002A,West Midlands,RSN1,rural
+E01032355,Wychavon 009A,West Midlands,RSN1,rural
+E01035036,Stratford-on-Avon 014G,West Midlands,RLF1,rural
+E01035058,Shropshire 009F,West Midlands,RSN1,rural
+E01008913,Birmingham 050B,West Midlands,UN1,urban
+E01009015,Birmingham 089G,West Midlands,UN1,urban
+E01009349,Birmingham 036D,West Midlands,UN1,urban
+E01009421,Birmingham 004A,West Midlands,UN1,urban
+E01009492,Birmingham 055E,West Midlands,UN1,urban
+E01009744,Dudley 022B,West Midlands,UN1,urban
+E01009752,Dudley 017B,West Midlands,UN1,urban
+E01009874,Dudley 020C,West Midlands,UN1,urban
+E01010050,Sandwell 023E,West Midlands,UN1,urban
+E01010356,Walsall 039C,West Midlands,UN1,urban
+E01010403,Walsall 025B,West Midlands,UN1,urban
+E01010414,Wolverhampton 027A,West Midlands,UN1,urban
+E01010429,Wolverhampton 035C,West Midlands,UN1,urban
+E01010463,Wolverhampton 020A,West Midlands,UN1,urban
+E01010499,Wolverhampton 002C,West Midlands,UN1,urban
+E01014134,Telford and Wrekin 012B,West Midlands,UN1,urban
+E01014160,Telford and Wrekin 022B,West Midlands,UN1,urban
+E01014166,Telford and Wrekin 017E,West Midlands,UN1,urban
+E01014169,Telford and Wrekin 005E,West Midlands,UN1,urban
+E01029386,Cannock Chase 005B,West Midlands,UN1,urban
+E01029458,East Staffordshire 005E,West Midlands,UN1,urban
+E01029694,Stafford 010C,West Midlands,UN1,urban
+E01029763,Staffordshire Moorlands 003A,West Midlands,UN1,urban
+E01029822,Tamworth 003C,West Midlands,UN1,urban
+E01031287,Warwick 007E,West Midlands,UN1,urban
+E01032258,Redditch 011C,West Midlands,UN1,urban
+E01032290,Worcester 012E,West Midlands,UN1,urban
+E01032321,Worcester 009D,West Midlands,UN1,urban
+E01032420,Wyre Forest 010C,West Midlands,UN1,urban
+E01032476,Wyre Forest 008C,West Midlands,UN1,urban
+E01033526,Shropshire 038H,West Midlands,UF1,urban
+E01033562,Birmingham 087F,West Midlands,UN1,urban
+E01033629,Birmingham 106F,West Midlands,UN1,urban
+E01033887,Sandwell 014G,West Midlands,UN1,urban
+E01034306,Dudley 006H,West Midlands,UN1,urban
+E01034316,Bromsgrove 013E,West Midlands,UN1,urban
+E01035081,Telford and Wrekin 025C,West Midlands,UN1,urban
+E01007424,Barnsley 028E,Yorkshire and The Humber,RSN1,rural
+E01007557,Doncaster 008B,Yorkshire and The Humber,RSN1,rural
+E01010647,Bradford 001B,Yorkshire and The Humber,RLN1,rural
+E01011074,Kirklees 052B,Yorkshire and The Humber,RLN1,rural
+E01011307,Leeds 103A,Yorkshire and The Humber,RLN1,rural
+E01011865,Wakefield 042D,Yorkshire and The Humber,RLN1,rural
+E01011867,Wakefield 042E,Yorkshire and The Humber,RLN1,rural
+E01012992,East Riding of Yorkshire 006D,Yorkshire and The Humber,RSF1,rural
+E01013025,East Riding of Yorkshire 026D,Yorkshire and The Humber,RLN1,rural
+E01013226,North East Lincolnshire 007D,Yorkshire and The Humber,RLN1,rural
+E01013243,North Lincolnshire 020C,Yorkshire and The Humber,RLN1,rural
+E01013274,North Lincolnshire 013A,Yorkshire and The Humber,RSN1,rural
+E01027558,Craven 001A,Yorkshire and The Humber,RSF1,rural
+E01027568,Craven 003A,Yorkshire and The Humber,RLF1,rural
+E01027592,Hambleton 003B,Yorkshire and The Humber,RSN1,rural
+E01027666,Harrogate 001A,Yorkshire and The Humber,RSN1,rural
+E01027763,Richmondshire 005C,Yorkshire and The Humber,RSF1,rural
+E01027836,Scarborough 004E,Yorkshire and The Humber,RSF1,rural
+E01035474,North East Lincolnshire 007E,Yorkshire and The Humber,RLN1,rural
+E01007452,Barnsley 026B,Yorkshire and The Humber,UN1,urban
+E01007472,Doncaster 005D,Yorkshire and The Humber,UN1,urban
+E01007501,Doncaster 029E,Yorkshire and The Humber,UN1,urban
+E01007647,Doncaster 019C,Yorkshire and The Humber,UN1,urban
+E01007672,Rotherham 030E,Yorkshire and The Humber,UN1,urban
+E01007916,Sheffield 069B,Yorkshire and The Humber,UN1,urban
+E01007995,Sheffield 017A,Yorkshire and The Humber,UN1,urban
+E01008111,Sheffield 040D,Yorkshire and The Humber,UN1,urban
+E01010893,Calderdale 025C,Yorkshire and The Humber,UN1,urban
+E01011024,Kirklees 007D,Yorkshire and The Humber,UN1,urban
+E01011070,Kirklees 052A,Yorkshire and The Humber,UN1,urban
+E01011183,Kirklees 059C,Yorkshire and The Humber,UN1,urban
+E01011189,Kirklees 059G,Yorkshire and The Humber,UN1,urban
+E01011283,Leeds 059C,Yorkshire and The Humber,UN1,urban
+E01011327,Leeds 052A,Yorkshire and The Humber,UN1,urban
+E01011464,Leeds 028E,Yorkshire and The Humber,UN1,urban
+E01011482,Leeds 056D,Yorkshire and The Humber,UN1,urban
+E01011596,Leeds 062D,Yorkshire and The Humber,UN1,urban
+E01011639,Leeds 100E,Yorkshire and The Humber,UN1,urban
+E01011643,Leeds 037A,Yorkshire and The Humber,UN1,urban
+E01011699,Leeds 001B,Yorkshire and The Humber,UN1,urban
+E01011706,Leeds 006C,Yorkshire and The Humber,UN1,urban
+E01011739,Leeds 080D,Yorkshire and The Humber,UN1,urban
+E01011800,Wakefield 029F,Yorkshire and The Humber,UN1,urban
+E01012914,Kingston upon Hull 012C,Yorkshire and The Humber,UN1,urban
+E01012935,East Riding of Yorkshire 002C,Yorkshire and The Humber,UF1,urban
+E01013107,East Riding of Yorkshire 034E,Yorkshire and The Humber,UN1,urban
+E01013131,North East Lincolnshire 014A,Yorkshire and The Humber,UN1,urban
+E01013187,North East Lincolnshire 008A,Yorkshire and The Humber,UN1,urban
+E01013199,North East Lincolnshire 024B,Yorkshire and The Humber,UN1,urban
+E01013380,York 008B,Yorkshire and The Humber,UN1,urban
+E01013429,York 006B,Yorkshire and The Humber,UN1,urban
+E01027678,Harrogate 015E,Yorkshire and The Humber,UN1,urban
+E01027818,Scarborough 011D,Yorkshire and The Humber,UF1,urban
+E01033414,North East Lincolnshire 009E,Yorkshire and The Humber,UN1,urban
