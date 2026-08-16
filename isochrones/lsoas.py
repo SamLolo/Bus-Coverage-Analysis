@@ -22,8 +22,8 @@ logger = logging.getLogger('lsoas')
 CONFIG = CONFIG['isochrones']
 
 # Set file paths of combined isochrone files
-BUS_FILE = OUT_DIR / "bus_isochrones_combined_test.gpkg"
-CAR_FILE = OUT_DIR / "car_isochrones_combined_test.gpkg"
+BUS_FILE = OUT_DIR / "bus_isochrones_combined.gpkg"
+CAR_FILE = OUT_DIR / "car_isochrones_combined.gpkg"
 
 # Load expected LSOA dataset
 lsoas = load_dataset(Datasets.CENTRIODS)

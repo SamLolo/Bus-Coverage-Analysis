@@ -109,8 +109,8 @@ def get_gtfs_regions(gdf: gpd.GeoDataFrame, distance: int) -> list:
 
 # Define possible command line args
 if __name__ == "__main__":
-    short_args = "i:m:r:t:v"
-    long_args = ["msoa-index=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
+    short_args = "i:ids:m:r:t:v"
+    long_args = ["msoa-index=", "msoa-ids=", "max-memory=", "r5-classpath=", "temporary-directory=", "verbose"]
     
     # Get command line arguments
     arguments, values = getopt.getopt(sys.argv[1:], short_args, long_args)
@@ -118,6 +118,11 @@ if __name__ == "__main__":
         if arg in ("-i", "--msoa-index"):
             range = [int(n) for n in val.split(":")]
             logger.info(f"MSOA range specified = {range}")
+            break
+        elif arg in ("-ids", "--msoa-ids"):
+            msoa_list = val.split(",")
+            logger.info(f"Explicit MSOA list specified = {msoa_list}")
+            break
     
     # Create save-file name using previous out-files
     bus_files = count_files(OUT_DIR, "^bus_isochrones(?:\\.[0-9]{1,3})?\\.gpkg$")
@@ -132,6 +137,8 @@ if __name__ == "__main__":
             targets = msoas.loc[range[0]:range[1]]
         else:
             targets = msoas.loc[[range[0]]]
+    elif "msoa_list" in locals():
+        targets = msoas[msoas['id'].isin(msoa_list)]
     else:
         targets = msoas
     logger.debug(f"Found {targets.shape[0]} target MSOAs")
