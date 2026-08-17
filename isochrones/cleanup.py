@@ -1,3 +1,5 @@
+import re
+import shutil
 import logging
 from pathlib import Path
 from r5py.util import Config
@@ -11,20 +13,25 @@ R5PY_CACHE = Config().CACHE_DIR
 setup_logging()
 logger = logging.getLogger("cleaner")
 
-def clean_dir(dir: Path, extensions: list = []):
+def clean_dir(dir: Path, regex: str = None, extensions: list = []):
     """
-    Removes all files within a given directory. Optionally, a list of file extensions can be included
-    to control which files are deleted. The directory itself is not removed.
+    Removes all files within a given directory. Optionally, a regular expression or a list of file extensions 
+    can be included to control which files are deleted. The directory itself is not removed.
 
     Args:
         dir (pathlib.Path): The directory to remove files from.
+        regex (str, optional): Regular expression used to check against file names to delete. Defaults to None.
         extensions (list, optional): A list of strings representing file extensions to delete. Defaults to [].
     """
     for file in dir.iterdir():
-        if len(extensions) == 0 or file.suffix in extensions:
+        if len(extensions) == 0 or file.suffix in extensions or (regex != None and re.match(regex, file.name) != None):
             try:
-                file.unlink()
-                logger.debug(f"Removed file: {file}")
+                if file.is_dir():
+                    shutil.rmtree(file)
+                    logger.debug(f"Removed directory: {file}")
+                else:
+                    file.unlink()
+                    logger.debug(f"Removed file: {file}")
             except PermissionError:
                 logger.warning(f"Permissions error encountered when trying to remove file: {file}")
             except Exception:
@@ -33,7 +40,7 @@ def clean_dir(dir: Path, extensions: list = []):
 # Clean both directories when run directly
 if __name__ == "__main__":
     logger.info("Starting cleanup")
-    clean_dir(TEMP_DIR, [".pbf"])
+    clean_dir(TEMP_DIR, regex="r5py", extensions=[".pbf"])
     logger.info("Cleaned tempory directory")
-    clean_dir(R5PY_CACHE, [".pbf", ".p", ".mapdb", ".transport_network"])
+    clean_dir(R5PY_CACHE, extensions=[".pbf", ".p", ".mapdb", ".transport_network"])
     logger.info("Cleaned r5py cache")
