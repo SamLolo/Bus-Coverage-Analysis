@@ -6,7 +6,7 @@ temp_dir = "./temp"
 
 [logging]
 log_dir = "./logs"
-level = "DEBUG"
+level = "INFO"
 
 [datasets]
 destinations    = "data/processed/Destinations.gpkg"
