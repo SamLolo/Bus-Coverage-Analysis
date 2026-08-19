@@ -111,8 +111,8 @@ for index in missing_lsoas.index:
             departure=CONFIG['departure'],
             departure_time_window=timedelta(minutes=CONFIG['departure_window']),
             transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
-            point_grid_resolution=250,
-            percentiles=[25],
+            point_grid_resolution=CONFIG('bus_grid_res'),
+            percentiles=[CONFIG('bus_percentile')],
             isochrones=[CONFIG['travel_time']]
         )
         
@@ -133,7 +133,8 @@ for index in missing_lsoas.index:
             departure=CONFIG['departure'],
             departure_time_window=timedelta(minutes=CONFIG['departure_window']),
             transport_modes=[r5py.TransportMode.CAR, r5py.TransportMode.WALK],
-            point_grid_resolution=500,
+            point_grid_resolution=CONFIG('car_grid_res'),
+            percentiles=[CONFIG('car_percentile')],
             isochrones=[CONFIG['travel_time']]
         )
         
