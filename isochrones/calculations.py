@@ -184,8 +184,8 @@ if __name__ == "__main__":
                     departure=CONFIG['departure'],
                     departure_time_window=timedelta(minutes=CONFIG['departure_window']),
                     transport_modes=[r5py.TransportMode.TRANSIT, r5py.TransportMode.WALK],
-                    point_grid_resolution=CONFIG('bus_grid_res'),
-                    percentiles=[CONFIG('bus_percentile')],
+                    point_grid_resolution=CONFIG['bus_grid_res'],
+                    percentiles=[CONFIG['bus_percentile']],
                     isochrones=[CONFIG['travel_time']]
                 )
                 
@@ -206,8 +206,8 @@ if __name__ == "__main__":
                     departure=CONFIG['departure'],
                     departure_time_window=timedelta(minutes=CONFIG['departure_window']),
                     transport_modes=[r5py.TransportMode.CAR],
-                    point_grid_resolution=CONFIG('car_grid_res'),
-                    percentiles=[CONFIG('car_percentile')],
+                    point_grid_resolution=CONFIG['car_grid_res'],
+                    percentiles=[CONFIG['car_percentile']],
                     isochrones=[CONFIG['travel_time']]
                 )
                 
